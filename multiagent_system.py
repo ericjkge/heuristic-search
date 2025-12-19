@@ -1,4 +1,3 @@
-import asyncio
 from dotenv import load_dotenv
 import prompts
 from tasks import Game24Task, BaseTask
@@ -30,39 +29,33 @@ class Blackboard:
     def __init__(self, problem: str):
         self.problem = problem              # Original problem
         self.root = TreeNode(content="")    # Tree root
-        self.work_queue = []                # List of nodes to expand
+        self.work_queue = []                # List of nodes to expand (NOTE: rename to blackboard, rename blackboard to global memory)
         self.solutions = []                 # Completed solution paths
         self.total_tokens = 0
-        self.lock = asyncio.Lock()
     
-    async def add_work(self, node: TreeNode):
+    def add_work(self, node: TreeNode):
         """Add a node to the work queue."""
-        async with self.lock:
-            self.work_queue.append(node)
+        self.work_queue.append(node)
     
-    async def get_work(self) -> TreeNode | None:
+    def get_work(self) -> TreeNode | None:
         """Get next node to expand (returns None if queue empty)."""
-        async with self.lock:
-            if self.work_queue:
-                return self.work_queue.pop(0)
-            return None
+        if self.work_queue:
+            return self.work_queue.pop(0)
+        return None
     
-    async def add_node(self, parent: TreeNode, content: str, score: float) -> TreeNode:
+    def add_node(self, parent: TreeNode, content: str, score: float) -> TreeNode:
         """Create a new node and attach to tree."""
-        async with self.lock:
-            new_node = TreeNode(content=content, parent=parent, score=score)
-            parent.children.append(new_node)
-            return new_node
+        new_node = TreeNode(content=content, parent=parent, score=score)
+        parent.children.append(new_node)
+        return new_node
     
-    async def add_solution(self, node: TreeNode):
+    def add_solution(self, node: TreeNode):
         """Record a completed solution."""
-        async with self.lock:
-            self.solutions.append(node)
+        self.solutions.append(node)
     
-    async def add_tokens(self, count: int):
+    def add_tokens(self, count: int):
         """Track token usage."""
-        async with self.lock:
-            self.total_tokens += count
+        self.total_tokens += count
 
 
 class Agent:
@@ -71,39 +64,38 @@ class Agent:
         self.llm = llm
     
     # Main agent loop (get node, propose steps, evaluate steps, push results)
-    async def run(self, blackboard: Blackboard, max_iterations: int = 10):
+    def run(self, blackboard: Blackboard, max_iterations: int = 10):
         """Main agent loop: pull work, expand, evaluate, push results."""
         for _ in range(max_iterations):
             # Get next node to work on
-            node = await blackboard.get_work()
+            node = blackboard.get_work()
             if node is None:
-                await asyncio.sleep(0.1)  # Wait for work
                 continue
             
             # Propose next steps
-            proposals, tokens = await self._propose(blackboard.problem, node.content)
-            await blackboard.add_tokens(tokens)
+            proposals, tokens = self._propose(blackboard.problem, node.content)
+            blackboard.add_tokens(tokens)
             
             # Evaluate and add to tree
             for content in proposals:
-                score, tokens = await self._evaluate(content)
-                await blackboard.add_tokens(tokens)
-                new_node = await blackboard.add_node(node, content, score)
+                score, tokens = self._evaluate(content)
+                blackboard.add_tokens(tokens)
+                new_node = blackboard.add_node(node, content, score)
                 
                 # Check if solution (only "24" left)
                 remaining = self._extract_remaining(content)
                 if remaining.strip() == "24":
-                    await blackboard.add_solution(new_node)
+                    blackboard.add_solution(new_node)
                 else:
                     # Add to work queue for further expansion
-                    await blackboard.add_work(new_node)
+                    blackboard.add_work(new_node)
     
     def _extract_remaining(self, step: str) -> str:
         """Extract remaining numbers from step."""
         match = re.search(r'\(left:\s*([^\)]+)\)', step)
         return match.group(1).strip() if match else ""
     
-    async def _propose(self, problem: str, parent_content: str) -> tuple[list[str], int]:
+    def _propose(self, problem: str, parent_content: str) -> tuple[list[str], int]:
         """Generate next step proposals."""
         if parent_content:
             remaining = self._extract_remaining(parent_content)
@@ -111,19 +103,19 @@ class Agent:
             remaining = problem
         
         prompt = prompts.propose_prompt.format(input=remaining)
-        response_text, token_count = await self.llm.agenerate(prompt, system_prompt=prompts.system_prompt)
+        response_text, token_count = self.llm.generate(prompt, system_prompt=prompts.system_prompt)
         
         proposals = [line.strip() for line in response_text.split('\n') if line.strip()]
         return proposals, token_count
     
-    async def _evaluate(self, candidate: str) -> tuple[float, int]:
+    def _evaluate(self, candidate: str) -> tuple[float, int]:
         """Evaluate a candidate step."""
         remaining = self._extract_remaining(candidate)
         if not remaining:
             return 0.001, 0
         
         prompt = prompts.value_prompt.format(input=remaining)
-        response_text, token_count = await self.llm.agenerate(prompt, system_prompt=prompts.system_prompt)
+        response_text, token_count = self.llm.generate(prompt, system_prompt=prompts.system_prompt)
         
         response_lower = response_text.lower()
         if 'sure' in response_lower:
@@ -138,7 +130,7 @@ class TreeOfThoughts:
         self.task = task
         self.llm = llm
 
-    async def solve(self, initial_problem: str, k: int = 3, b: int = 5, d: int = 3, log_file=None):
+    def solve(self, initial_problem: str, k: int = 3, b: int = 5, d: int = 3, log_file=None):
         """
         Solves the problem using BFS.
 
@@ -160,24 +152,17 @@ class TreeOfThoughts:
             print(f"Step {step+1}/{d}, current nodes: {len(current_nodes)}")
             
             # 1. Generate k new thoughts per path (NOTE: * unpacks list created by list comprehension)
-            proposal_results = await asyncio.gather(
-                *[self._propose(initial_problem, node.content, k) for node in current_nodes]
-            )
-            
-            # Use zip to pair parents with new thoughts cleanly
             candidates = []
-            for parent_node, (proposals, tokens) in zip(current_nodes, proposal_results):
+            for node in current_nodes:
+                proposals, tokens = self._propose(initial_problem, node.content, k)
                 total_tokens += tokens
                 for content in proposals:
-                    candidates.append((parent_node, content))
+                    candidates.append((node, content))
 
             # 2. Evaluate each next step
-            eval_tasks = [self._evaluate(content) for (_, content) in candidates]
-            eval_results = await asyncio.gather(*eval_tasks)
-            
-            # Pair candidates with scores
             scored_candidates = []
-            for (parent_node, content), (score, tokens) in zip(candidates, eval_results):
+            for parent_node, content in candidates:
+                score, tokens = self._evaluate(content)
                 total_tokens += tokens
                 scored_candidates.append((score, parent_node, content))
 
@@ -211,7 +196,7 @@ class TreeOfThoughts:
         return match.group(1).strip() if match else ""
 
     # Internal function for proposing new thoughts
-    async def _propose(self, problem: str, parent_content: str, k: int) -> tuple[list[str], int]:
+    def _propose(self, problem: str, parent_content: str, k: int) -> tuple[list[str], int]:
         # Extract state from parent's "left" numbers, or use original problem
         if parent_content:
             remaining = self._extract_remaining(parent_content)
@@ -219,21 +204,21 @@ class TreeOfThoughts:
             remaining = problem
         
         prompt = prompts.propose_prompt.format(input=remaining)
-        response_text, token_count = await self.llm.agenerate(prompt, system_prompt=prompts.system_prompt)
+        response_text, token_count = self.llm.generate(prompt, system_prompt=prompts.system_prompt)
         
         # Split by newline and filter empty lines
         proposals = [line.strip() for line in response_text.split('\n') if line.strip()]
         return proposals, token_count
 
     # Internal function for evaluating new thoughts
-    async def _evaluate(self, candidate: str) -> tuple[float, int]:
+    def _evaluate(self, candidate: str) -> tuple[float, int]:
         # Extract "left" numbers from candidate step
         remaining = self._extract_remaining(candidate)
         if not remaining:
             return 0.001, 0  # Invalid format
         
         prompt = prompts.value_prompt.format(input=remaining)
-        response_text, token_count = await self.llm.agenerate(prompt, system_prompt=prompts.system_prompt)
+        response_text, token_count = self.llm.generate(prompt, system_prompt=prompts.system_prompt)
 
         # Map sure/likely/impossible to scores (NOTE: values copied from Princeton ToT)
         response_lower = response_text.lower()
@@ -244,7 +229,7 @@ class TreeOfThoughts:
         else:  # impossible or unrecognized
             return 0.001, token_count
 
-async def main():
+def main():
     # Initialize task and solver
     task = Game24Task()
     llm = GeminiLLM()
@@ -257,7 +242,7 @@ async def main():
     # Run Tree of Thoughts
     with open("output.txt", "w") as f:
         f.write(f"Problem: {problem}\n")
-        best_path = await tot.solve(problem, k=3, b=5, d=3, log_file=f)
+        best_path = tot.solve(problem, k=3, b=5, d=3, log_file=f)
         
         f.write("\n=== BEST PATH ===\n")
         f.write(best_path)
@@ -267,4 +252,4 @@ async def main():
     print(best_path)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
