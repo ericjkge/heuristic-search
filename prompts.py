@@ -1,27 +1,53 @@
-# # Generate possible next steps given the current history
-# propose_prompt = """
-# Problem: {input}
+# System prompt for reasoning agents
+system_prompt = """You are a precise reasoning agent. Follow instructions exactly.
+- NO markdown formatting
+- Be concise and direct
+- Follow the exact output format requested
+"""
 
-# Current Progress: {history}
+# Generate the next reasoning step given current history
+propose_prompt = """You are solving a step-by-step reasoning problem.
 
-# Task: Propose {k} distinct, valid next steps to move towards the solution.
-# Do not try to solve the entire problem, just the immediate next step.
-# Separate each proposal using newlines.
-# """
+Problem: {input}
 
-# # Evaluate a specific state/step (NOTE: reason is currently unused)
-# value_prompt = """
-# Problem: {input}
+Current Progress:
+{history}
 
-# Current Progress: {history}
+Task: Propose {k} distinct, valid next step(s) to move towards the solution.
+- Do not try to solve the entire problem, just the immediate next step
+- Each step should be a single logical operation or deduction
+- Be specific and show your work
 
-# Proposed Next Step: {candidate}
+Example format for math problems:
+2 + 8 = 10 (left: 10 14 8)
 
-# Task: Evaluate the likelihood that this step leads to a correct solution to the problem.
-# Rate the quality of this step on a scale from 0.1 (impossible/invalid) to 1.0 (sure/optimal).
-# Provide the score and a brief reason.
+Example format for logic problems:
+From premise A and B, we can deduce C
 
-# Format:
-# Score: [0.1-1.0]
-# Reason: [Short explanation]
-# """
+Your next step:
+"""
+
+# Evaluate a specific reasoning step
+value_prompt = """You are evaluating a reasoning step.
+
+Problem: {input}
+
+Current Progress:
+{history}
+
+Proposed Next Step: {candidate}
+
+Task: Evaluate whether this step is valid and likely to lead to a correct solution.
+
+Rate using these categories:
+- "sure" (score: 20) = Step is clearly correct and makes good progress
+- "likely" (score: 1) = Step is valid but uncertain if it leads to solution  
+- "impossible" (score: 0.001) = Step is invalid, wrong, or leads to dead end
+
+Examples:
+- "2 + 2 = 4" for adding numbers → sure (correct arithmetic)
+- "try a different approach" → likely (valid but vague)
+- "2 + 2 = 5" → impossible (wrong arithmetic)
+
+Evaluate the proposed step and end with exactly one word: sure, likely, or impossible
+"""
