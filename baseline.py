@@ -1,21 +1,34 @@
 from dotenv import load_dotenv
 import tot_prompts
-from models import GeminiLLM, BaseLLM
+from models import KimiLLM, BaseLLM
 import re
 
 # Load environment variables
 load_dotenv()
 
 class TreeOfThoughts:
-    def __init__(self, llm: BaseLLM):
+    def __init__(self, llm: BaseLLM, debug_log=None):
         self.llm = llm
+        self.debug_log = debug_log
+        self.call_count = 0
 
-    def solve(self, problem: str, k: int = 3, b: int = 5, d: int = 3, log_file=None):
+    def _log_llm_call(self, call_type: str, prompt: str, response: str):
+        """Log LLM call details to debug log."""
+        if not self.debug_log:
+            return
+        self.call_count += 1
+        self.debug_log.write(f"\n{'='*60}\n")
+        self.debug_log.write(f"[CALL #{self.call_count}] {call_type}\n")
+        self.debug_log.write(f"{'='*60}\n")
+        self.debug_log.write(f"\n--- USER PROMPT ---\n{prompt}\n")
+        self.debug_log.write(f"\n--- RESPONSE ---\n{response}\n")
+        self.debug_log.flush()
+
+    def solve(self, problem: str, b: int = 5, d: int = 3, log_file=None):
         """
         Solves the problem using BFS.
 
-        k: Number of proposed thoughts per state
-        b: Branching factor (top states to keep)
+        b: Beam width (top states to keep per step)
         d: Max depth (steps)
         log_file: Open file handle for logging (optional)
         """
@@ -25,10 +38,10 @@ class TreeOfThoughts:
         for step in range(d):
             print(f"Step {step+1}/{d}, current states: {len(current_states)}")
             
-            # 1. Generate k new thoughts per state
+            # 1. Generate new thoughts per state
             candidates = []
             for state in current_states:
-                proposals, tokens = self._propose(problem, state, k)
+                proposals, tokens = self._propose(problem, state)
                 total_tokens += tokens
                 for proposal in proposals:
                     # Append new thought to existing state
@@ -65,14 +78,15 @@ class TreeOfThoughts:
         match = re.search(r'\(left:\s*([^\)]+)\)', last_step)
         return match.group(1).strip() if match else ""
 
-    def _propose(self, problem: str, state: str, k: int) -> tuple[list[str], int]:
+    def _propose(self, problem: str, state: str) -> tuple[list[str], int]:
         if state:
             remaining = self._extract_remaining(state)
         else:
             remaining = problem
         
         prompt = tot_prompts.propose_prompt.format(input=remaining)
-        response_text, token_count = self.llm.generate(prompt)
+        response_text, token_count = self.llm.generate(prompt, tot_prompts.system_prompt)
+        self._log_llm_call("PROPOSE", prompt, response_text)
         
         proposals = [line.strip() for line in response_text.split('\n') if line.strip()]
         return proposals, token_count
@@ -83,7 +97,8 @@ class TreeOfThoughts:
             return 0.001, 0
         
         prompt = tot_prompts.value_prompt.format(input=remaining)
-        response_text, token_count = self.llm.generate(prompt)
+        response_text, token_count = self.llm.generate(prompt, tot_prompts.system_prompt)
+        self._log_llm_call("EVALUATE", prompt, response_text)
 
         # Map sure/likely/impossible to scores (values from Princeton ToT)
         response_lower = response_text.lower()
@@ -98,14 +113,17 @@ if __name__ == "__main__":
     problem = "2 2 6 8"
     print(f"Solving: {problem}")
     
-    with open("output.txt", "w") as f:
+    with open("output.txt", "w") as f, open("log.txt", "w") as debug_log:
         f.write(f"Problem: {problem}\n")
-        llm = GeminiLLM()
-        tot = TreeOfThoughts(llm)
-        best_path = tot.solve(problem, k=3, b=5, d=3, log_file=f)
+        debug_log.write(f"=== DEBUG LOG for Problem: {problem} ===\n")
+        
+        llm = KimiLLM()
+        tot = TreeOfThoughts(llm, debug_log=debug_log)
+        best_path = tot.solve(problem, b=5, d=3, log_file=f)
         
         f.write("\n=== BEST PATH ===\n")
         f.write(best_path)
     
     print("\n=== BEST PATH ===")
     print(best_path)
+    print("\nDebug log saved to log.txt")
