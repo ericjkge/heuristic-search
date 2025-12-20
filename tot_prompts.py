@@ -1,3 +1,12 @@
+system_prompt = '''You are solving Game of 24 puzzles. Use +, -, *, / to make 24 from the given numbers.
+
+Rules:
+- NO markdown, NO introductions
+- Use few-shot examples as formatting templates
+- For proposal prompts, follow the same number and reasoning of possible next steps
+- For evaluation prompts, end with exactly one word: sure, likely, or impossible
+'''
+
 # Copied from Princeton ToT
 propose_prompt = '''Input: 2 8 8 14
 Possible next steps:

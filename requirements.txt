@@ -2,3 +2,4 @@ google-genai
 datasets
 python-dotenv
 pydantic
+openai
