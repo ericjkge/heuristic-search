@@ -1,18 +1,36 @@
-# Multiagent Reasoning
+# Perspective-Based Multi-Agent Reasoning
 
-A **Tree of Thoughts** framework for multi-agent reasoning using Breadth-First Search (BFS).
+A multi-agent debate framework where LLM agents with different seeded perspectives collaborate to make decisions.
 
 ## Quick Start
-1. Set `GEMINI_API_KEY` in `.env`
-2. `pip install -r requirements.txt`
-3. Run ToT: `python3 multiagent_system.py`
-4. Run Baseline (CoT): `python3 baseline.py`
+
+```bash
+# 1. Set API key in .env
+echo "KIMI_API_KEY=your_key_here" > .env
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Run the game (agents vs Stockfish)
+python main.py
+```
+
+**Configuration** (in `main.py`): `NUM_ROUNDS` (debate rounds), `ENGINE_PATH` (Stockfish binary)
 
 ## Files
-- `multiagent_system.py`: Main ToT class (BFS search)
-- `tasks.py`: Task logic (e.g. Game of 24)
-- `prompts.py`: Prompt templates
-- `baseline.py`: Zero-shot CoT baseline
 
-## Config
-Modify `k` (width), `b` (breadth), and `d` (depth) in `multiagent_system.py` to tune the search.
+| File | Description |
+|------|-------------|
+| `main.py` | Main game loop with debate and aggregation |
+| `models.py` | LLM wrapper classes (Kimi, Gemini) |
+| `prompts.py` | Perspective definitions and prompt templates |
+| `log.txt` | Generated logs of all LLM calls |
+| `baseline/` | Tree-of-Thought baseline implementation |
+
+## Output
+
+All LLM calls are logged to `log.txt` with:
+- Agent perspective
+- Full prompt sent
+- Full response received
+- Extracted move

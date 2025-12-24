@@ -1,53 +1,27 @@
-# System prompt for reasoning agents
-system_prompt = """You are a precise reasoning agent. Follow instructions exactly.
-- NO markdown formatting
-- Be concise and direct
-- Follow the exact output format requested
-"""
+# Perspective system prompts
+PERSPECTIVES = [
+    "You are a chess expert focused on TACTICAL play. Prioritize immediate threats, captures, checks, pins, forks, and short-term combinations.",
+    "You are a chess expert focused on POSITIONAL play. Prioritize piece activity, pawn structure, king safety, and long-term strategic advantages.",
+    "You are a chess expert focused on DEFENSIVE play. Prioritize identifying opponent threats, prophylaxis, and ensuring piece safety before attacking.",
+]
 
-# Generate the next reasoning step given current history
-propose_prompt = """You are solving a step-by-step reasoning problem.
+propose_prompt = """You are playing as {color}.
+Current board (FEN): {fen}
+Legal moves: {moves}
 
-Problem: {input}
+Analyze the position from your perspective and propose the best move.
+Format your response as:
+ANALYSIS: <your reasoning>
+MOVE: <your chosen move in UCI format, e.g., e2e4>"""
 
-Current Progress:
-{history}
+debate_prompt = """You are playing as {color}.
+Current board (FEN): {fen}
+Legal moves: {moves}
 
-Task: Propose {k} distinct, valid next step(s) to move towards the solution.
-- Do not try to solve the entire problem, just the immediate next step
-- Each step should be a single logical operation or deduction
-- Be specific and show your work
+Other agents proposed:
+{other_proposals}
 
-Example format for math problems:
-2 + 8 = 10 (left: 10 14 8)
-
-Example format for logic problems:
-From premise A and B, we can deduce C
-
-Your next step:
-"""
-
-# Evaluate a specific reasoning step
-value_prompt = """You are evaluating a reasoning step.
-
-Problem: {input}
-
-Current Progress:
-{history}
-
-Proposed Next Step: {candidate}
-
-Task: Evaluate whether this step is valid and likely to lead to a correct solution.
-
-Rate using these categories:
-- "sure" (score: 20) = Step is clearly correct and makes good progress
-- "likely" (score: 1) = Step is valid but uncertain if it leads to solution  
-- "impossible" (score: 0.001) = Step is invalid, wrong, or leads to dead end
-
-Examples:
-- "2 + 2 = 4" for adding numbers → sure (correct arithmetic)
-- "try a different approach" → likely (valid but vague)
-- "2 + 2 = 5" → impossible (wrong arithmetic)
-
-Evaluate the proposed step and end with exactly one word: sure, likely, or impossible
-"""
+Consider their perspectives and arguments. You may keep your move or change it.
+Format your response as:
+ANALYSIS: <your updated reasoning considering others' views>
+MOVE: <your final move in UCI format>"""

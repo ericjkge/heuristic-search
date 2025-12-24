@@ -1,5 +1,4 @@
-google-genai
-datasets
+python-chess
 python-dotenv
-pydantic
 openai
+google-genai
