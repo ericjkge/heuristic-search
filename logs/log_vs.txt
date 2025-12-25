@@ -1,0 +1,579 @@
+Starting Connect 4: Multi-Agent (X) vs Single-Agent (O)
+
+
+============================================================
+MULTI-AGENT (X) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Agent 1 [OFFENSIVE play] R0:
+ANALYSIS: Starting in the center (column 4) maximizes future branching threats—both horizontal and diagonal—so any early move there is the most offensive foundation.  
+MOVE: 4
+Agent 2 [DEFENSIVE play] R0:
+ANALYSIS: With an empty board the only defensive priority is to seize the central column (4) first, since it participates in the most possible four-in-a-row lines and prevents the opponent from gaining that key advantage.  
+MOVE: 4
+Agent 3 [POSITIONAL play] R0:
+ANALYSIS: Grab the center (column 4) immediately to maximize future branching threats and keep every even-row potential open.  
+MOVE: 4
+Agent 1 [OFFENSIVE play] R1:
+ANALYSIS: Center control is critical, so I’ll also take column 4 to dominate the board’s most influential lines and set up immediate multi-directional threats.  
+MOVE: 4
+Agent 2 [DEFENSIVE play] R1:
+ANALYSIS: With an empty board no threats exist yet, so I must seize the critical central column 4 first to block the opponent from claiming it and to maximize my own defensive reach over future lines.  
+MOVE: 4
+Agent 3 [POSITIONAL play] R1:
+ANALYSIS: Center control is indeed paramount on an empty board, but since both opponents already converge on column 4, choosing it now would only duplicate their effort; instead, I’ll occupy the adjacent central column 3 to secure the next-best axis for both horizontal and diagonal threats while still contesting the core.  
+MOVE: 3
+
+Conclusion:
+ANALYSIS: All agree center control is paramount; columns 3 and 4 are equally valuable first steps, but only column 4 is uncontested and immediately claims the single most influential square.  
+MOVE: 4
+
+
+--- STATS: 2127 tokens, 34.74s, 7 LLM calls ---
+>>> MULTI-AGENT CHOSEN: 4 <<<
+
+
+============================================================
+SINGLE-AGENT (O) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | |X| | | |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Single Agent:
+ANALYSIS: Playing in an adjacent central column like 3 or 5 establishes a strong central presence and sets up potential horizontal lines next to the opponent's piece.
+MOVE: 3
+
+
+--- STATS: 909 tokens, 5.30s, 1 LLM calls ---
+>>> SINGLE-AGENT CHOSEN: 3 <<<
+
+
+============================================================
+MULTI-AGENT (X) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | |O|X| | | |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Agent 1 [OFFENSIVE play] R0:
+ANALYSIS: Dropping in column 3 instantly forms a horizontal 3-in-a-row (X-X-X) on the bottom rank with two open ends, forcing O to block next turn while keeping every other column free for follow-up forks.  
+MOVE: 3
+Agent 2 [DEFENSIVE play] R0:
+ANALYSIS: O has two in a row on the bottom row (columns 2-3) and any future drop in 1 or 4 would let them complete three or even four in a row, so I must occupy column 4 now to split that pair and keep central control.  
+MOVE: 4
+Agent 3 [POSITIONAL play] R0:
+ANALYSIS: Central control is key—dropping in column 4 immediately creates a vertical pair and keeps the most flexible, high-value central position for future double threats.  
+MOVE: 4
+Agent 1 [OFFENSIVE play] R1:
+ANALYSIS: Their 4-block only slows O; I’ll fire first by dropping 3 to complete my own two-on-the-floor and instantly threaten a horizontal 3-row next turn, forcing O to answer me instead of building.  
+MOVE: 3
+Agent 2 [DEFENSIVE play] R1:
+ANALYSIS: Neither 3 nor 4 creates an immediate win, but 4 grabs the vital center and blocks O from ever getting a free vertical threat there, so I keep it.  
+MOVE: 4
+Agent 3 [POSITIONAL play] R1:
+ANALYSIS: Column 3 gives me an immediate unstoppable 3-on-the-floor with both ends open, creating a decisive double threat next turn, while 4 only stops a non-existent O threat and wastes tempo.  
+MOVE: 3
+
+Conclusion:
+ANALYSIS: Agents 1 & 3 correctly identify that dropping in 3 instantly forms an open-ended 2-that-becomes-3 on row 2, creating a decisive double threat next turn, while 4 merely occupies center without any accompanying threat and thus wastes tempo.  
+MOVE: 3
+
+
+--- STATS: 2260 tokens, 44.67s, 7 LLM calls ---
+>>> MULTI-AGENT CHOSEN: 3 <<<
+
+
+============================================================
+SINGLE-AGENT (O) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | |X| | | | |
+| | |O|X| | | |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Single Agent:
+ANALYSIS: Playing O in column 5 (R6) creates an O_X_O horizontal setup, forcing X to block either column 2 or column 6 on their next turn, maintaining O's initiative and central board development.
+MOVE: 5
+
+
+--- STATS: 9181 tokens, 41.24s, 1 LLM calls ---
+>>> SINGLE-AGENT CHOSEN: 5 <<<
+
+
+============================================================
+MULTI-AGENT (X) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | |X| | | | |
+| | |O|X|O| | |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Agent 1 [OFFENSIVE play] R0:
+ANALYSIS: Dropping X in column 4 completes a central three-in-a-row (C4–D4–E4) with open ends on both sides, creating simultaneous horizontal and diagonal winning threats that O cannot block at once.
+MOVE: 4
+Agent 2 [DEFENSIVE play] R0:
+ANALYSIS: O can win immediately by playing 4 to complete the diagonal O-O-O, so block by dropping in column 4.  
+MOVE: 4
+Agent 3 [POSITIONAL play] R0:
+ANALYSIS: Central column 4 gives an immediate 3-in-a-row on the bottom rank while also opening a second 3-row up the c4–d5–e6 diagonal, creating a flexible double-threat that O cannot stop in one move.  
+MOVE: 4
+Agent 1 [OFFENSIVE play] R1:
+ANALYSIS: Dropping in 4 not only blocks the immediate diagonal win for O but also creates a central 3-in-a-row on the bottom rank plus a second 3-row up the c4–d5–e6 diagonal, giving me two simultaneous winning threats that O cannot stop in one move.
+MOVE: 4
+Agent 2 [DEFENSIVE play] R1:
+ANALYSIS: Their double-threat idea is correct, but the immediate priority is defensive: column 4 is the only spot that blocks O’s open 3-in-a-row on the bottom row (C4-D4-E4) and keeps central control.  
+MOVE: 4
+Agent 3 [POSITIONAL play] R1:
+ANALYSIS: Both agents are wrong—column 4 is already occupied by X, so the only positional priority is to occupy the golden central column 3, strengthening future horizontal/diagonal threats while keeping flexibility.  
+MOVE: 3
+
+Conclusion:
+ANALYSIS: All three agents overlook the simple fact that column 4 is already occupied by X, so the only urgent, legal reply is to drop in column 3, which both occupies the vital centre and blocks the bottom-row 3-in-a-row for O.  
+MOVE: 3
+
+
+--- STATS: 2277 tokens, 40.78s, 7 LLM calls ---
+>>> MULTI-AGENT CHOSEN: 3 <<<
+
+
+============================================================
+SINGLE-AGENT (O) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | | | | | | |
+| | |X| | | | |
+| | |X| | | | |
+| | |O|X|O| | |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Single Agent:
+ANALYSIS: Playing in column 3 is critical to block X from achieving a vertical win.
+MOVE: 3
+
+
+--- STATS: 3021 tokens, 14.80s, 1 LLM calls ---
+>>> SINGLE-AGENT CHOSEN: 3 <<<
+
+
+============================================================
+MULTI-AGENT (X) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | |O| | | | |
+| | |X| | | | |
+| | |X| | | | |
+| | |O|X|O| | |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Agent 1 [OFFENSIVE play] R0:
+ANALYSIS: Dropping X in column 4 builds a two-way threat—an immediate vertical 3-in-a-row on the 4-column stack that can become four on the next turn, while also threatening a diagonal 4-through-(3,4,5,6) that the opponent can’t block both of.  
+MOVE: 4
+Agent 2 [DEFENSIVE play] R0:
+ANALYSIS: O already has two connected in column 3 plus a diagonal threat, so dropping X in column 3 blocks both the immediate vertical and diagonal three-in-a-row possibilities.  
+MOVE: 3
+Agent 3 [POSITIONAL play] R0:
+ANALYSIS: Central column 4 gives an immediate 3-in-a-row on the diagonal a4-b5-c6 that can become a winning double-threat with a follow-up in column 2 or 5, while also keeping the even-height stack ready for future vertical play.  
+MOVE: 4
+Agent 1 [OFFENSIVE play] R1:
+ANALYSIS: Column 4 instantly completes a diagonal 3-in-a-row (a4-b5-c6) and sets up a lethal follow-up at 5 or 2, forcing O to defend one while the other wins.  
+MOVE: 4
+Agent 2 [DEFENSIVE play] R1:
+ANALYSIS: Column 4 is already a 3-in-a-row diagonal for X, but playing there leaves O an instant win on column 5 next turn (O drops to row 3 and completes four-up), so I must block at 5 first.  
+MOVE: 5
+Agent 3 [POSITIONAL play] R1:
+ANALYSIS: Column 4 is stronger: it completes a vertical 3-in-a-row that forces O to block next turn, while also keeping the diagonal (3-4-5-6) alive, whereas 3 only blocks without creating any new threat.  
+MOVE: 4
+
+Conclusion:
+ANALYSIS: All three agents agree X has a 3-in-a-row diagonal on 4, but Agent 2 correctly notes that playing 4 immediately lets O win straight back on 5, so the forced first step is to block 5; after that block X still keeps the 4-threat alive.  
+MOVE: 5
+
+
+--- STATS: 2390 tokens, 42.94s, 7 LLM calls ---
+>>> MULTI-AGENT CHOSEN: 5 <<<
+
+
+============================================================
+SINGLE-AGENT (O) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | |O| | | | |
+| | |X| | | | |
+| | |X| |X| | |
+| | |O|X|O| | |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Single Agent:
+ANALYSIS: O must play in column 6 to block X's immediate diagonal winning threat from (6,4) and (5,5) before X plays at (4,6) and sets up a win at (3,7).
+MOVE: 6
+
+
+--- STATS: 3507 tokens, 15.44s, 1 LLM calls ---
+>>> SINGLE-AGENT CHOSEN: 6 <<<
+
+
+============================================================
+MULTI-AGENT (X) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | |O| | | | |
+| | |X| | | | |
+| | |X| |X| | |
+| | |O|X|O|O| |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Agent 1 [OFFENSIVE play] R0:
+ANALYSIS: Drop in column 4 to complete a vertical four-in-a-row of X’s (rows 3-6) and win immediately.  
+MOVE: 4
+Agent 2 [DEFENSIVE play] R0:
+ANALYSIS: O has an open 3-in-a-row on the 3-4-5 diagonal (row 3-5) that will become a forced win next turn if not blocked immediately, so drop in column 4.
+MOVE: 4
+Agent 3 [POSITIONAL play] R0:
+ANALYSIS: Central column 4 gives an immediate 3-in-a-row with both ends open, creating a flexible threat while keeping the board balanced.  
+MOVE: 4
+Agent 1 [OFFENSIVE play] R1:
+ANALYSIS: Column 4 immediately completes a central 3-in-a-row for X with both ends open, creating an unstoppable threat next turn while also blocking O’s diagonal 3-in-a-row.  
+MOVE: 4
+Agent 2 [DEFENSIVE play] R1:
+ANALYSIS: Column 4 is already occupied, so the only urgent task is to block O’s open 3-in-a-row on the bottom row by playing column 1.  
+MOVE: 1
+Agent 3 [POSITIONAL play] R1:
+ANALYSIS: Column 4 gives an instant vertical win, so seize it.  
+MOVE: 4
+
+Conclusion:
+ANALYSIS: All three agents agree the critical spot is column 4, and they are right—dropping there stacks the fourth X vertically for an immediate win while also cutting off O’s diagonal threat; Agent 2’s claim that column 4 is “occupied” is simply incorrect.  
+MOVE: 4
+
+
+--- STATS: 2124 tokens, 35.64s, 7 LLM calls ---
+>>> MULTI-AGENT CHOSEN: 4 <<<
+
+
+============================================================
+SINGLE-AGENT (O) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | |O| | | | |
+| | |X| | | | |
+| | |X|X|X| | |
+| | |O|X|O|O| |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Single Agent:
+ANALYSIS: Playing in column 4 is necessary to prevent X from creating a vertical 3-in-a-row (R4,C4, R5,C4, R6,C4) which would win on X's subsequent turn.
+MOVE: 4
+
+
+--- STATS: 14072 tokens, 61.56s, 1 LLM calls ---
+>>> SINGLE-AGENT CHOSEN: 4 <<<
+
+
+============================================================
+MULTI-AGENT (X) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | |O| | | | |
+| | |X|O| | | |
+| | |X|X|X| | |
+| | |O|X|O|O| |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Agent 1 [OFFENSIVE play] R0:
+ANALYSIS: Dropping in column 5 completes a horizontal four-in-a-row (3-4-5-6) for an immediate win.  
+MOVE: 5
+Agent 2 [DEFENSIVE play] R0:
+ANALYSIS: O has a three-in-a-row diagonal threat (O on rows 3-4-5-6, columns 3-4-5-6) that will become a forced win if not blocked immediately by playing column 6.
+MOVE: 6
+Agent 3 [POSITIONAL play] R0:
+ANALYSIS: Central column 4 completes a 4-in-a-row instantly and keeps maximal central presence.
+MOVE: 4
+Agent 1 [OFFENSIVE play] R1:
+ANALYSIS: My three-in-a-row on row 3 (cols 3-4-5) already threatens the immediate win in column 6, so I play there now to score and end the game.
+MOVE: 6
+Agent 2 [DEFENSIVE play] R1:
+ANALYSIS: Both agents mistakenly think X can win immediately, but the board shows X has only three in a row (cols 3-5) and O already owns col-6, so no instant win exists; instead drop in column 6 to block O’s looming 3-in-a-row (4-5-6-7) and contest the vital center-right region.  
+MOVE: 6
+Agent 3 [POSITIONAL play] R1:
+ANALYSIS: Column 5 gives the instant horizontal win, so no block is needed.  
+MOVE: 5
+
+Conclusion:
+ANALYSIS: Agent 3 is right that X already owns the empty square in col-5, so dropping there completes the four-in-a-row and wins instantly, while the others overlook this and treat col-6 as relevant.  
+MOVE: 5
+
+
+--- STATS: 2190 tokens, 34.31s, 7 LLM calls ---
+>>> MULTI-AGENT CHOSEN: 5 <<<
+
+
+============================================================
+SINGLE-AGENT (O) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | |O| | | | |
+| | |X|O|X| | |
+| | |X|X|X| | |
+| | |O|X|O|O| |
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Single Agent:
+ANALYSIS: Playing in column 7 immediately connects four O pieces horizontally on the bottom row (columns 5, 6, and 7).
+MOVE: 7
+
+
+--- STATS: 1301 tokens, 6.24s, 1 LLM calls ---
+>>> SINGLE-AGENT CHOSEN: 7 <<<
+
+
+============================================================
+MULTI-AGENT (X) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | |O| | | | |
+| | |X|O|X| | |
+| | |X|X|X| | |
+| | |O|X|O|O|O|
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Agent 1 [OFFENSIVE play] R0:
+ANALYSIS: Dropping X in column 4 completes a vertical 4-in-a-row instantly, guaranteeing the win.  
+MOVE: 4
+Agent 2 [DEFENSIVE play] R0:
+ANALYSIS: O has two open 3-in-a-rows (rows 2 & 6) that both become 4-in-a-row if they drop in col 4, so we must block that critical square immediately.  
+MOVE: 4
+Agent 3 [POSITIONAL play] R0:
+ANALYSIS: Dropping in column 4 completes a central 4-in-a-row vertically, winning immediately.
+MOVE: 4
+Agent 1 [OFFENSIVE play] R1:
+ANALYSIS: Dropping in 4 instantly wins vertically, so seize the victory now.  
+MOVE: 4
+Agent 2 [DEFENSIVE play] R1:
+ANALYSIS: Both agents correctly identify the immediate vertical win in column 4, so I’ll play it.  
+MOVE: 4
+Agent 3 [POSITIONAL play] R1:
+ANALYSIS: Column 4 already has four X’s stacked, so dropping there ends the game immediately and nothing else matters.  
+MOVE: 4
+
+Conclusion:
+ANALYSIS: All three agents agree column 4 grants an instant vertical four-in-a-win, so no further deliberation is needed.  
+MOVE: 4
+
+
+--- STATS: 2014 tokens, 25.70s, 7 LLM calls ---
+>>> MULTI-AGENT CHOSEN: 4 <<<
+
+
+============================================================
+SINGLE-AGENT (O) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | |O|X| | | |
+| | |X|O|X| | |
+| | |X|X|X| | |
+| | |O|X|O|O|O|
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Single Agent:
+ANALYSIS: Playing in column 5 completes a diagonal four-in-a-row for O, connecting R4C3, R3C4, R2C5, and R1C6.
+MOVE: 5
+
+
+--- STATS: 6198 tokens, 28.34s, 1 LLM calls ---
+>>> SINGLE-AGENT CHOSEN: 5 <<<
+
+
+============================================================
+MULTI-AGENT (X) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | | | | | |
+| | |O|X|O| | |
+| | |X|O|X| | |
+| | |X|X|X| | |
+| | |O|X|O|O|O|
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Agent 1 [OFFENSIVE play] R0:
+ANALYSIS: Dropping in col 4 instantly completes a vertical four-in-a-row for X, ending the game with an unstoppable offensive win.  
+MOVE: 4
+Agent 2 [DEFENSIVE play] R0:
+ANALYSIS: O has an immediate four-in-a-row threat on the bottom row via column 2, so we must block there.  
+MOVE: 2
+Agent 3 [POSITIONAL play] R0:
+ANALYSIS: Central column 4 is already stacked to the top, so the next-best positional grip is column 3: it keeps ownership of the bottom-left half of the board, blocks any potential upward diagonal O threat, and sets a double-threat on the descending diagonal (r2c3-r6c7) and the horizontal line (r3c1-3) that only needs one more X to win.  
+MOVE: 3
+Agent 1 [OFFENSIVE play] R1:
+ANALYSIS: Column 2 is the ONLY move, because letting O play there completes four O’s across the bottom and ends the game instantly.  
+MOVE: 2
+Agent 2 [DEFENSIVE play] R1:
+ANALYSIS: Col 4 is already full so the instant-win claim is impossible; instead I must block O’s open 3-in-a-row on the bottom row by playing col 2.  
+MOVE: 2
+Agent 3 [POSITIONAL play] R1:
+ANALYSIS: Agent 1 is right—playing column 4 gives an unstoppable vertical four-in-a-row for X right now, so we take the instant win.  
+MOVE: 4
+
+Conclusion:
+ANALYSIS: Agent 3 is correct—column 4 is not full (it has 3 pieces, so one space remains) and dropping X there stacks four X’s vertically for an immediate win, while the others mistakenly treat the column as full.  
+MOVE: 4
+
+
+--- STATS: 2284 tokens, 38.99s, 7 LLM calls ---
+>>> MULTI-AGENT CHOSEN: 4 <<<
+
+
+============================================================
+SINGLE-AGENT (O) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | |X| | | |
+| | |O|X|O| | |
+| | |X|O|X| | |
+| | |X|X|X| | |
+| | |O|X|O|O|O|
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Single Agent:
+ANALYSIS: O must play in column 6 to block X's immediate winning threat at (R2,C3-C6).
+MOVE: 6
+
+
+--- STATS: 5976 tokens, 24.98s, 1 LLM calls ---
+>>> SINGLE-AGENT CHOSEN: 6 <<<
+
+
+============================================================
+MULTI-AGENT (X) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | |X| | | |
+| | |O|X|O| | |
+| | |X|O|X| | |
+| | |X|X|X|O| |
+| | |O|X|O|O|O|
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Agent 1 [OFFENSIVE play] R0:
+ANALYSIS: Drop in column 2 to create a two-way threat: an immediate vertical 4-in-a-row up that column and a diagonal 4-in-a-row through (2,2)-(3,3)-(4,4)-(5,5) that the opponent can’t block both of on their next turn.  
+MOVE: 2
+Agent 2 [DEFENSIVE play] R0:
+ANALYSIS: O has an immediate four-in-a-row threat on the bottom row via column 2, so I must drop in column 2 to block it right now.  
+MOVE: 2
+Agent 3 [POSITIONAL play] R0:
+ANALYSIS: Central column 4 already secures a 3-in-a-row on the 4th row and adding a fourth X there creates an immediate double threat (vertical 4 and diagonal 4) that O cannot stop.  
+MOVE: 4
+Agent 1 [OFFENSIVE play] R1:
+ANALYSIS: Column 4 gives me an unstoppable vertical four-in-a-row right now, while column 2 only stops O’s already-blocked threat and does nothing for my offense.  
+MOVE: 4
+Agent 2 [DEFENSIVE play] R1:
+ANALYSIS: Column 4 is already blocked by O on top, so the only urgent threat is the vertical 3 X’s in column 2 that will become 4 if we don’t drop there now.  
+MOVE: 2
+Agent 3 [POSITIONAL play] R1:
+ANALYSIS: Both agents correctly identify that column 2 blocks O’s bottom-row win and simultaneously opens my own vertical and diagonal game-winning threats, so I concur.  
+MOVE: 2
+
+Conclusion:
+ANALYSIS: Agent 1 is wrong—column 4 is capped by O, so the only real urgency is to block O’s immediate four-in-a-row on the bottom row by playing column 2.  
+MOVE: 2
+
+
+--- STATS: 2330 tokens, 36.93s, 7 LLM calls ---
+>>> MULTI-AGENT CHOSEN: 2 <<<
+
+
+============================================================
+SINGLE-AGENT (O) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | |X| | | |
+| | |O|X|O| | |
+| | |X|O|X| | |
+| | |X|X|X|O| |
+| |X|O|X|O|O|O|
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Single Agent:
+ANALYSIS: Playing in column 6 creates a vertical four-in-a-row for O, winning the game immediately.
+MOVE: 6
+
+
+--- STATS: 2446 tokens, 10.97s, 1 LLM calls ---
+>>> SINGLE-AGENT CHOSEN: 6 <<<
+
+
+============================================================
+MULTI-AGENT (X) | Legal: 1 2 3 4 5 6 7
+| | | | | | | |
+| | | |X| | | |
+| | |O|X|O| | |
+| | |X|O|X|O| |
+| | |X|X|X|O| |
+| |X|O|X|O|O|O|
++-+-+-+-+-+-+-+
+ 1 2 3 4 5 6 7 
+============================================================
+Agent 1 [OFFENSIVE play] R0:
+ANALYSIS: Column 4 completes a 4-in-a-row for X instantly, ending the game with a win.
+MOVE: 4
+Agent 2 [DEFENSIVE play] R0:
+ANALYSIS: O has an immediate 3-in-a-row on the diagonal (b2-c3-d4-e5) that will become 4 with a drop in column 1, so block it now.
+MOVE: 1
+Agent 3 [POSITIONAL play] R0:
+ANALYSIS: Central control is already yours, but O is one move from winning at c2–c6 diagonal (c2-r6 is open) and at c1 vertically (r3 open), so you must block the diagonal by filling c2 now.  
+MOVE: 2
+Agent 1 [OFFENSIVE play] R1:
+ANALYSIS: Their blocks are valid, but dropping at c2 also gives me an instant vertical 4-up at c6, so I seize the win immediately.  
+MOVE: 2
+Agent 2 [DEFENSIVE play] R1:
+ANALYSIS: Agent 1 is hallucinating—column 4 is already full—while Agent 3 correctly identifies that O has an unstoppable diagonal threat on c2-r6, so I must drop in column 2 to block.  
+MOVE: 2
+Agent 3 [POSITIONAL play] R1:
+ANALYSIS: The instant win in column 4 is undeniable, so no block is needed.  
+MOVE: 4
+
+Conclusion:
+ANALYSIS: Agent 3’s “instant win” claim is impossible because column 4 is already full, while Agents 1 and 2 converge on the only correct choice—column 2—to block O’s game-ending diagonal threat.  
+MOVE: 2
+
+
+--- STATS: 2229 tokens, 39.20s, 7 LLM calls ---
+>>> MULTI-AGENT CHOSEN: 2 <<<
+
+
+============================================================
+Game over: X wins!
+
+MULTI-AGENT TOTAL: 22225 tokens, 373.89s, 70 calls
+SINGLE-AGENT TOTAL: 46611 tokens, 208.88s, 9 calls
+============================================================
