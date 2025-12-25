@@ -1,99 +1,42 @@
-import subprocess
 import re
 from collections import Counter
 from dotenv import load_dotenv
 from models import KimiLLM
+from connect4_engine import Connect4Engine
+from board import Connect4Board
 import prompts_connect4 as prompts
 
 load_dotenv()
 
 NUM_ROUNDS = 1
-SOLVER_PATH = "./c4solver"
 LOG_FILE = "log_connect4.txt"
+ENGINE = Connect4Engine(depth=8)
 
 def log(msg):
     with open(LOG_FILE, "a") as f:
         f.write(msg + "\n")
 
-class Connect4Board:
-    def __init__(self):
-        self.rows = 6
-        self.cols = 7 
-        self.board = [[" " for _ in range(self.cols)] for _ in range(self.rows)]
-        self.move_history = ""
-        self.current_player = "X" # X goes first
-
-    def legal_moves(self):
-        return [c + 1 for c in range(self.cols) if self.board[0][c] == " "]
-    
-    def drop(self, col):
-        col_index = col - 1 # 1-indexed
-        for row in range(self.rows - 1, -1, -1):
-            if self.board[row][col_index] == " ":
-                self.board[row][col_index] = self.current_player
-                self.move_history += str(col)
-                self.current_player = "O" if self.current_player == "X" else "X"
-                return True
-        return False
-    
-    def check_winner(self):
-        for r in range(self.rows):
-            for c in range(self.cols):
-                piece = self.board[r][c]
-                if piece == " ":
-                    continue
-                # Horizontal
-                if c + 3 < self.cols and all(self.board[r][c+i] == piece for i in range(4)):
-                    return piece
-                # Vertical
-                if r + 3 < self.rows and all(self.board[r+i][c] == piece for i in range(4)):
-                    return piece
-                # Diagonal down-right
-                if r + 3 < self.rows and c + 3 < self.cols and all(self.board[r+i][c+i] == piece for i in range(4)):
-                    return piece
-                # Diagonal up-right
-                if r - 3 >= 0 and c + 3 < self.cols and all(self.board[r-i][c+i] == piece for i in range(4)):
-                    return piece
-        if not self.legal_moves():
-            return 'draw'
-        return None
-
-    def __str__(self):
-        lines = []
-        for row in self.board:
-            lines.append('|' + '|'.join(row) + '|')
-        lines.append('+' + '+'.join(['-'] * self.cols) + '+')
-        lines.append(' ' + ' '.join(str(i) for i in range(1, self.cols + 1)) + ' ')
-        return '\n'.join(lines)
-
-def get_solver_move(board):
+def get_engine_move(board):
+    """Get best move from engine using Python API."""
     legal = board.legal_moves()
-    best_col = legal[0]
-    best_score = float("-inf")
-
-    for col in legal:
-        candidate = board.move_history + str(col)
-
-        result = subprocess.run(
-            [SOLVER_PATH],
-            input=candidate,
-            capture_output=True,
-            text=True,
-            timeout=2
-        )
-
-        output = result.stdout.strip()
-
-        if "Invalid move" in output:
-            continue
-
-        score = int(output.split()[1])
-
-        if score > best_score:
-            best_score = score
-            best_col = col
     
-    return best_col
+    # Convert 1-based history to 0-based for engine
+    history_0based = "".join(str(int(c) - 1) for c in board.move_history)
+
+    try:
+        result = ENGINE.suggest_move(starter=1, history_str=history_0based)
+        
+        if result.is_draw or result.winner in {1, 2}:
+            return legal[0]
+        
+        if result.column is not None:
+            move = result.column + 1  # Convert 0-based to 1-based
+            if move in legal:
+                return move
+        
+        return legal[0]
+    except Exception:
+        return legal[0]
 
 def extract_move(response):
     match = re.search(r'MOVE:\s*([1-7])', response)
@@ -139,7 +82,7 @@ def main():
     board = Connect4Board()
     agents = create_agents(prompts.PERSPECTIVES)
     
-    print("Starting Connect 4. Agents play X, Solver plays O.\n")
+    print("Starting Connect 4. Agents play X, Engine plays O.\n")
     print(board, "\n")
     
     while True:
@@ -167,10 +110,10 @@ def main():
             board.drop(chosen)
             print(f"Agents play column: {chosen}")
         else:
-            # Solver's turn
-            move = get_solver_move(board)
+            # Engine's turn
+            move = get_engine_move(board)
             board.drop(move)
-            print(f"Solver plays column: {move}")
+            print(f"Engine plays column: {move}")
         
         print(board, "\n")
 
