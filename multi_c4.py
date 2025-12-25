@@ -1,7 +1,7 @@
 import re
 from collections import Counter
 from dotenv import load_dotenv
-from models import KimiLLM
+from models import GeminiLLM
 from connect4_engine import Connect4Engine
 from board import Connect4Board
 import prompts_c4 as prompts
@@ -12,12 +12,12 @@ NUM_ROUNDS = 1
 LOG_FILE = "logs/log_multi_c4.txt"
 ENGINE = Connect4Engine(depth=8)
 
-def log(msg):
-    with open(LOG_FILE, "a") as f:
+def log(msg, log_file=None):
+    target_file = log_file if log_file else LOG_FILE
+    with open(target_file, "a") as f:
         f.write(msg + "\n")
 
 def get_engine_move(board):
-    """Get best move from engine using Python API."""
     legal = board.legal_moves()
     
     # Convert 1-based history to 0-based for engine
@@ -43,9 +43,9 @@ def extract_move(response):
     return int(match.group(1)) if match else None
 
 def create_agents(perspectives):
-    return [(KimiLLM(), p) for p in perspectives]
+    return [(GeminiLLM(), p) for p in perspectives]
 
-def get_proposals(agents, board, legal_moves, color, prev_proposals=None, round_num=0):
+def get_proposals(agents, board, legal_moves, color, prev_proposals=None, round_num=0, log_file=None):
     proposals = []
     moves_str = " ".join(str(m) for m in legal_moves)
     board_str = str(board)
@@ -61,20 +61,49 @@ def get_proposals(agents, board, legal_moves, color, prev_proposals=None, round_
         move = extract_move(response)
         proposals.append((move, response))
         
-        log(f"{'='*60}")
-        log(f"AGENT {i+1} | ROUND {round_num}")
-        log(f"PERSPECTIVE: {perspective}")
-        log(f"\n--- PROMPT ---\n{prompt}")
-        log(f"\n--- RESPONSE ---\n{response}")
-        log(f"\nEXTRACTED MOVE: {move}")
+        log(f"{'='*60}", log_file)
+        log(f"AGENT {i+1} | ROUND {round_num}", log_file)
+        log(f"PERSPECTIVE: {perspective}", log_file)
+        log(f"\n--- PROMPT ---\n{prompt}", log_file)
+        log(f"\n--- RESPONSE ---\n{response}", log_file)
+        log(f"\nEXTRACTED MOVE: {move}", log_file)
     
     return proposals
 
-def aggregate_moves(proposals, legal_moves):
+def aggregate_moves(board, proposals, legal_moves, color="X", log_file=None):
+    # Format proposals for conclusion agent
+    proposal_text = "\n".join(
+        f"Agent {i+1}:\n{p}" 
+        for i, p in enumerate(proposals)
+    )
+    
+    moves_str = " ".join(str(m) for m in legal_moves)
+    prompt = prompts.conclusion_prompt.format(
+        color=color,
+        board=str(board),
+        moves=moves_str,
+        final_proposals=proposal_text
+    )
+    
+    llm = GeminiLLM()
+    response, _ = llm.generate(prompt, system_prompt=prompts.CONCLUSION_PERSPECTIVE)
+    move = extract_move(response)
+    
+    log(f"\n{'~'*60}", log_file)
+    log(f"CONCLUSION AGENT", log_file)
+    log(f"\n--- PROMPT ---\n{prompt}", log_file)
+    log(f"\n--- RESPONSE ---\n{response}", log_file)
+    log(f"\nEXTRACTED MOVE: {move}", log_file)
+    log(f"{'~'*60}", log_file)
+    
+    if move and move in legal_moves:
+        return move
+    
+    # Fallback to most common if conclusion agent fails
     moves = [p[0] for p in proposals if p[0] in legal_moves]
-    if not moves:
-        return legal_moves[0]
-    return Counter(moves).most_common(1)[0][0]
+    if moves:
+        return Counter(moves).most_common(1)[0][0]
+    return legal_moves[0]
 
 def main():
     open(LOG_FILE, "w").close()
@@ -97,15 +126,15 @@ def main():
         if board.current_player == 'X':
             # Agents' turn
             legal = board.legal_moves()
-            proposals = get_proposals(agents, board, legal, "X", round_num=0)
+            proposals = get_proposals(agents, board, legal, "X", round_num=0, log_file=LOG_FILE)
             
             for r in range(NUM_ROUNDS):
-                proposals = get_proposals(agents, board, legal, "X", proposals, round_num=r+1)
+                proposals = get_proposals(agents, board, legal, "X", proposals, round_num=r+1, log_file=LOG_FILE)
             
-            chosen = aggregate_moves(proposals, legal)
-            log(f"\n{'#'*60}")
-            log(f"CHOSEN MOVE: {chosen}")
-            log(f"{'#'*60}\n")
+            chosen = aggregate_moves(board, proposals, legal, color="X", log_file=LOG_FILE)
+            log(f"\n{'#'*60}", LOG_FILE)
+            log(f"CHOSEN MOVE: {chosen}", LOG_FILE)
+            log(f"{'#'*60}\n", LOG_FILE)
             
             board.drop(chosen)
             print(f"Agents play column: {chosen}")
@@ -119,7 +148,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# Also, switch to voting OR extra agent for conclusion
-# Try using another agent as oppponent
-# Run trials on Connect 4 (test baseline with single LLM)
