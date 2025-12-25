@@ -4,12 +4,12 @@ from dotenv import load_dotenv
 from models import KimiLLM
 from connect4_engine import Connect4Engine
 from board import Connect4Board
-import prompts_connect4 as prompts
+import prompts_c4 as prompts
 
 load_dotenv()
 
 NUM_ROUNDS = 1
-LOG_FILE = "log_connect4.txt"
+LOG_FILE = "logs/log_multi_c4.txt"
 ENGINE = Connect4Engine(depth=8)
 
 def log(msg):

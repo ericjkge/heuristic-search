@@ -4,13 +4,13 @@ import re
 from collections import Counter
 from dotenv import load_dotenv
 from models import KimiLLM
-import prompts
+import prompts_chess as prompts
 
 load_dotenv()
 
 NUM_ROUNDS = 1 # Rounds of debate (non-inclusive of proposals)
 ENGINE_PATH = "./stockfish-macos-m1-apple-silicon"
-LOG_FILE = "log.txt"
+LOG_FILE = "logs/log_multi_chess.txt"
 
 def log(msg):
     with open(LOG_FILE, "a") as f:
