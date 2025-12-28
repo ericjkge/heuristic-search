@@ -23,29 +23,22 @@ python main.py
 
 ### Connect 4
 ```bash
-# 1. Build the Connect 4 solver
-git clone https://github.com/PascalPons/connect4.git
-cd connect4 && make
+# 1. Install Connect 4 engine
+git clone https://github.com/RenaudGaudron/connect-4-game-engine.git
+cd connect-4-game-engine && pip install . && cd ..
 
-# 2. Move solver binary to project root
-cp c4solver ../ && cd ..
-
-# 3. Download opening book
-wget https://github.com/PascalPons/connect4/releases/download/book/7x6.book
-mv 7x6.book ./
-
-# 4. Run Connect 4 (agents vs solver)
+# 2. Run Connect 4 (agents vs engine)
 python main_connect4.py
 ```
 
-**Configuration**: `NUM_ROUNDS` (debate rounds), `ENGINE_PATH`/`SOLVER_PATH` (engine binary)
+**Configuration**: `NUM_ROUNDS` (debate rounds), `ENGINE_PATH` (chess), engine depth in code (Connect 4)
 
 ## Files
 
 | File | Description |
 |------|-------------|
-| `main.py` / `main_connect4.py` | Main game loops |
+| `main.py` / `main_connect4.py` | Multi-agent game loops |
+| `baseline.py` | Single-LLM baseline for Connect 4 |
 | `prompts.py` / `prompts_connect4.py` | Perspective definitions and prompt templates |
 | `models.py` | LLM wrapper classes (Kimi, Gemini) |
-| `log.txt` / `log_connect4.txt` | Generated logs of all LLM calls |
-| `baseline/` | Tree-of-Thought baseline implementation |
+| `log*.txt` | Generated logs of all LLM calls |

@@ -5,25 +5,19 @@ from google import genai
 from google.genai import types
 from openai import OpenAI
 
-# Load environment variables
 load_dotenv()
 
 class BaseLLM(ABC):
     @abstractmethod
-    def generate(self, prompt: str, system_prompt: str = "") -> tuple[str, int]:
-        """
-        Generates content based on the prompt.
-        Returns:
-            tuple[str, int]: (response_text, token_usage)
-        """
+    def generate(self, prompt, system_prompt=""):
         pass
 
 class GeminiLLM(BaseLLM):
-    def __init__(self, model_name: str = "gemini-2.5-flash"):
+    def __init__(self, model_name="gemini-2.5-flash"):
         self.model_name = model_name
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-    def generate(self, prompt: str, system_prompt: str = "") -> tuple[str, int]:
+    def generate(self, prompt, system_prompt=""):
         try:
             response = self.client.models.generate_content(
                 model=self.model_name,
@@ -44,14 +38,14 @@ class GeminiLLM(BaseLLM):
 
 
 class KimiLLM(BaseLLM):
-    def __init__(self, model_name: str = "kimi-k2-0905-preview"):
+    def __init__(self, model_name="kimi-k2-0905-preview"):
         self.model_name = model_name
         self.client = OpenAI(
             api_key=os.getenv("KIMI_API_KEY"),
             base_url="https://api.moonshot.ai/v1"
         )
 
-    def generate(self, prompt: str, system_prompt: str = "") -> tuple[str, int]:
+    def generate(self, prompt, system_prompt=""):
         try:
             messages = []
             if system_prompt:
