@@ -5,10 +5,10 @@ class Connect4Board:
         self.board = [["0" for _ in range(self.cols)] for _ in range(self.rows)]
         self.move_history = ""
         self.current_player = "1"
-
+    
     def legal_moves(self):
         return [c + 1 for c in range(self.cols) if self.board[0][c] == "0"]
-    
+
     def drop(self, col):
         col_index = col - 1
         for row in range(self.rows - 1, -1, -1):
@@ -16,8 +16,8 @@ class Connect4Board:
                 self.board[row][col_index] = self.current_player
                 self.move_history += str(col)
                 self.current_player = "2" if self.current_player == "1" else "1"
-                return True
-        return False
+                return
+        raise ValueError(f"Column {col} is full")
     
     def check_winner(self):
         for r in range(self.rows):

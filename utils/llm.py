@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 import os
 from dotenv import load_dotenv
 from google import genai
-from google.genai import types
 from openai import OpenAI
 
 load_dotenv()
@@ -22,7 +21,7 @@ class GeminiLLM(BaseLLM):
             response = self.client.models.generate_content(
                 model=self.model_name,
                 contents=prompt,
-                config= types.GenerateContentConfig(
+                config= genai.types.GenerateContentConfig(
                 system_instruction=system_prompt
                 )
             )
