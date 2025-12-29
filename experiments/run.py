@@ -1,8 +1,9 @@
-from agents.single import SingleAgent
+from agents import SingleAgent
 from prompts.single.action import PROMPT
-from games.connect4.board import Connect4Board
-from games.connect4.engine import Connect4Engine
-from utils.llm import KimiLLM
+from games import Connect4Board, Connect4Engine
+from utils import KimiLLM, setup_logging
+
+setup_logging(log_dir="logs/connect4")
 
 def run():
     board = Connect4Board()

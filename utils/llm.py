@@ -3,8 +3,12 @@ import os
 from dotenv import load_dotenv
 from google import genai
 from openai import OpenAI
+from .logging import get_logger
+import time
 
 load_dotenv()
+
+logger = get_logger(__name__)
 
 class BaseLLM(ABC):
     @abstractmethod
@@ -18,6 +22,7 @@ class GeminiLLM(BaseLLM):
 
     def generate(self, prompt, system_prompt=""):
         try:
+            start = time.time()
             response = self.client.models.generate_content(
                 model=self.model_name,
                 contents=prompt,
@@ -25,12 +30,15 @@ class GeminiLLM(BaseLLM):
                 system_instruction=system_prompt
                 )
             )
-            
+            elapsed = time.time() - start
+
             # Extract tokens from usage_metadata
             usage = response.usage_metadata
             token_count = usage.total_token_count if usage else 0
             
-            return response.text, token_count
+            logger.info(f"llm_call | tokens={token_count} | elapsed={elapsed:.2f}s | prompt={prompt}")
+
+            return response.text
         except Exception as e:
             print(f"Error in Gemini generation: {e}")
             return "", 0
@@ -51,16 +59,20 @@ class KimiLLM(BaseLLM):
                 messages.append({"role": "system", "content": system_prompt})
             messages.append({"role": "user", "content": prompt})
             
+            start = time.time()
             response = self.client.chat.completions.create(
                 model=self.model_name,
                 messages=messages
             )
+            elapsed = time.time() - start
             
             # Extract tokens from usage
             usage = response.usage
             token_count = usage.total_tokens if usage else 0
-            
-            return response.choices[0].message.content, token_count
+
+            logger.info(f"llm_call | tokens={token_count} | elapsed={elapsed:.2f}s | prompt={prompt}")
+
+            return response.choices[0].message.content
         except Exception as e:
             print(f"Error in Kimi generation: {e}")
-            return "", 0
+            return ""

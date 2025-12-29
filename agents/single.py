@@ -1,5 +1,4 @@
 import re
-import time
 
 class SingleAgent:
     def __init__(self, llm, prompt):
@@ -13,9 +12,7 @@ class SingleAgent:
     def choose_move(self, board, color):
         prompt = self.prompt.format(color=color, board=str(board))
 
-        start = time.time()
-        response, tokens = self.llm.generate(prompt)
-        elapsed = time.time() - start
+        response = self.llm.generate(prompt)
         move = self.extract_move(response)
 
         return move
