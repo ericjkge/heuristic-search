@@ -41,7 +41,7 @@ class GeminiLLM(BaseLLM):
             return response.text
         except Exception as e:
             print(f"Error in Gemini generation: {e}")
-            return "", 0
+            return ""
 
 
 class KimiLLM(BaseLLM):
@@ -70,7 +70,7 @@ class KimiLLM(BaseLLM):
             usage = response.usage
             token_count = usage.total_tokens if usage else 0
 
-            logger.info(f"llm_call | tokens={token_count} | elapsed={elapsed:.2f}s | prompt={prompt}")
+            logger.info(f"llm_call | tokens={token_count} | elapsed={elapsed:.2f}s | prompt={prompt[:100]}... | system_prompt={system_prompt[:100]}...")
 
             return response.choices[0].message.content
         except Exception as e:
