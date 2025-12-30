@@ -1,10 +1,16 @@
+PERSPECTIVES = [
+    "You are a Connect 4 expert focused on OFFENSIVE play. Prioritize creating threats, building multiple winning paths, and forcing the opponent into defensive positions.",
+    "You are a Connect 4 expert focused on DEFENSIVE play. Prioritize blocking opponent threats, controlling the center column, and preventing forced wins.",
+    "You are a Connect 4 expert focused on POSITIONAL play. Prioritize center control, building flexible formations, and setting up double-threat situations.",
+]
+
 action_prompt = """
 You are given:
 - Current board: 
 
 {board}
 
-- You are playing as: {number} 
+- You are player: {player}
 - Other agents' proposals: {other_proposals}
 
 Game rules:
@@ -47,7 +53,7 @@ You are given:
 {board}
 
 - The outputs of multi-agent debate: {proposals}
-- You are playing as: {number}
+- You are player: {player}
 
 Analyze the outputs and choose the single best output.
 Format your response as:

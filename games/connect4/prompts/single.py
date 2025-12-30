@@ -6,7 +6,7 @@ You are given:
 
 {board}
 
-- You are playing as: {number} 
+- You are player: {player}
 
 Game rules:
 - The board is a 7x6 grid (rows and columns are both 1-indexed).

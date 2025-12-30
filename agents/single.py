@@ -1,20 +1,12 @@
-import re
-
 class SingleAgent:
-    def __init__(self, llm, prompts):
+    def __init__(self, llm, prompts, game_config):
         self.llm = llm
         self.prompts = prompts
+        self.extract_move = game_config["extract_move"]
+        self.format_state = game_config["format_state"]
 
-    def extract_move(self, response):
-        match = re.search(r"MOVE:\s*([1-7])", response)
-        return int(match.group(1)) if match else None
-
-    def choose_move(self, board, number):
-        prompt = self.prompts.action_prompt.format(number=number, board=str(board))
-
+    def choose_move(self, board, player):
+        state = self.format_state(board, player)
+        prompt = self.prompts.action_prompt.format(**state)
         response = self.llm.generate(prompt)
-        move = self.extract_move(response)
-
-        return move
-        
-
+        return self.extract_move(response)
