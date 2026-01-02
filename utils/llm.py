@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 import os
 from dotenv import load_dotenv
 from google import genai
@@ -10,12 +9,7 @@ load_dotenv()
 
 logger = get_logger(__name__)
 
-class BaseLLM(ABC):
-    @abstractmethod
-    def generate(self, prompt, system_prompt=""):
-        pass
-
-class GeminiLLM(BaseLLM):
+class GeminiLLM:
     def __init__(self, model_name="gemini-2.5-flash"):
         self.model_name = model_name
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -44,7 +38,7 @@ class GeminiLLM(BaseLLM):
             return ""
 
 
-class KimiLLM(BaseLLM):
+class KimiLLM:
     def __init__(self, model_name="kimi-k2-0905-preview"):
         self.model_name = model_name
         self.client = OpenAI(
@@ -78,12 +72,12 @@ class KimiLLM(BaseLLM):
             return ""
 
 
-class QwenLLM(BaseLLM):
-    def __init__(self, model_name="qwen-plus"):
+class QwenLLM:
+    def __init__(self, model_name="qwen-max-2025-01-25"): # No chess hallucination on LLM Chess
         self.model_name = model_name
         self.client = OpenAI(
-            api_key=os.getenv("DASHSCOPE_API_KEY"),
-            base_url="https://dashscope.aliyuncs.com/compatible-mode/v1" # China endpoint
+            api_key=os.getenv("QWEN_API_KEY"),
+            base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1" # Singapore endpoint
         )
 
     def generate(self, prompt, system_prompt=""):
