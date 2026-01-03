@@ -33,13 +33,4 @@ class ChessBoard:
         return str(game.mainline_moves()) # PGN move list
     
     def to_positions(self):
-        p1, p2 = [], []
-        for sq in chess.SQUARES:
-            piece = self._board.piece_at(sq)
-            if piece:
-                name = chess.square_name(sq)
-                if piece.color == chess.WHITE:
-                    p1.append(name)
-                else:
-                    p2.append(name)
-        return {"p1": p1, "p2": p2}
+        return self._board.fen()

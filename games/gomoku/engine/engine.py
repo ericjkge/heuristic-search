@@ -1,11 +1,13 @@
 import subprocess
 from pathlib import Path
 
-# Uses Piskvork protocol
+# Uses Piskvork protocol: (0,0) = top-left, (0,8) = bottom-left
+# GTP: A1 = bottom-left, A9 = top-left
 class GomokuEngine:
-    def __init__(self, path="./rapfi", size=9):
+    COLS = "ABCDEFGHJKLMNOP"  # GTP format, no 'I'
+    
+    def __init__(self, size=9):
         self.size = size
-
         self.p = subprocess.Popen(
             ["./pbrain-rapfi-macos-apple-silicon"],
             stdin=subprocess.PIPE,
@@ -28,14 +30,27 @@ class GomokuEngine:
             if not line.startswith(("OK", "MESSAGE", "DEBUG", "INFO", "ERROR")):
                 return line
 
+    def _gtp_to_xy(self, vertex):
+        x = self.COLS.index(vertex[0])
+        gtp_row = int(vertex[1:])
+        y = self.size - gtp_row  # Flip row: GTP row 1 → y=8, row 9 → y=0
+        return x, y
+    
+    def _xy_to_gtp(self, x, y):
+        col = self.COLS[x]
+        gtp_row = self.size - y  # Flip back: y=0 → row 9, y=8 → row 1
+        return f"{col}{gtp_row}"
+
     def get_move(self, board):
         if board._history:
             last = board._history[-1]
-            self._cmd(f"TURN {last[0]},{last[1]}")
+            x, y = self._gtp_to_xy(last)
+            self._cmd(f"TURN {x},{y}")
         else:
             self._cmd("BEGIN")
         r = self._read()
-        return tuple(map(int, r.split(",")))
+        x, y = map(int, r.split(","))
+        return self._xy_to_gtp(x, y)  # Return GTP format
 
     def restart(self):
         self._cmd("RESTART")

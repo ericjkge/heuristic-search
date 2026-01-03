@@ -42,38 +42,26 @@ def play_go():
     engine = GoEngine(9)
     
     print("=== GO (9x9) ===")
-    print("You are Black. Enter moves as 'row,col' (0-indexed) or 'pass'")
+    print("You are Black. Enter moves in GTP format (e.g., D4, E5) or 'pass'")
     print("Type 'quit' to exit\n")
     
     while board.winner() is None:
         print(board.to_ascii())
-        print(f"SGF: {board.to_moves()}\n")
+        print(f"Moves: {board.to_moves()}\n")
         
         if board.turn() == 1:  # Human (Black)
-            move = input("Your move (row,col or pass): ").strip()
-            if move == 'quit':
+            move = input("Your move: ").strip().upper()
+            if move == 'QUIT':
                 break
-            if move == 'pass':
-                board.push(None, None)
-            else:
-                try:
-                    row, col = map(int, move.split(','))
-                    if (row, col) not in board.legal_moves():
-                        print(f"Illegal. Legal moves: {board.legal_moves()[:10]}...")
-                        continue
-                    board.push(row, col)
-                except:
-                    print("Invalid format. Use 'row,col' e.g., '4,4'")
-                    continue
+            if move != 'PASS' and move not in board.legal_moves():
+                print(f"Illegal. Legal moves: {board.legal_moves()[:10]}...")
+                continue
+            board.push(move)
         else:  # Engine (White)
             print("Engine thinking...")
             move = engine.get_move(board)
-            if move == (None, None):
-                print("Engine passes")
-                board.push(None, None)
-            else:
-                print(f"Engine plays: {move}")
-                board.push(*move)
+            print(f"Engine plays: {move}")
+            board.push(move)
     
     print(f"\nGame over! Winner: {board.winner()}")
     engine.close()
@@ -84,34 +72,29 @@ def play_gomoku():
     from games.gomoku.engine.engine import GomokuEngine
     
     board = GomokuBoard(9)
-    engine = GomokuEngine()
+    engine = GomokuEngine(size=9)
     
-    print("=== GOMOKU (15x15) ===")
-    print("You are X (Player 1). Enter moves as 'row,col' (0-indexed)")
+    print("=== GOMOKU (9x9) ===")
+    print("You are Black (X). Enter moves in GTP format (e.g., D4, E5)")
     print("Type 'quit' to exit\n")
     
     while board.winner() is None:
         print(board.to_ascii())
-        print()
+        print(f"Moves: {board.to_moves()}\n")
         
-        if board.turn() == 1:  # Human (X)
-            move = input("Your move (row,col): ").strip()
-            if move == 'quit':
+        if board.turn() == 1:  # Human (Black/X)
+            move = input("Your move: ").strip().upper()
+            if move == 'QUIT':
                 break
-            try:
-                row, col = map(int, move.split(','))
-                if (row, col) not in board.legal_moves():
-                    print("Illegal move!")
-                    continue
-                board.push(row, col)
-            except:
-                print("Invalid format. Use 'row,col' e.g., '7,7'")
+            if move not in board.legal_moves():
+                print(f"Illegal. Legal moves: {board.legal_moves()[:10]}...")
                 continue
-        else:  # Engine (O)
+            board.push(move)
+        else:  # Engine (White/O)
             print("Engine thinking...")
             move = engine.get_move(board)
             print(f"Engine plays: {move}")
-            board.push(*move)
+            board.push(move)
     
     print(f"\nGame over! Winner: {board.winner()}")
     engine.close()

@@ -1,21 +1,21 @@
 import re
 
 def extract_move(response):
-    COLS = "ABCDEFGHJKLMNOPQRST"
     match = re.search(r"MOVE:\s*([A-Ta-t][1-9][0-9]?|pass)", response, re.IGNORECASE)
     if not match:
         raise ValueError(f"Invalid move: {response}")
-    text = match.group(1).upper()
-    if text == "PASS":
-        return (None, None)
-    col = COLS.index(text[0])
-    row = int(text[1:]) - 1
-    return (row, col)
+    return match.group(1).upper()  # Return GTP format: "D4" or "PASS"
 
 def format_state(board, player):
+    pos = board.to_positions()
+    p1 = "; ".join(pos["p1"]) or "None"
+    p2 = "; ".join(pos["p2"]) or "None"
+
     return {
         "player": "Black" if player == 1 else "White",
-        "sgf": board.to_moves(),
+        "player_positions": p1 if player == 1 else p2,
+        "opponent_positions": p2 if player == 1 else p1,
+        "moves": board.to_moves(),
     }
 
 config = {

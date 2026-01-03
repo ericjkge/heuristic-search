@@ -48,12 +48,9 @@ class GoEngine:
         color = "B" if board.turn() == 1 else "W"
         result = self._cmd(f"genmove {color}").upper()
         
-        if result in ("PASS", "RESIGN"):
-            return (None, None) # (None, None) for pass
-        
-        col = self.COLS.index(result[0])
-        row = int(result[1:]) - 1
-        return (row, col)
+        if result == "RESIGN":
+            return "PASS"
+        return result  # GTP format: "D4" or "PASS"
     
     def close(self):
         try:

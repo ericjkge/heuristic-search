@@ -1,9 +1,11 @@
 class GomokuBoard:
+    COLS = "ABCDEFGHJKLMNOP"  # GTP format, no 'I'
+    
     def __init__(self, size=9):
         self.size = size
         self._board = [[0 for _ in range(size)] for _ in range(size)] # 0 = empty, 1 = Player 1, 2 = Player 2
         self._turn = 1  # Start with Player 1
-        self._history = []  # List of (row, col) tuples (0-indexed)
+        self._history = []  # GTP vertices: ["D4", "E5", ...]
     
     def turn(self):
         return self._turn
@@ -13,16 +15,20 @@ class GomokuBoard:
         for r in range(self.size):
             for c in range(self.size):
                 if self._board[r][c] == 0:
-                    moves.append((r, c))
-        return moves # (row, col) tuples (0-indexed)
+                    gtp_row = self.size - r  # _board[0] = row 9 (top), _board[8] = row 1 (bottom)
+                    moves.append(f"{self.COLS[c]}{gtp_row}")
+        return moves  # GTP format
     
-    def push(self, row, col):
+    def push(self, vertex):
+        vertex = vertex.upper()
+        col = self.COLS.index(vertex[0])
+        gtp_row = int(vertex[1:])
+        row = self.size - gtp_row
         if self._board[row][col] != 0:
-            raise ValueError(f"Position ({row}, {col}) is already occupied")
+            raise ValueError(f"Position {vertex} is already occupied")
         self._board[row][col] = self._turn
-        self._history.append((row, col))
+        self._history.append(vertex)
         self._turn = 3 - self._turn
-        return True
     
     def winner(self):
         directions = [(0, 1), (1, 0), (1, 1), (1, -1)]  # Horizontal, vertical, diagonal, anti-diagonal
@@ -54,19 +60,25 @@ class GomokuBoard:
         p1, p2 = [], []
         for r in range(self.size):
             for c in range(self.size):
+                gtp_row = self.size - r
                 if self._board[r][c] == 1:
-                    p1.append((r + 1, c + 1))
+                    p1.append(f"{self.COLS[c]}{gtp_row}")
                 elif self._board[r][c] == 2:
-                    p2.append((r + 1, c + 1))
-        return {"p1": p1, "p2": p2} # [(row, col) tuples] (1-indexed)
+                    p2.append(f"{self.COLS[c]}{gtp_row}")
+        return {"p1": p1, "p2": p2}  # GTP format: ["D4", "E5", ...]
     
     def to_moves(self):
-        return self._history # TODO: convert to SGF?? or whatever works for Gomoku
+        moves = []
+        for i, vertex in enumerate(self._history):
+            color = "B" if i % 2 == 0 else "W"
+            moves.append(f"{color} {vertex}")
+        return ", ".join(moves)  # GTP format: "B D4, W E5, ..."
 
     def to_ascii(self):
-        symbols = {0: ".", 1: "X", 2: "O"} # Convert to X, O for visualization
-        lines = ["   " + " ".join(f"{i+1:2}" for i in range(self.size))]
-        for i, row in enumerate(self._board):
-            line = f"{i+1:2} " + "  ".join(symbols[cell] for cell in row)
+        symbols = {0: ".", 1: "X", 2: "O"}
+        lines = ["   " + "  ".join(self.COLS[i] for i in range(self.size))]
+        for r in range(self.size):
+            gtp_row = self.size - r
+            line = f"{gtp_row:2} " + "  ".join(symbols[cell] for cell in self._board[r])
             lines.append(line)
-        return "\n".join(lines)
+        return "\n".join(lines) # GTP-style coordinates

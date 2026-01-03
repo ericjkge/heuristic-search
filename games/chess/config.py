@@ -6,8 +6,9 @@ def extract_move(response):
 
 def format_state(board, player):
     return {
+        "player": "White" if player == 1 else "Black",
+        "fen": board.to_positions(),
         "pgn": board.to_moves(),
-        "player": player
     }
 
 config = {
