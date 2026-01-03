@@ -1,31 +1,20 @@
-action_prompt = """You are an expert Gomoku player.
+action_prompt = """
 
-Game Rules:
-- Gomoku is played on a 9 x 9 grid.
-- Two players take turns placing stones on empty intersections.
-- The first player to get exactly 5 stones in a row (horizontally, vertically, or diagonally) wins.
-- You cannot place a stone on an already occupied position.
+You are a player {player} in a 9x9 Gomoku game.
 
-Board Coordinate System:
-- The board uses 1-indexed coordinates.
-- The top-left corner is position (1,1).
-- The first number is the row, the second is the column.
-- Positions are written as "row,column" (e.g., "8,8" means row 8, column 8).
+Coordinates:
+- Columns: A-J (no letter I)
+- Rows: 1-9 (bottom to top)
+- Example: D4, E5, J9
 
-Current Game State:
-- You are Player {player}
-- Your positions: {player_positions}
-- Opponent positions: {opponent_positions}
+Your positions: {player_positions}
+Opponent positions: {opponent_positions}
 
-Your Task:
-1. Analyze the current board state.
-2. Identify any winning opportunities or threats to block.
-3. Choose the best position to place your stone.
+Move history: {moves}
 
-Format your response as:
-ANALYSIS: <your reasoning in MAX 2 sentences>
-MOVE: <row>,<column>
+First, think through the game strategy. Then, respond with:
 
-Example response:
-ANALYSIS: I can create a threat by extending my line at row 8. This forces the opponent to defend.
-MOVE: 8,10"""
+ANALYSIS: <1-2 sentences>
+MOVE: <vertex like D4, or 'PASS'>
+
+"""

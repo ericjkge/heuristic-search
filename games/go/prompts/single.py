@@ -1,20 +1,20 @@
-action_prompt = """You are an expert Go player.
+action_prompt = """
 
-Game Rules:
-- Go is played on a 9 x 9 grid.
-- Black plays first, then players alternate.
-- Surround territory and capture opponent stones.
-- Game ends when both players pass.
+You are player {player} in a 9x9 Go game.
 
 Coordinates:
-- Columns: A-T (no letter I)
+- Columns: A-J (no letter I)
 - Rows: 1-9 (bottom to top)
-- Example: D4, E5, J10
+- Example: D4, E5, J9
 
-Current Game (SGF format): {sgf}
+Your positions: {player_positions}
+Opponent positions: {opponent_positions}
 
-You are playing as {player}.
+Move history: {moves}
 
-Respond with:
+First, think through the game strategy. Then, respond with:
+
 ANALYSIS: <1-2 sentences>
-MOVE: <vertex like D4, or 'pass'>"""
+MOVE: <vertex like D4, or 'PASS'>
+
+"""

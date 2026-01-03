@@ -1,13 +1,14 @@
 action_prompt = """
-You are an expert chess player.
 
-The current move history is: {pgn}
+You are player {player} in a chess game.
 
-You are playing as {player}.
+Current board (FEN): {fen}
 
-Analyze the position and propose the next move.
-Format your response as:
+Move history: {pgn}
 
-ANALYSIS: <your reasoning in MAX 1 sentence>
+First, think through the game strategy. Then, respond with:
+
+ANALYSIS: <1-2 sentences>
 MOVE: <your chosen move in UCI format - e.g. e2e4>
+
 """
