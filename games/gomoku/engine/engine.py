@@ -1,15 +1,18 @@
 import subprocess
+from pathlib import Path
 
-
-class Rapfi:
+# Uses Piskvork protocol
+class GomokuEngine:
     def __init__(self, path="./rapfi", size=9):
         self.size = size
+
         self.p = subprocess.Popen(
-            [path],
+            ["./pbrain-rapfi-macos-apple-silicon"],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
             text=True,
+            cwd=Path(__file__).parent
         )
         self._cmd(f"START {size}")
         self._cmd("INFO timeout_turn 100")
@@ -25,8 +28,12 @@ class Rapfi:
             if not line.startswith(("OK", "MESSAGE", "DEBUG", "INFO", "ERROR")):
                 return line
 
-    def move(self, xy=None):
-        self._cmd("BEGIN" if xy is None else f"TURN {xy[0]},{xy[1]}")
+    def get_move(self, board):
+        if board._history:
+            last = board._history[-1]
+            self._cmd(f"TURN {last[0]},{last[1]}")
+        else:
+            self._cmd("BEGIN")
         r = self._read()
         return tuple(map(int, r.split(",")))
 

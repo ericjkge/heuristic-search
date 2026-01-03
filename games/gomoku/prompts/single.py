@@ -1,7 +1,7 @@
 action_prompt = """You are an expert Gomoku player.
 
 Game Rules:
-- Gomoku is played on a {size} x {size} grid.
+- Gomoku is played on a 9 x 9 grid.
 - Two players take turns placing stones on empty intersections.
 - The first player to get exactly 5 stones in a row (horizontally, vertically, or diagonally) wins.
 - You cannot place a stone on an already occupied position.

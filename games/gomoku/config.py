@@ -9,11 +9,14 @@ def extract_move(response):
     return None
 
 def format_state(board, player):
+    pos = board.to_positions()
+    p1 = "; ".join(f"{r},{c}" for r, c in pos["p1"]) or "None"
+    p2 = "; ".join(f"{r},{c}" for r, c in pos["p2"]) or "None"
+
     return {
         "player": player,
-        "size": board.size,
-        "player_positions": board.format_positions("X" if player == 1 else "O"),
-        "opponent_positions": board.format_positions("O" if player == 1 else "X")
+        "player_positions": p1 if player == 1 else p2,
+        "opponent_positions": p2 if player == 1 else p1,
     }
 
 config = {

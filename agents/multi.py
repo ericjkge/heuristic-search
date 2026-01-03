@@ -14,7 +14,7 @@ class MultiAgent:
         proposals = []
         state = self.format_state(board, player)
 
-        prompt_template = getattr(self.prompts, f"{prompt_type}_prompt") # Genearlization for action, policy, and value prompts
+        prompt_template = getattr(self.prompts, f"{prompt_type}_prompt") # Generalization for action, policy, and value prompts
 
         for round in range(num_rounds):
             prev_proposals = proposals # Memoryless debate (only previous round's proposals are considered)

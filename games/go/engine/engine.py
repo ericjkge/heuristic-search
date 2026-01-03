@@ -1,9 +1,9 @@
 import subprocess
 from pathlib import Path
 
-class GoEngine:
-    """KataGo GTP wrapper. Syncs with GoBoard for moves."""
-    
+class GoEngine:    
+    COLS = "ABCDEFGHJKLMNOPQRST"  # GTP uses uppercase, no 'I'
+
     def __init__(self, size=9):
         self.size = size
         self.p = subprocess.Popen(
@@ -30,19 +30,30 @@ class GoEngine:
             lines.append(line.rstrip())
         resp = "\n".join(lines)
         return resp[2:] if resp.startswith("= ") else resp[1:]
-    
-    def sync(self, board):
-        """Sync engine state with board."""
+
+    def get_move(self, board):
+        # Sync engine with board history
         self._cmd("clear_board")
-        for color, vertex in board.move_history:
-            self._cmd(f"play {color} {vertex}")  # GTP engine requires move history, not just current board state
-    
-    def genmove(self, color) -> str:
-        """Get engine's move for color. Returns vertex or PASS/RESIGN."""
-        return self._cmd(f"genmove {color}").upper()
-    
-    def show_board(self) -> str:
-        return self._cmd("showboard")
+        history = board._state.history()
+        for i, action in enumerate(history):
+            color = "B" if i % 2 == 0 else "W" # O-indexed players in OpenSpiel
+            if action == board.size * board.size:
+                self._cmd(f"play {color} pass")
+            else:
+                row, col = divmod(action, board.size)
+                vertex = f"{self.COLS[col]}{row + 1}"
+                self._cmd(f"play {color} {vertex}")
+        
+        # Generate move
+        color = "B" if board.turn() == 1 else "W"
+        result = self._cmd(f"genmove {color}").upper()
+        
+        if result in ("PASS", "RESIGN"):
+            return (None, None) # (None, None) for pass
+        
+        col = self.COLS.index(result[0])
+        row = int(result[1:]) - 1
+        return (row, col)
     
     def close(self):
         try:
