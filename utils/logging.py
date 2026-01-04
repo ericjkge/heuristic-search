@@ -4,7 +4,7 @@ from pathlib import Path
 
 def setup_logging(log_dir=None, level=logging.INFO):
     fmt = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
-    handlers = [logging.StreamHandler()] # Log to console
+    handlers = [] # No console logging
     
     if log_dir:
         Path(log_dir).mkdir(parents=True, exist_ok=True) # Create log directory if it doesn't exist
