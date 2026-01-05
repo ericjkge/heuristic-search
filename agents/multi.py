@@ -4,35 +4,74 @@ logger = get_logger(__name__)
 
 class MultiAgent:
     def __init__(self, llm, prompts, perspectives, game_config):
-        self.prompts = prompts
-        self.agents = [(llm(), perspective) for perspective in perspectives]
         self.llm = llm()
+        self.prompts = prompts
+        self.perspectives = perspectives
         self.extract_move = game_config["extract_move"]
         self.format_state = game_config["format_state"]
+
+    def _agent_move(self, board, prompt, max_attempts=3):
+        messages = [{"role": "user", "content": prompt}]
+
+        # Retries for each perspective agent
+        for _ in range(max_attempts):
+            response = self.llm.generate(messages)
+            move = self.extract_move(response)
+            
+            if move and (move in board.legal_moves() or move == 'PASS'):
+                return response
+            
+            # Invalid move
+            messages.append({"role": "assistant", "content": response})
+            if move is None:
+                error_msg = "Could not parse your move. Try again using the specified format."
+            else:
+                error_msg = f"'{move}' is not a legal move. Try again using the specified format."
+            messages.append({"role": "user", "content": error_msg})
+        
+        return None  # Return None if invalid
 
     def debate(self, board, player, num_rounds=1, prompt_type="action"):
         proposals = []
         state = self.format_state(board, player)
+        prompt_template = getattr(self.prompts, f"{prompt_type}_prompt")
 
-        prompt_template = getattr(self.prompts, f"{prompt_type}_prompt") # Generalization for action, policy, and value prompts
-
-        for round in range(num_rounds):
-            prev_proposals = proposals # Memoryless debate (only previous round's proposals are considered)
+        for round_num in range(num_rounds):
+            prev_proposals = proposals
             proposals = []
 
-            for llm, perspective in self.agents:
-                prompt = prompt_template.format(**state, other_proposals=prev_proposals)
-                response = llm.generate(prompt, system_prompt=perspective)
-                move = self.extract_move(response)
-                proposals.append((move, response))
-                logger.info(f"Round={round} | Move={move} | Response={response} | Perspective={perspective[37:47]}")
+            for perspective in self.perspectives:
+                prompt = prompt_template.format(**state, perspective=perspective, proposals=prev_proposals)
+                response = self._agent_move(board, prompt)
+                proposals.append(response)
+                logger.info(f"Round={round_num} | Response={response} | Perspective={perspective[:30]}...")
 
-        # Use LLM to aggregate proposals for now
-        aggregate_prompt = self.prompts.conclusion_prompt.format(**state, proposals=proposals)
-        response = self.llm.generate(aggregate_prompt)
-        logger.info(f"Aggregate response: {response}")
-        return response
+        return proposals
+
+    def aggregate(self, board, player, proposals, max_attempts=3):
+        state = self.format_state(board, player)
+        prompt = self.prompts.aggregate_prompt.format(**state, proposals=proposals)
+        messages = [{"role": "user", "content": prompt}]
+        
+        # Retries for final aggregate agent
+        for _ in range(max_attempts):
+            response = self.llm.generate(messages)
+            move = self.extract_move(response)
+            
+            if move and (move in board.legal_moves() or move == 'PASS'):
+                return move
+            
+            # Invalid move
+            messages.append({"role": "assistant", "content": response})
+            if move is None:
+                error_msg = "Could not parse your move. Try again using the specified format."
+            else:
+                error_msg = f"'{move}' is not a legal move. Try again using the specified format."
+            messages.append({"role": "user", "content": error_msg})
+        
+        return None
 
     def choose_move(self, board, player):
-        response = self.debate(board, player, 2, "action") # 2 rounds of debate
-        return self.extract_move(response)
+        proposals = self.debate(board, player, num_rounds=2, prompt_type="action")
+        move = self.aggregate(board, player, proposals)
+        return move
