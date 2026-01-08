@@ -1,4 +1,5 @@
 import sys
+import argparse
 sys.path.insert(0, '.')
 
 from utils.logging import setup_logging
@@ -83,14 +84,14 @@ def play_human(game_key):
 
 def play_llm(game_key):
     from agents.single import SingleAgent
-    from utils.llm import QwenLLM
+    from utils.llm import GeminiLLM
     
-    setup_logging(log_dir=f"logs/{game_key}")
+    setup_logging(log_dir=f"logs/{game_key}/single_engine")
     
     board, engine, config, prompts, name = load_game(game_key)
-    agent = SingleAgent(QwenLLM, prompts, config)
+    agent = SingleAgent(GeminiLLM, prompts, config)
     
-    print(f"=== {name}: LLM vs Engine ===\n")
+    print(f"=== {name}: Single LLM vs Engine ===\n")
     
     while board.winner() is None:
         print(board.to_ascii())
@@ -116,22 +117,22 @@ def play_llm(game_key):
     engine.close()
 
 
-def play_multi_gomoku():
+def play_multi_gomoku(strategy="feature_judge"):
     """Multi-agent debate vs engine - Gomoku only."""
     from agents.multi import MultiAgent
-    from utils.llm import QwenLLM
+    from utils.llm import GeminiLLM
     from games.gomoku.board import GomokuBoard
     from games.gomoku.engine.engine import GomokuEngine
     from games.gomoku.config import config
     from games.gomoku.prompts import multi as prompts
     
-    setup_logging(log_dir="logs/gomoku_multi")
+    setup_logging(log_dir=f"logs/gomoku/{strategy}_engine")
     
     board = GomokuBoard(9)
     engine = GomokuEngine(9)
-    agent = MultiAgent(QwenLLM, prompts, prompts.PERSPECTIVES, config)
+    agent = MultiAgent(GeminiLLM, prompts, config, strategy=strategy)
     
-    print("=== Gomoku (9x9): Multi-Agent vs Engine ===\n")
+    print(f"=== Gomoku (9x9): Multi-Agent ({strategy}) vs Engine ===\n")
     
     while board.winner() is None:
         print(board.to_ascii())
@@ -157,15 +158,116 @@ def play_multi_gomoku():
     engine.close()
 
 
+def play_single_vs_multi_gomoku(game_id=None, strategy="feature_judge"):
+    """Single LLM vs Multi-agent debate - Gomoku only."""
+    from agents.single import SingleAgent
+    from agents.multi import MultiAgent
+    from utils.llm import GeminiLLM
+    from games.gomoku.board import GomokuBoard
+    from games.gomoku.config import config
+    from games.gomoku.prompts import single as single_prompts
+    from games.gomoku.prompts import multi as multi_prompts
+    
+    log_dir = f"logs/gomoku/single_{strategy}/game_{game_id}" if game_id else f"logs/gomoku/single_{strategy}"
+    setup_logging(log_dir=log_dir)
+    
+    board = GomokuBoard(9)
+    single_agent = SingleAgent(GeminiLLM, single_prompts, config)
+    multi_agent = MultiAgent(GeminiLLM, multi_prompts, config, strategy=strategy)
+    
+    print(f"=== Gomoku (9x9): Single LLM (Black) vs Multi-Agent/{strategy} (White) [Game {game_id or 'N/A'}] ===\n")
+    
+    while board.winner() is None:
+        print(board.to_ascii())
+        print(f"Moves: {board.to_moves()}\n")
+        
+        if board.turn() == 1:
+            print("Single LLM thinking...")
+            move = single_agent.choose_move(board, 1, max_attempts=3)
+            
+            if move:
+                print(f"Single LLM plays: {move}")
+                board.push(move)
+            else:
+                print("Single LLM failed. Ending game.")
+                break
+        else:
+            print("Multi-agent debate...")
+            move = multi_agent.choose_move(board, 2)
+            
+            if move:
+                print(f"Multi-agent plays: {move}")
+                board.push(move)
+            else:
+                print("Multi-agent failed. Ending game.")
+                break
+    
+    winner = board.winner()
+    if winner == 1:
+        print(f"\nGame {game_id or 'N/A'} over! Winner: Single LLM (Black)")
+    elif winner == 2:
+        print(f"\nGame {game_id or 'N/A'} over! Winner: Multi-Agent (White)")
+    else:
+        print(f"\nGame {game_id or 'N/A'} over! Result: {'Draw' if winner == 0 else 'Incomplete'}")
+
+
 def main():
+    from agents.multi import STRATEGIES
+    
+    parser = argparse.ArgumentParser(
+        description="Run game experiments",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python experiments/run.py --mode single_vs_multi --strategy feature_judge
+  python experiments/run.py --mode single_vs_multi --strategy adversarial_judge
+  python experiments/run.py --mode single_vs_multi --strategy halfhalf_judge
+  python experiments/run.py --mode single_vs_multi --strategy centralized_judge
+  python experiments/run.py --mode single_vs_multi --strategy self_consistency
+  python experiments/run.py --mode multi_vs_engine --strategy feature_borda
+  python experiments/run.py --list-strategies
+        """
+    )
+    parser.add_argument("--mode", type=str, help="Mode: single_vs_multi, multi_vs_engine, llm_vs_engine")
+    parser.add_argument("--game", type=str, help="Game: chess, go, gomoku")
+    parser.add_argument("--game-id", type=str, help="Game ID for logging (used in parallel runs)")
+    parser.add_argument("--strategy", type=str, default="feature_judge", 
+                        choices=STRATEGIES, help="Multi-agent strategy")
+    parser.add_argument("--list-strategies", action="store_true", help="List all available strategies")
+    args = parser.parse_args()
+    
+    if args.list_strategies:
+        print("Available strategies:")
+        for s in STRATEGIES:
+            print(f"  - {s}")
+        return
+    
+    # CLI mode
+    if args.mode:
+        if args.mode == "single_vs_multi":
+            play_single_vs_multi_gomoku(game_id=args.game_id, strategy=args.strategy)
+        elif args.mode == "multi_vs_engine":
+            play_multi_gomoku(strategy=args.strategy)
+        elif args.mode == "llm_vs_engine" and args.game:
+            play_llm(args.game)
+        else:
+            print(f"Invalid mode: {args.mode}")
+        return
+    
+    # Interactive mode
     print("Select mode:")
     print("1. Human vs Engine")
     print("2. Single LLM vs Engine")
     print("3. Multi-Agent vs Engine (Gomoku only)")
-    mode = input("\nMode (1/2/3): ").strip()
+    print("4. Single LLM vs Multi-Agent (Gomoku only)")
+    mode = input("\nMode (1/2/3/4): ").strip()
     
     if mode == "3":
         play_multi_gomoku()
+        return
+    
+    if mode == "4":
+        play_single_vs_multi_gomoku()
         return
     
     print("\nSelect game:")

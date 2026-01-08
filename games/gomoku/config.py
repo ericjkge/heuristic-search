@@ -1,10 +1,20 @@
 import re
 
 def extract_move(response):
+    """Extract single move from MOVE: <vertex> format."""
     match = re.search(r"MOVE:\s*([A-Oa-o][1-9][0-9]?)", response, re.IGNORECASE)
     if not match:
-        raise ValueError(f"Invalid move: {response}")
-    return match.group(1).upper()  # Return GTP format: "D4"
+        return None
+    return match.group(1).upper()
+
+def extract_ranked_moves(response):
+    """Extract ranked moves from MOVE_1/2/3: <vertex> format for Borda."""
+    moves = []
+    for i in range(1, 4):
+        match = re.search(rf'MOVE_{i}:\s*([A-Oa-o][1-9][0-9]?)', response, re.IGNORECASE)
+        if match:
+            moves.append(match.group(1).upper())
+    return moves
 
 def format_state(board, player):
     pos = board.to_positions()
@@ -20,6 +30,7 @@ def format_state(board, player):
 
 config = {
     "extract_move": extract_move,
+    "extract_ranked_moves": extract_ranked_moves,
     "format_state": format_state,
 }
 

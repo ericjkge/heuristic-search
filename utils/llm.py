@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 from openai import OpenAI
 from .logging import get_logger
 import time
@@ -10,7 +11,7 @@ load_dotenv()
 logger = get_logger(__name__)
 
 class GeminiLLM:
-    def __init__(self, model_name="gemini-2.5-flash"):
+    def __init__(self, model_name="gemini-3-flash-preview"):
         self.model_name = model_name
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
@@ -27,7 +28,8 @@ class GeminiLLM:
                 model=self.model_name,
                 contents=contents,
                 config= genai.types.GenerateContentConfig(
-                system_instruction=system_prompt
+                system_instruction=system_prompt,
+                thinking_config=types.ThinkingConfig(thinking_level="minimal") # Minimal thinking with Gemini 3.0 Flash
                 )
             )
             elapsed = time.time() - start

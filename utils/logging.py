@@ -13,6 +13,7 @@ def setup_logging(log_dir=None, level=logging.INFO):
     
     logging.basicConfig(level=level, format=fmt, handlers=handlers)
     logging.getLogger("httpx").setLevel(logging.WARNING) # Suppress httpx logging
+    logging.getLogger("google_genai.models").setLevel(logging.WARNING) # Suppress AFC messages
 
 def get_logger(name):
     return logging.getLogger(name)
