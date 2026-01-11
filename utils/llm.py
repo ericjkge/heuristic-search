@@ -14,6 +14,8 @@ class GeminiLLM:
     def __init__(self, model_name="gemini-3-flash-preview"):
         self.model_name = model_name
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+        self.last_tokens = 0
+        self.last_elapsed = 0.0
 
     def generate(self, messages, system_prompt=""):
         try:
@@ -38,6 +40,9 @@ class GeminiLLM:
             usage = response.usage_metadata
             token_count = usage.total_token_count if usage else 0
             
+            self.last_tokens = token_count
+            self.last_elapsed = elapsed
+            
             logger.info(f"llm_call | tokens={token_count} | elapsed={elapsed:.2f}s\n"
                         f"--- SYSTEM PROMPT ---\n{system_prompt}\n"
                         f"--- PROMPT ---\n{contents}\n"
@@ -57,10 +62,11 @@ class KimiLLM:
             api_key=os.getenv("KIMI_API_KEY"),
             base_url="https://api.moonshot.ai/v1"
         )
+        self.last_tokens = 0
+        self.last_elapsed = 0.0
 
     def generate(self, messages, system_prompt=""):
         try:
-
             msgs = []
             if system_prompt:
                 msgs.append({"role": "system", "content": system_prompt})
@@ -76,6 +82,9 @@ class KimiLLM:
             # Extract tokens from usage
             usage = response.usage
             token_count = usage.total_tokens if usage else 0
+            
+            self.last_tokens = token_count
+            self.last_elapsed = elapsed
 
             result = response.choices[0].message.content
             logger.info(
@@ -98,6 +107,8 @@ class QwenLLM:
             api_key=os.getenv("QWEN_API_KEY"),
             base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1" # Singapore endpoint
         )
+        self.last_tokens = 0
+        self.last_elapsed = 0.0
 
     def generate(self, messages, system_prompt=""):
         try:
@@ -116,6 +127,9 @@ class QwenLLM:
             # Extract tokens from usage
             usage = response.usage
             token_count = usage.total_tokens if usage else 0
+            
+            self.last_tokens = token_count
+            self.last_elapsed = elapsed
 
             result = response.choices[0].message.content
             logger.info(

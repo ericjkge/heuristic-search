@@ -211,6 +211,68 @@ def play_single_vs_multi_gomoku(game_id=None, strategy="feature_judge"):
         print(f"\nGame {game_id or 'N/A'} over! Result: {'Draw' if winner == 0 else 'Incomplete'}")
 
 
+def play_mcts_chess(game_id=None):
+    """MCTS LLM vs Stockfish engine - Chess only."""
+    from agents.mcts import MCTSAgent
+    from search.mcts import NUM_SIMULATIONS
+    from utils.llm import GeminiLLM
+    from games.chess.board import ChessBoard
+    from games.chess.engine.engine import ChessEngine
+    
+    log_dir = f"logs/chess/mcts_engine/game_{game_id}" if game_id else "logs/chess/mcts_engine"
+    setup_logging(log_dir=log_dir)
+    
+    board = ChessBoard()
+    engine = ChessEngine()
+    agent = MCTSAgent(GeminiLLM)
+    
+    print(f"=== Chess: MCTS LLM (White) vs Stockfish (Black) ===")
+    print(f"    Simulations per move: {NUM_SIMULATIONS}")
+    print()
+    
+    move_count = 0
+    while board.winner() is None:
+        print(board.to_ascii())
+        print(f"Moves: {board.to_moves()}\n")
+        
+        if board.turn() == 1:  # White (MCTS)
+            print(f"MCTS thinking ({NUM_SIMULATIONS} simulations)...")
+            move = agent.choose_move(board, 1)
+            
+            if move:
+                print(f"MCTS plays: {move}")
+                board.push(move)
+                move_count += 1
+            else:
+                print("MCTS failed. Ending game.")
+                break
+        else:  # Black (Stockfish)
+            print("Stockfish thinking...")
+            move = engine.get_move(board)
+            print(f"Stockfish plays: {move}")
+            board.push(move)
+            move_count += 1
+        
+        if move_count > 200:
+            print("\nMove limit reached (200). Ending game.")
+            break
+    
+    winner = board.winner()
+    
+    print(f"\nGame over after {move_count} moves!")
+    if winner == 1:
+        print("Winner: MCTS LLM (White)")
+    elif winner == 2:
+        print("Winner: Stockfish (Black)")
+    elif winner == 0:
+        print("Result: Draw")
+    else:
+        print("Result: Incomplete")
+    
+    print(f"Policy cache size: {len(agent.mcts._policy_cache)} positions")
+    engine.close()
+
+
 def main():
     from agents.multi import STRATEGIES
     
@@ -219,16 +281,13 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python experiments/run.py --mode single_vs_multi --strategy feature_judge
-  python experiments/run.py --mode single_vs_multi --strategy adversarial_judge
-  python experiments/run.py --mode single_vs_multi --strategy halfhalf_judge
-  python experiments/run.py --mode single_vs_multi --strategy centralized_judge
-  python experiments/run.py --mode single_vs_multi --strategy self_consistency
-  python experiments/run.py --mode multi_vs_engine --strategy feature_borda
-  python experiments/run.py --list-strategies
+  python run.py --mode single_vs_multi --strategy feature_judge
+  python run.py --mode single_vs_multi --strategy adversarial_judge
+  python run.py --mode mcts_vs_engine
+  python run.py --list-strategies
         """
     )
-    parser.add_argument("--mode", type=str, help="Mode: single_vs_multi, multi_vs_engine, llm_vs_engine")
+    parser.add_argument("--mode", type=str, help="Mode: single_vs_multi, multi_vs_engine, llm_vs_engine, mcts_vs_engine")
     parser.add_argument("--game", type=str, help="Game: chess, go, gomoku")
     parser.add_argument("--game-id", type=str, help="Game ID for logging (used in parallel runs)")
     parser.add_argument("--strategy", type=str, default="feature_judge", 
@@ -250,6 +309,8 @@ Examples:
             play_multi_gomoku(strategy=args.strategy)
         elif args.mode == "llm_vs_engine" and args.game:
             play_llm(args.game)
+        elif args.mode == "mcts_vs_engine":
+            play_mcts_chess(game_id=args.game_id)
         else:
             print(f"Invalid mode: {args.mode}")
         return
@@ -260,7 +321,8 @@ Examples:
     print("2. Single LLM vs Engine")
     print("3. Multi-Agent vs Engine (Gomoku only)")
     print("4. Single LLM vs Multi-Agent (Gomoku only)")
-    mode = input("\nMode (1/2/3/4): ").strip()
+    print("5. MCTS LLM vs Engine (Chess only)")
+    mode = input("\nMode (1/2/3/4/5): ").strip()
     
     if mode == "3":
         play_multi_gomoku()
@@ -268,6 +330,10 @@ Examples:
     
     if mode == "4":
         play_single_vs_multi_gomoku()
+        return
+    
+    if mode == "5":
+        play_mcts_chess()
         return
     
     print("\nSelect game:")
