@@ -1,5 +1,4 @@
 python-chess
 python-dotenv
-openai
 google-genai
 open_spiel
