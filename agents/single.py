@@ -25,7 +25,7 @@ class SingleAgent:
             if move is None:
                 error_msg = "Could not parse your move. Try again using the specified format."
             else:
-                error_msg = f"'{move}' is not a legal move. Try again using the specified format."
+                error_msg = f"'{move}' is occupied or out-of-bounds. Try again using the specified format."
             messages.append({"role": "user", "content": error_msg})
         
         return None # All retries failed
