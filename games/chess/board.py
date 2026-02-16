@@ -12,6 +12,11 @@ class ChessBoard:
         self._board.push(chess.Move.from_uci(uci))
     
     def legal_moves(self):
+        """Return legal moves in SAN format."""
+        return [self._board.san(m) for m in self._board.legal_moves]
+
+    def legal_moves_uci(self):
+        """Return legal moves in UCI format (for validation)."""
         return [m.uci() for m in self._board.legal_moves]
     
     def winner(self):
@@ -30,7 +35,7 @@ class ChessBoard:
         node = game
         for move in self._board.move_stack:
             node = node.add_variation(move)
-        return str(game.mainline_moves()) # PGN move list
-    
+        return str(game.mainline_moves())  # Move list only (for prompts)
+
     def to_positions(self):
         return self._board.fen()

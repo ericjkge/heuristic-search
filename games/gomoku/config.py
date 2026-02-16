@@ -1,6 +1,6 @@
 import re
 
-def extract_move(response):
+def extract_move(response, fen=None):
     """Extract single move from MOVE: <vertex> format."""
     match = re.search(r"MOVE:\s*([A-Oa-o][1-9][0-9]?)", response, re.IGNORECASE)
     if not match:

@@ -1,0 +1,24 @@
+{
+  "match": {
+    "white": "single",
+    "black": "multi_v2",
+    "num_games": 1,
+    "timestamp": "20260212_162246"
+  },
+  "results": {
+    "white_wins": 0,
+    "black_wins": 1,
+    "draws": 0
+  },
+  "games": [
+    {
+      "game": 1,
+      "white": "single",
+      "black": "multi_v2",
+      "result": "0-1",
+      "reason": "1 failed to move",
+      "moves": 30,
+      "pgn": "1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 Bb4 6. Bd3 O-O 7. e5 Nd5 8. Bxh7+ Kxh7 9. Qh5+ Kg8 10. Bd2 Nc6 11. Nxd5 Bxd2+ 12. Kxd2 Nxd4 13. Nf6+ Qxf6 14. exf6 gxf6 15. Qg4+ Kh7"
+    }
+  ]
+}

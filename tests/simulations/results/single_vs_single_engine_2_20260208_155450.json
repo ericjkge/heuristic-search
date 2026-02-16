@@ -1,0 +1,24 @@
+{
+  "match": {
+    "white": "single",
+    "black": "single_engine_2",
+    "num_games": 1,
+    "timestamp": "20260208_155450"
+  },
+  "results": {
+    "white_wins": 0,
+    "black_wins": 1,
+    "draws": 0
+  },
+  "games": [
+    {
+      "game": 1,
+      "white": "single",
+      "black": "single_engine_2",
+      "result": "0-1",
+      "reason": "checkmate",
+      "moves": 68,
+      "pgn": "1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. O-O Nxe4 5. Re1 Nd6 6. Nxe5 Nxe5 7. Rxe5+ Be7 8. Bf1 O-O 9. d4 Bf6 10. Re1 Nf5 11. c3 d5 12. Nd2 c6 13. Bd3 Nd6 14. Qc2 g6 15. Nf3 Bg4 16. Nd2 Re8 17. Rxe8+ Qxe8 18. Nf1 Qe1 19. Bf4 Qxa1 20. Bxd6 Re8 21. Bf4 Re1 22. h3 Bf5 23. Bxf5 Rxf1+ 24. Kh2 Bh4 25. g3 Rh1+ 26. Kg2 Qg1+ 27. Kf3 gxf5 28. gxh4 Rxh3+ 29. Ke2 Qg4+ 30. Kd2 Qxf4+ 31. Ke1 Rh2 32. Qxf5 Qxf5 33. Ke2 Qxf2+ 34. Kd3 Qd2#"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "match": {
+    "white": "single",
+    "black": "single_code",
+    "num_games": 1,
+    "timestamp": "20260209_211643"
+  },
+  "results": {
+    "white_wins": 0,
+    "black_wins": 0,
+    "draws": 1
+  },
+  "games": [
+    {
+      "game": 1,
+      "white": "single",
+      "black": "single_code",
+      "result": "1/2-1/2",
+      "reason": "stalemate",
+      "moves": 158,
+      "pgn": "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Nxe4 6. Re1 Nc5 7. Nxe5 Be7 8. Nxc6 bxc6 9. Bxc6 dxc6 10. Nc3 O-O 11. d4 Ne6 12. Be3 Bf6 13. Ne2 c5 14. dxc5 Bxb2 15. Rb1 Bf6 16. Qxd8 Rxd8 17. Ng3 Bd7 18. Ne4 Be7 19. Ng3 Bxc5 20. Bxc5 Nxc5 21. Ne4 Nxe4 22. Rxe4 Rab8 23. Rxb8 Rxb8 24. h3 Rb2 25. Re7 Rb1+ 26. Kh2 Bb5 27. Re8+ Bxe8 28. Kg3 Rb2 29. Kf3 Rxc2 30. Ke3 Rxa2 31. Kd4 Rxf2 32. Ke3 Rxg2 33. Kd4 Rd2+ 34. Kc3 Rd6 35. Kb4 Rd4+ 36. Kc3 c5 37. Kb3 Rd3+ 38. Kb2 Rxh3 39. Kc2 Rh2+ 40. Kc3 Rc2+ 41. Kxc2 a5 42. Kc3 a4 43. Kc4 a3 44. Kxc5 a2 45. Kd6 a1=Q 46. Kd5 Qd1+ 47. Kc4 Qd2 48. Kc5 Qd3 49. Kb4 Qd4+ 50. Ka5 Qb4+ 51. Kxb4 Bd7 52. Kc5 h5 53. Kd6 Be6 54. Ke5 h4 55. Kf4 h3 56. Kg3 h2 57. Kxh2 g6 58. Kg3 Kg7 59. Kf4 Kf6 60. Kg3 Kg5 61. Kf3 Kf5 62. Kg3 Kg5 63. Kf3 Bd5+ 64. Kg3 f5 65. Kh2 Kg4 66. Kg1 Kg3 67. Kf1 Bc4+ 68. Kg1 Bd5 69. Kf1 Bc4+ 70. Kg1 f4 71. Kh1 Bd5+ 72. Kg1 Bc4 73. Kh1 Bd5+ 74. Kg1 Bc4 75. Kh1 Bd5+ 76. Kg1 Be4 77. Kf1 f3 78. Kg1 Bd3 79. Kh1 f2"
+    }
+  ]
+}

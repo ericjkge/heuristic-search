@@ -61,5 +61,35 @@ class ChessEngine:
             return 100.0 if cp > 0 else -100.0
         return cp / 100.0
 
+    def evaluate_move_delta(self, fen, move_uci):
+        """Get eval before, after, and delta for a move.
+
+        Returns dict with eval_before, eval_after, eval_delta (in pawns).
+        Delta is from moving side's perspective.
+        """
+        board = chess.Board(fen)
+        eval_before = self.evaluate_position_pawns(fen)
+
+        side_moved = board.turn
+        board.push(chess.Move.from_uci(move_uci))
+        eval_after = self.evaluate_position_pawns(board.fen())
+
+        raw_delta = eval_after - eval_before
+        if side_moved == chess.WHITE:
+            eval_delta = raw_delta
+        else:
+            eval_delta = -raw_delta
+
+        return {
+            "eval_before": round(eval_before, 2),
+            "eval_after": round(eval_after, 2),
+            "eval_delta": round(eval_delta, 2),
+        }
+
+    def is_blunder(self, fen, move_uci, threshold=-1.5):
+        """Check if a move loses more than threshold pawns."""
+        result = self.evaluate_move_delta(fen, move_uci)
+        return result["eval_delta"] < threshold
+
     def close(self):
         self.engine.quit()
