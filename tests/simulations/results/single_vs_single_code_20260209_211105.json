@@ -1,0 +1,24 @@
+{
+  "match": {
+    "white": "single",
+    "black": "single_code",
+    "num_games": 1,
+    "timestamp": "20260209_211105"
+  },
+  "results": {
+    "white_wins": 0,
+    "black_wins": 0,
+    "draws": 1
+  },
+  "games": [
+    {
+      "game": 1,
+      "white": "single",
+      "black": "single_code",
+      "result": "1/2-1/2",
+      "reason": "repetition",
+      "moves": 93,
+      "pgn": "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Nxe4 6. Re1 Nc5 7. Nxe5 Be7 8. Nxc6 dxc6 9. Nc3 O-O 10. Bb3 Nxb3 11. axb3 Bf5 12. d3 Re8 13. Be3 Qd7 14. Qd2 Bf6 15. h3 Rad8 16. Bg5 Bxg5 17. Qxg5 h6 18. Qf4 Bg6 19. Rxe8+ Rxe8 20. Ne4 Bxe4 21. dxe4 Qd4 22. Re1 Qxb2 23. Qxc7 Qxc2 24. Qxb7 Rxe4 25. Rxe4 Qxe4 26. Qxa6 Qb1+ 27. Kh2 Qxb3 28. Qxc6 Qb8+ 29. g3 Qb2 30. Qf3 g6 31. Qe3 Kg7 32. Qf3 Qf6 33. Qxf6+ Kxf6 34. Kg2 Ke6 35. Kf3 Ke5 36. Ke3 f6 37. f3 Kd5 38. Kd3 f5 39. f4 Kc5 40. Kc3 Kd5 41. Kd3 Kc5 42. Kc3 Kd5 43. Kd3 Kc5 44. Kc3 Kd5 45. Kd3 Kc5 46. Kc3 Kd5 47. Kd3"
+    }
+  ]
+}

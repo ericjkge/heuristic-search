@@ -6,8 +6,7 @@ Your stones: {player_positions}
 Opponent stones: {opponent_positions}
 History: {moves}
 
-Choose the next best move. Occupied and out-of-bounds positions are NOT allowed. Respond in this format:
-
+Choose the best move. Respond in this format:
 ANALYSIS: <1 sentence>
-MOVE: <vertex like D4, or PASS>
+MOVE: <vertex like D4>
 """

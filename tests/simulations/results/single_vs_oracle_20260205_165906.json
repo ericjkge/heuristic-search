@@ -1,0 +1,24 @@
+{
+  "match": {
+    "white": "single",
+    "black": "oracle",
+    "num_games": 1,
+    "timestamp": "20260205_165906"
+  },
+  "results": {
+    "white_wins": 0,
+    "black_wins": 0,
+    "draws": 1
+  },
+  "games": [
+    {
+      "game": 1,
+      "white": "single",
+      "black": "oracle",
+      "result": "1/2-1/2",
+      "reason": "repetition",
+      "moves": 98,
+      "pgn": "1... e4 e5 Nf3 Nc6 Bb5 Nf6 d3 Bc5 O-O d6 Nc3 O-O Bxc6 bxc6 Na4 Bb6 Bg5 h6 Bh4 Qe7 Nxb6 axb6 Qd2 Be6 a3 Rfd8 Rfe1 Bg4 Qe3 Bxf3 Qxf3 g5 Bg3 Nd7 Qe2 Nf6 f3 Nh5 Bf2 Nf4 Qd2 Kg7 d4 c5 d5 Qf6 a4 h5 Kh1 h4 h3 Rh8 Be3 Rh6 Qd1 Nh5 Kh2 Nf4 Qd2 Rhh8 a5 bxa5 Rxa5 Rxa5 Qxa5 Rb8 b3 Qd8 Qd2 Ra8 Bxf4 gxf4 Ra1 Rxa1 Qc3 Ra2 Qd3 Qg5 Qd1 Qg3+ Kg1 Ra8 Qb1 Ra3 Qd1 Ra8 Qb1 Ra3 Qd1 Ra8 Qb1 Ra3 Qd1 Ra8 Qb1 Ra3 Qd1 Ra8"
+    }
+  ]
+}

@@ -1,66 +1,40 @@
 import re
+import chess
 
-def extract_move(response):
-    match = re.search(r"MOVE:\s*([a-h][1-8][a-h][1-8][qrbn]?)", response)
-    return match.group(1).lower() if match else None
 
-def extract_ranked_moves(response, legal_moves):
-    """Extract ranked moves from MOVE_1/2/3/4/5: <uci> format for MCTS policy."""
-    moves = []
-    
-    # Try to find MOVE_N patterns
-    pattern = r"MOVE_(\d+):\s*([a-h][1-8][a-h][1-8][qrbn]?)"
-    matches = re.findall(pattern, response, re.IGNORECASE)
-    
-    if matches:
-        # Sort by rank number and extract moves
-        sorted_matches = sorted(matches, key=lambda x: int(x[0]))
-        moves = [m[1].lower() for m in sorted_matches]
-    else:
-        # Fallback: try to find any UCI moves in the response
-        uci_pattern = r"\b([a-h][1-8][a-h][1-8][qrbn]?)\b"
-        found = re.findall(uci_pattern, response, re.IGNORECASE)
-        moves = [m.lower() for m in found]
-    
-    # Filter to legal moves
-    return [m for m in moves if m in legal_moves]
+def extract_move(response, fen=None):
+    """
+    Extract SAN move from response (no conversion).
+    Returns SAN format (e.g., e4, Nf3) or None if no valid move found.
+    """
+    # Match SAN format: Nf3, dxc5, O-O, e4, Qxd8+, etc.
+    san_match = re.search(r"MOVE:\s*([KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?[+#]?|O-O-O|O-O)", response)
+    if san_match:
+        return san_match.group(1)
+    return None
 
-def extract_value(response):
-    """Extract position value from VALUE: <float> format for MCTS value oracle."""
-    # Try VALUE: pattern
-    pattern = r"(?:VALUE|EVALUATION):\s*([-+]?\d*\.?\d+)"
-    match = re.search(pattern, response, re.IGNORECASE)
-    
-    if match:
-        try:
-            value = float(match.group(1))
-            return max(-1.0, min(1.0, value))
-        except ValueError:
-            pass
-    
-    # Fallback: look for any decimal number in [-1, 1]
-    decimal_pattern = r"([-+]?\d*\.?\d+)"
-    matches = re.findall(decimal_pattern, response)
-    for m in reversed(matches):
-        try:
-            value = float(m)
-            if -1.0 <= value <= 1.0:
-                return value
-        except ValueError:
-            continue
-    
-    return 0.0
+
+def san_to_uci(san_move, fen):
+    """Convert SAN move to UCI format."""
+    try:
+        board = chess.Board(fen)
+        move = board.parse_san(san_move)
+        return move.uci()
+    except (chess.InvalidMoveError, chess.AmbiguousMoveError, ValueError):
+        return None
+
 
 def format_state(board, player):
     return {
         "player": "White" if player == 1 else "Black",
         "fen": board.to_positions(),
         "pgn": board.to_moves() or "(start)",
+        "legal_moves": ", ".join(board.legal_moves()),
     }
+
 
 config = {
     "extract_move": extract_move,
-    "extract_ranked_moves": extract_ranked_moves,
-    "extract_value": extract_value,
     "format_state": format_state,
+    "san_to_uci": san_to_uci,
 }

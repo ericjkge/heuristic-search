@@ -1,4 +1,4 @@
-# Multi-agent prompts: generate candidates + binary verifiers
+# Multi-v2 prompts: generate-verify-refine loop with multi-turn conversation
 
 # === MOVE GENERATION ===
 
@@ -13,17 +13,14 @@ IMPORTANT: You must choose a move from the legal moves list above.
 ANALYSIS: <1 sentence>
 MOVE: <move from legal moves list>"""
 
-retry_prompt = """You are player {player} in a chess game.
+feedback_prompt = """Your move {previous_move} was evaluated by 5 verifiers:
 
-FEN: {fen}
-PGN: {pgn}
+{verifier_feedback}
+
+Based on this feedback, choose a better move from the legal moves list.
 Legal moves: {legal_moves}
 
-Already selected moves: {previous_moves}
-
-Pick a DIFFERENT move from the legal moves list (not one already selected).
-
-ANALYSIS: <1 sentence>
+ANALYSIS: <1 sentence addressing the feedback>
 MOVE: <move from legal moves list>"""
 
 # === BINARY VERIFIER PROMPTS (each outputs SCORE: 0 or 1) ===
