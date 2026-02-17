@@ -1,4 +1,4 @@
-python-chess
-python-dotenv
 google-genai
-open_spiel
+python-dotenv
+sudokum
+numpy
