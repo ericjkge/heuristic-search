@@ -17,8 +17,9 @@ Coordinates:
 Puzzle:
 {puzzle_str}
 
-Output: Represent the board with one row per line, 9 space-separated digits per row
+Output: Wrap your final answer in <OUTPUT> tags with one row per line, 9 space-separated digits per row:
 
+<OUTPUT>
 d d d d d d d d d
 d d d d d d d d d
 d d d d d d d d d
@@ -27,7 +28,8 @@ d d d d d d d d d
 d d d d d d d d d
 d d d d d d d d d
 d d d d d d d d d
-d d d d d d d d d"""
+d d d d d d d d d
+</OUTPUT>"""
 
 
 def revision_prompt(puzzle_str: str, previous_grid_str: str, feedback: str) -> str:
@@ -52,8 +54,9 @@ Your previous solution:
 Verifier feedback:
 {feedback}
 
-Output: Represent the board with one row per line, 9 space-separated digits per row
+Output: Wrap your final answer in <OUTPUT> tags with one row per line, 9 space-separated digits per row:
 
+<OUTPUT>
 d d d d d d d d d
 d d d d d d d d d
 d d d d d d d d d
@@ -62,4 +65,5 @@ d d d d d d d d d
 d d d d d d d d d
 d d d d d d d d d
 d d d d d d d d d
-d d d d d d d d d"""
+d d d d d d d d d
+</OUTPUT>"""

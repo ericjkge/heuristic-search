@@ -18,8 +18,7 @@ class GeneratorAgent:
 
     def generate(self, prompt: str) -> tuple[Optional[Grid], str]:
         """Send a single-turn prompt, return (parsed_grid, raw_response)."""
-        messages = [{"role": "user", "content": prompt}]
-        response = self.llm.generate(messages)
+        response = self.llm.generate(prompt)
         self.total_tokens += self.llm.last_tokens
 
         grid = str_to_grid(response)
