@@ -21,6 +21,8 @@ class VerifierAgent:
         response = self.llm.generate(prompt)
         self.total_tokens += self.llm.last_tokens
 
+        if not response:
+            return None
         matches = re.findall(r"<OUTPUT>(.*?)</OUTPUT>", response, re.DOTALL)
         if not matches:
             return None
