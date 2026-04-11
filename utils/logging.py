@@ -1,3 +1,4 @@
+import json
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -22,5 +23,12 @@ def setup_logging(log_dir=None, level=logging.INFO, suffix=None, puzzle_id=None)
     logging.getLogger("httpx").setLevel(logging.WARNING) # Suppress httpx logging
     logging.getLogger("google_genai.models").setLevel(logging.WARNING) # Suppress AFC messages
 
-def get_logger(name):
+def get_logger(name: str) -> logging.Logger:
     return logging.getLogger(name)
+
+
+def write_trace(path: Path, row: dict) -> None:
+    """Append a single trace row as a JSON line."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a") as f:
+        f.write(json.dumps(row) + "\n")

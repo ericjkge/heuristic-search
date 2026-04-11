@@ -6,7 +6,7 @@ def initial_prompt(puzzle_text: str) -> str:
 
 {puzzle_text}
 
-Output: Wrap your final answer in <OUTPUT> tags as a JSON object with "header" and "rows" keys:
+Write down your process as you work then wrap your final answer in <OUTPUT> tags as a JSON object with "header" and "rows" keys:
 
 <OUTPUT>
 {{"header": ["House", "Attribute1", "Attribute2", ...], "rows": [["1", "value", "value", ...], ...]}}
@@ -25,10 +25,10 @@ def revision_prompt(
 Your previous response:
 {previous_response}
 
-Verifier feedback:
+Verifier feedback (may be empty if your previous solution was correct):
 {feedback}
 
-Output: Wrap your final answer in <OUTPUT> tags as a JSON object with "header" and "rows" keys:
+Write down your process as you work then wrap your final answer in <OUTPUT> tags as a JSON object with "header" and "rows" keys:
 
 <OUTPUT>
 {{"header": ["House", "Attribute1", "Attribute2", ...], "rows": [["1", "value", "value", ...], ...]}}

@@ -13,7 +13,7 @@ Candidate solution:
 
 For each row, check if it contains exactly the digits 1-9 with no duplicates.
 
-Output: Wrap your detected errors in <OUTPUT> tags with one error per line:
+Write down your process as you work then wrap any errors in <OUTPUT> tags with one error per line. If all rows are correct, output empty <OUTPUT></OUTPUT> tags.
 
 <OUTPUT>
 R3: duplicate 5 (C2, C7), missing 4
@@ -32,7 +32,7 @@ Candidate solution:
 {grid_str}
 
 
-Output: Wrap your detected errors in <OUTPUT> tags with one error per line:
+Write down your process as you work then wrap any errors in <OUTPUT> tags with one error per line. If all columns are correct, output empty <OUTPUT></OUTPUT> tags.
 
 <OUTPUT>
 C2: duplicate 3 (R1, R6), missing 8
@@ -61,7 +61,7 @@ The 9 boxes are:
 Candidate solution:
 {grid_str}
 
-Output: Wrap your detected errors in <OUTPUT> tags with one error per line:
+Write down your process as you work then wrap any errors in <OUTPUT> tags with one error per line. If all boxes are correct, output empty <OUTPUT></OUTPUT> tags.
 
 <OUTPUT>
 Box1: duplicate 6 (R1C1, R3C3), missing 1

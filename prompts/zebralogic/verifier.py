@@ -11,7 +11,7 @@ Candidate solution:
 
 For each attribute column (excluding House number), verify that every listed value appears exactly once.
 
-Output: If you find errors, list them inside <OUTPUT> tags. If everything is correct, output empty <OUTPUT></OUTPUT> tags.
+Write down your process as you work then list any errors inside <OUTPUT> tags. If everything is correct, output empty <OUTPUT></OUTPUT> tags.
 
 <OUTPUT>
 Column "Nationality": "german" appears twice (House 1 and House 3), "brit" is missing
@@ -29,7 +29,7 @@ Candidate solution:
 
 For each clue, verify whether the candidate solution satisfies it. Check carefully.
 
-Output: If you find violations, list them inside <OUTPUT> tags. If all clues are satisfied, output empty <OUTPUT></OUTPUT> tags.
+Write down your process as you work then list any violations inside <OUTPUT> tags. If all clues are satisfied, output empty <OUTPUT></OUTPUT> tags.
 
 <OUTPUT>
 Clue 3 violated: "The Norwegian lives in House 1" but Norwegian is in House 3
@@ -51,7 +51,7 @@ For each clue, verify the spatial relationship between houses. Remember:
 - "next to" means adjacent (house numbers differ by exactly 1)
 - "between" means the house number is strictly between the other two
 
-Output: If you find violations, list them inside <OUTPUT> tags. If all clues are satisfied, output empty <OUTPUT></OUTPUT> tags.
+Write down your process as you work then list any violations inside <OUTPUT> tags. If all clues are satisfied, output empty <OUTPUT></OUTPUT> tags.
 
 <OUTPUT>
 Clue 5 violated: "The dog owner is next to the blue house" but dog is in House 1 and blue is in House 4

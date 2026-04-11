@@ -15,6 +15,8 @@ class GeminiLLM:
         self.model = "gemini-3-flash-preview"
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
         self.last_tokens = 0
+        self.last_input_tokens = 0
+        self.last_output_tokens = 0
         self.last_elapsed = 0.0
 
     def generate(self, prompt: str) -> str:
@@ -33,8 +35,12 @@ class GeminiLLM:
 
             usage = response.usage_metadata
             token_count = usage.total_token_count if usage else 0
+            input_tokens = usage.prompt_token_count if usage else 0
+            output_tokens = usage.candidates_token_count if usage else 0
 
             self.last_tokens = token_count
+            self.last_input_tokens = input_tokens
+            self.last_output_tokens = output_tokens
             self.last_elapsed = elapsed
 
             logger.info(f"llm_call | tokens={token_count} | elapsed={elapsed:.2f}s\n"
@@ -44,7 +50,7 @@ class GeminiLLM:
 
             return response.text
         except Exception as e:
-            print(f"Error in Gemini generation: {e}")
+            logger.error(f"GeminiLLM exception: {e}")
             return ""
 
 class HarvardGeminiLLM:
@@ -62,6 +68,8 @@ class HarvardGeminiLLM:
         self.model = "gemini-3-flash-preview"
         self.api_key: str = os.getenv("HUIT_API_KEY", "")
         self.last_tokens = 0
+        self.last_input_tokens = 0
+        self.last_output_tokens = 0
         self.last_elapsed = 0.0
 
     def generate(self, prompt: str) -> str:
@@ -99,8 +107,12 @@ class HarvardGeminiLLM:
             # Extract token count
             usage = data.get("usageMetadata", {})
             token_count = usage.get("totalTokenCount", 0)
+            input_tokens = usage.get("promptTokenCount", 0)
+            output_tokens = usage.get("candidatesTokenCount", 0)
 
             self.last_tokens = token_count
+            self.last_input_tokens = input_tokens
+            self.last_output_tokens = output_tokens
             self.last_elapsed = elapsed
 
             logger.info(f"llm_call | tokens={token_count} | elapsed={elapsed:.2f}s\n"
@@ -110,7 +122,7 @@ class HarvardGeminiLLM:
 
             return text
         except Exception as e:
-            print(f"Error in Harvard Gemini generation: {e}")
+            logger.error(f"HarvardGeminiLLM exception: {e}")
             return ""
 
 class GPTLLM:
@@ -120,12 +132,14 @@ class GPTLLM:
     reasoning_effort: "none" | "low" | "medium" | "high"
     """
 
-    def __init__(self, model: str = "gpt-5.2", reasoning_effort: str = "high") -> None:
+    def __init__(self, model: str = "gpt-5.2", reasoning_effort: str = "none") -> None:
         from openai import OpenAI as _OpenAI
-        self._client = _OpenAI(api_key=os.getenv("GPT_API_KEY"))
+        self._client = _OpenAI(api_key=os.getenv("GPT_API_KEY"), timeout=600)
         self.model = model
         self.reasoning_effort = reasoning_effort
         self.last_tokens = 0
+        self.last_input_tokens = 0
+        self.last_output_tokens = 0
         self.last_elapsed = 0.0
 
     def generate(self, prompt: str) -> str:
@@ -139,9 +153,13 @@ class GPTLLM:
             elapsed = time.time() - start
 
             token_count = response.usage.total_tokens if response.usage else 0
+            input_tokens = response.usage.input_tokens if response.usage else 0
+            output_tokens = response.usage.output_tokens if response.usage else 0
             text = response.output_text
 
             self.last_tokens = token_count
+            self.last_input_tokens = input_tokens
+            self.last_output_tokens = output_tokens
             self.last_elapsed = elapsed
 
             logger.info(
@@ -152,7 +170,7 @@ class GPTLLM:
             )
             return text
         except Exception as e:
-            print(f"Error in GPT generation: {e}")
+            logger.error(f"GPTLLM exception: {e}")
             return ""
 
 
@@ -163,9 +181,9 @@ class QwenLLM:
     thinking: True to enable extended thinking, False to disable.
     """
 
-    BASE_URL = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
+    BASE_URL = "https://dashscope-us.aliyuncs.com/compatible-mode/v1"
 
-    def __init__(self, model: str = "qwen3-max", thinking: bool = False) -> None:
+    def __init__(self, model: str = "qwen3-235b-a22b", thinking: bool = False) -> None:
         from openai import OpenAI as _OpenAI
         self._client = _OpenAI(
             api_key=os.getenv("QWEN_API_KEY"),
@@ -174,6 +192,8 @@ class QwenLLM:
         self.model = model
         self.thinking = thinking
         self.last_tokens = 0
+        self.last_input_tokens = 0
+        self.last_output_tokens = 0
         self.last_elapsed = 0.0
 
     def generate(self, prompt: str) -> str:
@@ -187,9 +207,13 @@ class QwenLLM:
             elapsed = time.time() - start
 
             token_count = completion.usage.total_tokens if completion.usage else 0
+            input_tokens = completion.usage.prompt_tokens if completion.usage else 0
+            output_tokens = completion.usage.completion_tokens if completion.usage else 0
             text = completion.choices[0].message.content or ""
 
             self.last_tokens = token_count
+            self.last_input_tokens = input_tokens
+            self.last_output_tokens = output_tokens
             self.last_elapsed = elapsed
 
             logger.info(
@@ -200,7 +224,7 @@ class QwenLLM:
             )
             return text
         except Exception as e:
-            print(f"Error in Qwen generation: {e}")
+            logger.error(f"QwenLLM exception: {e}")
             return ""
 
 
@@ -213,12 +237,15 @@ class HarvardGPTLLM:
 
     BASE_URL = "https://go.apis.huit.harvard.edu/ais-openai-direct/v1/responses"
 
-    def __init__(self) -> None:
+    def __init__(self, reasoning_effort: str = "high") -> None:
         import requests as _requests
         self._requests = _requests
-        self.model = "gpt-5-mini"
+        self.model = "gpt-5.2"
+        self.reasoning_effort = reasoning_effort
         self.api_key: str = os.getenv("HUIT_API_KEY", "")
         self.last_tokens = 0
+        self.last_input_tokens = 0
+        self.last_output_tokens = 0
         self.last_elapsed = 0.0
 
     def generate(self, prompt: str) -> str:
@@ -226,6 +253,7 @@ class HarvardGPTLLM:
 
         payload = _json.dumps({
             "model": self.model,
+            "reasoning": {"effort": self.reasoning_effort},
             "input": [
                 {"role": "user", "content": prompt},
             ],
@@ -237,7 +265,7 @@ class HarvardGPTLLM:
 
         try:
             start = time.time()
-            resp = self._requests.post(self.BASE_URL, headers=headers, data=payload)
+            resp = self._requests.post(self.BASE_URL, headers=headers, data=payload, timeout=600)
             data = resp.json()
             elapsed = time.time() - start
 
@@ -252,9 +280,16 @@ class HarvardGPTLLM:
             # Extract token count
             usage = data.get("usage", {})
             token_count = usage.get("total_tokens", 0)
+            input_tokens = usage.get("input_tokens", 0)
+            output_tokens = usage.get("output_tokens", 0)
 
             self.last_tokens = token_count
+            self.last_input_tokens = input_tokens
+            self.last_output_tokens = output_tokens
             self.last_elapsed = elapsed
+
+            if token_count == 0:
+                logger.warning(f"HarvardGPTLLM zero tokens | status={resp.status_code} | response={data}")
 
             logger.info(f"llm_call | tokens={token_count} | elapsed={elapsed:.2f}s\n"
                         f"--- PROMPT ---\n{prompt}\n"
@@ -263,5 +298,5 @@ class HarvardGPTLLM:
 
             return text
         except Exception as e:
-            print(f"Error in Harvard OpenAI generation: {e}")
+            logger.error(f"HarvardGPTLLM exception: {e}")
             return ""
