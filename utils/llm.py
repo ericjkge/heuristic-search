@@ -134,7 +134,7 @@ class GPTLLM:
 
     def __init__(self, model: str = "gpt-5.2", reasoning_effort: str = "none") -> None:
         from openai import OpenAI as _OpenAI
-        self._client = _OpenAI(api_key=os.getenv("GPT_API_KEY"), timeout=600)
+        self._client = _OpenAI(api_key=os.getenv("OPENAI_API_KEY"), timeout=600)
         self.model = model
         self.reasoning_effort = reasoning_effort
         self.last_tokens = 0
