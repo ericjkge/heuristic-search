@@ -72,13 +72,13 @@ def _refine(llm: LLM, puzzle: Puzzle, candidate: dict, feedback: str,
     return None
 
 
-def self_refine(llm: LLM, puzzle: Puzzle, steps: int = 4) -> Result:
-    """Initial solution + `steps` rounds of generic self-critique then refine."""
+def self_refine(llm: LLM, puzzle: Puzzle, num_steps: int = 4) -> Result:
+    """Initial solution + `num_steps` rounds of generic self-critique then refine."""
     base = {"puzzle_id": puzzle.id, "condition": "self_refine"}
     cand = generate(llm, puzzle, tags={**base, "phase": "init", "k": 0})
     trajectory = [1.0 if matches_gold(cand, puzzle) else 0.0]  # correctness per step (analysis only)
 
-    for it in range(1, steps + 1):
+    for it in range(1, num_steps + 1):
         if cand is None:
             break
         feedback = _critique(llm, puzzle, cand, tags={**base, "phase": "critique", "iter": it})
@@ -95,7 +95,7 @@ def self_refine(llm: LLM, puzzle: Puzzle, steps: int = 4) -> Result:
         best_candidate=cand,
         trajectory=trajectory,
         condition="self_refine",
-        extra={"steps": steps},
+        extra={"num_steps": num_steps},
     )
 
 
@@ -104,6 +104,6 @@ if __name__ == "__main__":
 
     llm = LLM()
     p = load_puzzle("lgp-test-3x3-24")
-    res = self_refine(llm, p, steps=4)
+    res = self_refine(llm, p, num_steps=4)
     print(f"{p.id} solved={res.solved} trajectory={res.trajectory}")
     print("trace:", llm.trace_path)

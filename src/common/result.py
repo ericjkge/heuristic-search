@@ -10,5 +10,5 @@ class Result:
     best_score: float
     best_candidate: dict | None
     trajectory: list[float]  # best score after each iteration
-    condition: str = "main"
+    condition: str = "beam"
     extra: dict = field(default_factory=dict)

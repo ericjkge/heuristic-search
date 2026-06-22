@@ -1,12 +1,11 @@
-"""Full run: 3x2..5x6 (15 sizes x 5 puzzles = 75) across {main, bon, self_refine}.
+"""Full run: 3x2..5x6 (15 sizes x 5 puzzles = 75) across {beam, bon, self_refine}.
 
-main = verifier-guided beam search (`steps` iterations); bon = pure sampling
-(`samples` attempts, pass@N oracle check); self_refine = generic self-critique +
-refine (`steps` rounds). Puzzles run concurrently across a thread pool. Per-puzzle
-build/main/bon/self_refine tokens + calls are derived from the trace afterward
-(each row is tagged by puzzle_id/condition/phase), robust to concurrent execution.
-Per-puzzle rollups + overall and per-size summaries are written under
-runs/<ts>/results/.
+beam = verifier-guided beam search; bon = pure sampling (pass@N oracle check);
+self_refine = generic self-critique + refine. Puzzles run concurrently across a
+thread pool. Per-puzzle build/<condition> tokens + calls are derived from the
+trace afterward (each row is tagged by puzzle_id/condition/phase), robust to
+concurrent execution. Per-puzzle rollups + overall and per-size summaries are
+written under runs/<ts>/results/.
 """
 
 import json
@@ -22,23 +21,26 @@ from utils.llm import LLM
 
 SIZES = [f"{r}*{c}" for r in (3, 4, 5) for c in (2, 3, 4, 5, 6)]  # 15 sizes
 PER_SIZE = 5      # puzzles per size -> 75 total
-STEPS = 3         # main beam iterations + self_refine rounds
-BEAM_W = 2        # main: beam width W (top candidates kept per step)
-REVISIONS = 2     # main: M (init pool size + revisions per parent)
+NUM_SEEDS = 2     # beam: independent initial attempts
+NUM_STEPS = 3     # beam iterations + self_refine rounds
+BEAM_WIDTH = 2    # beam: top candidates kept per step
+BRANCHING = 2     # beam: revisions generated per parent
 SAMPLES = 4       # bon: independent samples
 WORKERS = 32      # concurrent puzzles (I/O-bound; raise if API rate limit allows)
 
-CONDITIONS = ("main", "bon", "self_refine")
+CONDITIONS = ("beam", "bon", "self_refine")
 
 
-def _work(llm: LLM, p, steps: int, beam_w: int, revisions: int, samples: int):
+def _work(llm: LLM, p, num_seeds: int, num_steps: int, beam_width: int,
+          branching: int, samples: int):
     """Process one puzzle through every condition; returns (p, kept, {name: Result})."""
     verifiers = build_verifiers(llm, p)
     kept = sum(v.passed_gold for v in verifiers)
     results = {
-        "main": beam_search(llm, p, verifiers, steps=steps, beam_w=beam_w, revisions=revisions),
+        "beam": beam_search(llm, p, verifiers, num_seeds=num_seeds, num_steps=num_steps,
+                            beam_width=beam_width, branching=branching),
         "bon": best_of_n(llm, p, samples=samples),
-        "self_refine": self_refine(llm, p, steps=steps),
+        "self_refine": self_refine(llm, p, num_steps=num_steps),
     }
     return p, kept, results
 
@@ -66,9 +68,9 @@ def _aggregate_trace(trace_path) -> dict:
     return agg
 
 
-def run(sizes: list[str] = SIZES, per_size: int = PER_SIZE, steps: int = STEPS,
-        beam_w: int = BEAM_W, revisions: int = REVISIONS, samples: int = SAMPLES,
-        workers: int = WORKERS) -> dict:
+def run(sizes: list[str] = SIZES, per_size: int = PER_SIZE, num_seeds: int = NUM_SEEDS,
+        num_steps: int = NUM_STEPS, beam_width: int = BEAM_WIDTH, branching: int = BRANCHING,
+        samples: int = SAMPLES, workers: int = WORKERS) -> dict:
     llm = LLM()
     puzzles = load_puzzles(sizes, per_size)
     results_dir = llm.run_dir / "results"
@@ -80,8 +82,8 @@ def run(sizes: list[str] = SIZES, per_size: int = PER_SIZE, steps: int = STEPS,
     # --- run all puzzles concurrently ---
     done = {}
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        futures = {ex.submit(_work, llm, p, steps, beam_w, revisions, samples): p
-                   for p in puzzles}
+        futures = {ex.submit(_work, llm, p, num_seeds, num_steps, beam_width,
+                             branching, samples): p for p in puzzles}
         for i, fut in enumerate(as_completed(futures), 1):
             p = futures[fut]
             try:
@@ -128,7 +130,6 @@ def run(sizes: list[str] = SIZES, per_size: int = PER_SIZE, steps: int = STEPS,
         }
         (results_dir / f"{p.id}.json").write_text(json.dumps(rollup, indent=2))
 
-        overall["build"]["solved"] += 0
         overall["build"]["calls"] += compute["build"][0]
         overall["build"]["tokens"] += compute["build"][1]
         for name in CONDITIONS:
@@ -159,10 +160,10 @@ def run(sizes: list[str] = SIZES, per_size: int = PER_SIZE, steps: int = STEPS,
         cells = " ".join(f"{a[f'{c}_solved']:>3}/{a['n']:<7}" for c in CONDITIONS)
         print(f"{s:6} {a['n']:>3} {cells}")
 
-    out = {"sizes": sizes, "per_size": per_size, "steps": steps, "beam_w": beam_w,
-           "revisions": revisions, "samples": samples, "workers": workers,
-           "conditions": list(CONDITIONS), "n_puzzles": n,
-           "overall": overall, "by_size": by_size}
+    out = {"sizes": sizes, "per_size": per_size, "num_seeds": num_seeds,
+           "num_steps": num_steps, "beam_width": beam_width, "branching": branching,
+           "samples": samples, "workers": workers, "conditions": list(CONDITIONS),
+           "n_puzzles": n, "overall": overall, "by_size": by_size}
     (results_dir / "summary.json").write_text(json.dumps(out, indent=2))
     print(f"\nWrote {n} rollups + summary.json to {results_dir}")
     return out

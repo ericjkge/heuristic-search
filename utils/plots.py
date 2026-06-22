@@ -1,7 +1,7 @@
 """Graph experiment results. Usage: python -m utils.plots [run_dir]
 
 Reads runs/<ts>/results/summary.json and writes results/solve_by_size.png:
-solve count (out of per_size) vs puzzle size, main vs bon.
+solve count (out of per_size) vs puzzle size, one line per condition.
 """
 
 import json
@@ -13,7 +13,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 RUNS = Path("runs")
-MAIN_C, BON_C = "#2563eb", "#dc2626"
+COLORS = {"beam": "#2563eb", "bon": "#dc2626", "self_refine": "#16a34a", "qd": "#9333ea"}
 
 
 def latest_run() -> Path:
@@ -32,19 +32,19 @@ def _size_key(s: str) -> tuple[int, int]:
 def solve_by_size(run_dir: Path):
     summary = json.loads((run_dir / "results" / "summary.json").read_text())
     bs = summary["by_size"]
+    conditions = summary.get("conditions", [])
     sizes = sorted((s for s, a in bs.items() if a["n"]), key=_size_key)
-    main = [bs[s]["main_solved"] for s in sizes]
-    bon = [bs[s]["bon_solved"] for s in sizes]
     top = max((bs[s]["n"] for s in sizes), default=5)
     x = range(len(sizes))
 
     fig, ax = plt.subplots(figsize=(11, 5))
-    ax.plot(x, main, marker="o", color=MAIN_C, label="main")
-    ax.plot(x, bon, marker="o", color=BON_C, label="bon")
+    for c in conditions:
+        y = [bs[s].get(f"{c}_solved", 0) for s in sizes]
+        ax.plot(x, y, marker="o", color=COLORS.get(c), label=c)
     ax.set_xticks(list(x))
     ax.set_xticklabels(sizes, rotation=45)
-    ax.set_xlabel("Puzzle size")
-    ax.set_ylabel(f"Solved (out of {top})")
+    ax.set_xlabel("puzzle size")
+    ax.set_ylabel(f"solved (out of {top})")
     ax.set_ylim(-0.2, top + 0.2)
     ax.set_yticks(range(top + 1))
     ax.set_title("Solve count by puzzle size")

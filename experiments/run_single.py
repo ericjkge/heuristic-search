@@ -1,18 +1,18 @@
-"""Run one ZebraLogic puzzle by id through a single method (search or bon).
+"""Run one ZebraLogic puzzle by id through a single method (beam or bon).
 
 Usage:
-    python -m experiments.run_single <puzzle_id> [--method search|bon] [opts]
+    python -m experiments.run_single <puzzle_id> [--method beam|bon] [opts]
 
 Examples:
     python -m experiments.run_single lgp-test-3x3-24
-    python -m experiments.run_single lgp-test-4x4-6 --method search --steps 6
+    python -m experiments.run_single lgp-test-4x4-6 --method beam --num-steps 6
     python -m experiments.run_single lgp-test-4x4-6 --method bon --samples 32
 """
 
 import argparse
 import json
 
-from experiments.run import BEAM_W, REVISIONS, SAMPLES, STEPS
+from experiments.run import BEAM_WIDTH, BRANCHING, NUM_SEEDS, NUM_STEPS, SAMPLES
 from src.baselines.bon import best_of_n
 from src.method.search import beam_search
 from src.common.verifiers import build_verifiers
@@ -32,10 +32,11 @@ def _trace_tokens(trace_path) -> int:
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("puzzle_id", help="dataset id, e.g. lgp-test-3x3-24")
-    ap.add_argument("--method", choices=["search", "bon"], default="search")
-    ap.add_argument("--steps", type=int, default=STEPS, help="search: beam iterations")
-    ap.add_argument("--beam-w", type=int, default=BEAM_W, help="search: beam width W")
-    ap.add_argument("--revisions", type=int, default=REVISIONS, help="search: M (init pool + revisions/parent)")
+    ap.add_argument("--method", choices=["beam", "bon"], default="beam")
+    ap.add_argument("--num-seeds", type=int, default=NUM_SEEDS, help="beam: initial attempts")
+    ap.add_argument("--num-steps", type=int, default=NUM_STEPS, help="beam: search iterations")
+    ap.add_argument("--beam-width", type=int, default=BEAM_WIDTH, help="beam: top parents kept")
+    ap.add_argument("--branching", type=int, default=BRANCHING, help="beam: revisions per parent")
     ap.add_argument("--samples", type=int, default=SAMPLES, help="bon: independent samples")
     args = ap.parse_args()
 
@@ -44,12 +45,13 @@ def main():
     print(f"Puzzle {p.id} (size {p.size}, K={p.k}) | method={args.method}")
     print(f"Run dir: {llm.run_dir}\n")
 
-    if args.method == "search":
+    if args.method == "beam":
         verifiers = build_verifiers(llm, p)
         kept = sum(v.passed_gold for v in verifiers)
         print(f"verifiers: {kept}/{p.k} pass gold\n")
-        res = beam_search(llm, p, verifiers, steps=args.steps,
-                          beam_w=args.beam_w, revisions=args.revisions)
+        res = beam_search(llm, p, verifiers, num_seeds=args.num_seeds,
+                          num_steps=args.num_steps, beam_width=args.beam_width,
+                          branching=args.branching)
     else:
         res = best_of_n(llm, p, samples=args.samples)
 
