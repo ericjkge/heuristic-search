@@ -16,8 +16,9 @@ from src.common.candidates import matches_gold, parse_candidate  # noqa: E402
 from utils.data import to_puzzle  # noqa: E402
 
 RUNS = Path("runs")
-PHASE_ORDER = ["build_verifier", "init", "revise", "critique", "refine", "sample", "smoke"]
-CANDIDATE_PHASES = {"init", "revise", "refine", "sample"}  # phases whose response is a solution
+PHASE_ORDER = ["build_verifier", "init", "revise", "expand", "combine",
+               "critique", "refine", "sample", "smoke"]
+CANDIDATE_PHASES = {"init", "revise", "expand", "combine", "refine", "sample"}  # response is a solution
 
 
 @st.cache_resource

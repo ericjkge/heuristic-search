@@ -1,4 +1,4 @@
-"""Candidate generation, revision, and parsing — shared by search and baselines.
+"""Candidate generation, revision, combination, and parsing.
 
 A candidate is a dict {"header": [...], "rows": [[...], ...]} matching the
 dataset solution schema. Generation asks the LLM for fenced JSON; parsing
@@ -9,6 +9,7 @@ import json
 import re
 from typing import Any
 
+from src.common.verifiers import Verifier, failed_clues, satisfied_clues
 from utils.data import Puzzle
 from utils.llm import LLM
 
@@ -42,6 +43,30 @@ Revise the solution so every clue holds. Re-read the conflicting clues
 carefully and change only what is needed to satisfy them without breaking
 the others. Output the corrected full solution as one JSON code block in the
 same schema ({n} rows aligned to {header}). Output only the JSON code block."""
+
+COMBINE_PROMPT = """\
+Two candidate solutions to this puzzle each satisfy some clues and violate others.
+
+{puzzle}
+
+--- Solution A ---
+{cand_a}
+A satisfies these clues:
+{sat_a}
+A violates these clues:
+{failed_a}
+
+--- Solution B ---
+{cand_b}
+B satisfies these clues:
+{sat_b}
+B violates these clues:
+{failed_b}
+
+Combine A and B into a single solution that satisfies ALL clues: keep the
+assignments each got right and resolve the conflicts between them. Output the
+combined full solution as one JSON code block in the schema ({n} rows aligned to
+{header}, the "House" column is "1".."{n}"). Output only the JSON code block."""
 
 
 def matches_gold(candidate: dict | None, puzzle: Puzzle) -> bool:
@@ -146,6 +171,31 @@ def revise(llm: LLM, puzzle: Puzzle, candidate: dict, failed: list[str],
     prompt = REVISE_PROMPT.format(
         candidate=json.dumps(candidate),
         feedback=feedback,
+        n=puzzle.n_houses,
+        header=puzzle.header,
+    )
+    msgs = [
+        {"role": "system", "content": GEN_SYS},
+        {"role": "user", "content": prompt},
+    ]
+    return _gen(llm, puzzle, msgs, tags, temperature)
+
+
+def _bullets(items: list[str]) -> str:
+    return "\n".join(f"- {c}" for c in items) if items else "(none)"
+
+
+def combine(llm: LLM, puzzle: Puzzle, verifiers: list[Verifier], cand_a: dict,
+            cand_b: dict, tags: dict[str, Any], temperature: float = 0.6) -> dict | None:
+    """Combine two candidates, given each one's satisfied/failed clues (constraint-only)."""
+    prompt = COMBINE_PROMPT.format(
+        puzzle=puzzle.puzzle,
+        cand_a=json.dumps(cand_a),
+        sat_a=_bullets(satisfied_clues(verifiers, cand_a)),
+        failed_a=_bullets(failed_clues(verifiers, cand_a)),
+        cand_b=json.dumps(cand_b),
+        sat_b=_bullets(satisfied_clues(verifiers, cand_b)),
+        failed_b=_bullets(failed_clues(verifiers, cand_b)),
         n=puzzle.n_houses,
         header=puzzle.header,
     )

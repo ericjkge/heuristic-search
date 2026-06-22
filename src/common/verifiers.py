@@ -65,6 +65,11 @@ def passes(verifiers: list["Verifier"], candidate: dict) -> list[bool]:
     return [v.fn(candidate) for v in verifiers]
 
 
+def verifier_scores(verifiers: list["Verifier"], candidate: dict) -> list[float]:
+    """The per-verifier score vector for a candidate (0/1 per pass/fail checker)."""
+    return [float(v.fn(candidate)) for v in verifiers]
+
+
 def score(verifiers: list["Verifier"], candidate: dict) -> float:
     """Heuristic s(y) = #{checkers passed} / K. Empty verifier set -> 0.0."""
     if not verifiers:
@@ -75,6 +80,11 @@ def score(verifiers: list["Verifier"], candidate: dict) -> float:
 def failed_clues(verifiers: list["Verifier"], candidate: dict) -> list[str]:
     """Verbatim clue text for every checker the candidate fails (for feedback)."""
     return [v.clue for v, ok in zip(verifiers, passes(verifiers, candidate)) if not ok]
+
+
+def satisfied_clues(verifiers: list["Verifier"], candidate: dict) -> list[str]:
+    """Verbatim clue text for every checker the candidate passes (for combine context)."""
+    return [v.clue for v, ok in zip(verifiers, passes(verifiers, candidate)) if ok]
 
 
 def extract_code(text: str) -> str:
@@ -93,7 +103,7 @@ def _safe_call(fn: Callable[[dict], bool], candidate: dict) -> bool:
 def compile_checker(code: str) -> Callable[[dict], bool]:
     """Exec checker code in a restricted namespace; return a safe callable."""
     ns = {"__builtins__": _SAFE_BUILTINS} # define namespace for restricting built-ins
-    exec(compile(code, "<checker>", "exec"), ns) # exec checker code in restricted namespace
+    exec(compile(code, "<checker>", "exec"), ns) # exec checker code in restricted namespace (also prevents cross-thread contamination)
     fn = ns.get("check") # pull out check function
     if not callable(fn):
         raise ValueError("no check() defined")
