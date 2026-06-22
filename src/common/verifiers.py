@@ -9,6 +9,7 @@ import re
 from dataclasses import dataclass
 from typing import Callable
 
+from utils.concurrency import run_parallel
 from utils.data import Puzzle
 from utils.llm import LLM
 
@@ -110,44 +111,48 @@ def compile_checker(code: str) -> Callable[[dict], bool]:
     return lambda candidate: _safe_call(fn, candidate)
 
 
+def _build_one(llm: LLM, puzzle: Puzzle, idx: int, clue: str, max_retries: int) -> Verifier:
+    """Build one checker for `clue`, regenerating up to max_retries on gold failure."""
+    prompt = CHECKER_PROMPT.format(
+        header=puzzle.header,
+        n_houses=puzzle.n_houses,
+        puzzle=puzzle.puzzle,
+        clue=clue,
+    )
+    verifier = None
+    for attempt in range(max_retries + 1):
+        text = llm.call(
+            [
+                {"role": "system", "content": CHECKER_SYS},
+                {"role": "user", "content": prompt},
+            ],
+            tags={
+                "puzzle_id": puzzle.id,
+                "phase": "build_verifier",
+                "clue_idx": idx,
+                "attempt": attempt,
+            },
+        )
+        code = extract_code(text)
+        try:
+            fn = compile_checker(code)
+            passed = fn(puzzle.gold)
+        except Exception:
+            fn, passed = (lambda c: False), False
+        if passed:
+            return Verifier(clue, code, fn, True)
+        verifier = Verifier(clue, code, fn, False)
+    return verifier  # type: ignore[return-value]
+
+
 def build_verifiers(
     llm: LLM, puzzle: Puzzle, max_retries: int = 2
 ) -> list[Verifier]:
-    """One checker per clue; regenerate up to max_retries if it fails on gold."""
-    verifiers = []
-    for idx, clue in enumerate(puzzle.clues):
-        prompt = CHECKER_PROMPT.format(
-            header=puzzle.header,
-            n_houses=puzzle.n_houses,
-            puzzle=puzzle.puzzle,
-            clue=clue,
-        )
-        verifier = None
-        for attempt in range(max_retries + 1):
-            text = llm.call(
-                [
-                    {"role": "system", "content": CHECKER_SYS},
-                    {"role": "user", "content": prompt},
-                ],
-                tags={
-                    "puzzle_id": puzzle.id,
-                    "phase": "build_verifier",
-                    "clue_idx": idx,
-                    "attempt": attempt,
-                },
-            )
-            code = extract_code(text)
-            try:
-                fn = compile_checker(code)
-                passed = fn(puzzle.gold)
-            except Exception:
-                fn, passed = (lambda c: False), False
-            if passed:
-                verifier = Verifier(clue, code, fn, True)
-                break
-            verifier = Verifier(clue, code, fn, False)
-        verifiers.append(verifier)  # type: ignore[arg-type]
-    return verifiers
+    """One checker per clue, built concurrently; order matches puzzle.clues."""
+    return run_parallel([
+        lambda idx=idx, clue=clue: _build_one(llm, puzzle, idx, clue, max_retries)
+        for idx, clue in enumerate(puzzle.clues)
+    ])
 
 # Smoke test verifier generation on first 3 puzzles
 if __name__ == "__main__":

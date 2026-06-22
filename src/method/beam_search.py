@@ -11,6 +11,7 @@ import random
 from src.common.candidates import generate, matches_gold, revise
 from src.common.result import Result
 from src.common.verifiers import Verifier, failed_clues, score
+from utils.concurrency import run_parallel
 from utils.data import Puzzle
 from utils.llm import LLM
 
@@ -31,15 +32,15 @@ def beam_search(
     # unreachable even for the correct answer.
     verifiers = [v for v in verifiers if v.passed_gold]
 
-    # INIT: num_seeds independent full attempts.
-    pool = []
-    for i in range(num_seeds):
-        cand = generate(
+    # INIT: num_seeds independent full attempts (fired concurrently).
+    seeds = run_parallel([
+        lambda i=i: generate(
             llm, puzzle, tags={"puzzle_id": puzzle.id, "condition": "beam",
                                "phase": "init", "iter": 0, "k": i}
         )
-        if cand is not None:
-            pool.append((cand, score(verifiers, cand)))
+        for i in range(num_seeds)
+    ])
+    pool = [(cand, score(verifiers, cand)) for cand in seeds if cand is not None]
 
     trajectory = []
     best = max((s for _, s in pool), default=0.0)

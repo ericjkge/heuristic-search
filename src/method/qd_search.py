@@ -10,6 +10,7 @@ only grows (no pruning).
 from src.common.candidates import combine, generate, matches_gold, revise
 from src.common.result import Result
 from src.common.verifiers import Verifier, failed_clues, verifier_scores
+from utils.concurrency import run_parallel
 from utils.data import Puzzle
 from utils.llm import LLM
 
@@ -83,15 +84,18 @@ def qd_search(
     """QD search over candidate grids (up to num_steps; early-stop on score == 1)."""
     verifiers = [v for v in verifiers if v.passed_gold]
 
-    # INIT: num_seeds independent attempts. population: list of (candidate, scores).
-    population: list[tuple[dict, list[float]]] = []
-    for i in range(num_seeds):
-        cand = generate(
+    # INIT: num_seeds independent attempts (fired concurrently).
+    # population: list of (candidate, scores).
+    seeds = run_parallel([
+        lambda i=i: generate(
             llm, puzzle, tags={"puzzle_id": puzzle.id, "condition": "qd",
                                "phase": "init", "iter": 0, "k": i}
         )
-        if cand is not None:
-            population.append((cand, verifier_scores(verifiers, cand)))
+        for i in range(num_seeds)
+    ])
+    population: list[tuple[dict, list[float]]] = [
+        (cand, verifier_scores(verifiers, cand)) for cand in seeds if cand is not None
+    ]
 
     # Best score at each step (for analysis/debugging)
     trajectory = []

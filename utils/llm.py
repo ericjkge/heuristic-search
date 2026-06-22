@@ -16,6 +16,7 @@ load_dotenv()
 MODEL = "qwen/qwen3-8b"
 BASE_URL = "https://openrouter.ai/api/v1"
 RUNS_DIR = Path("runs")
+MAX_CONCURRENCY = 100  # global cap on in-flight API calls (across all fan-out)
 
 
 class LLM:
@@ -25,7 +26,8 @@ class LLM:
     (on by default); reasoning tokens come back in a separate `reasoning` field.
     """
 
-    def __init__(self, run_dir: Path | None = None, model: str = MODEL):
+    def __init__(self, run_dir: Path | None = None, model: str = MODEL,
+                 max_concurrency: int = MAX_CONCURRENCY):
         self.client = OpenAI(
             base_url=BASE_URL, api_key=os.environ["OPENROUTER_API_KEY"]
         )
@@ -34,6 +36,7 @@ class LLM:
         self.run_dir.mkdir(parents=True, exist_ok=True)
         self.trace_path = self.run_dir / "trace.jsonl"
         self._lock = threading.Lock()  # guards the trace append
+        self._sem = threading.BoundedSemaphore(max_concurrency)  # caps in-flight calls
 
     def call(
         self,
@@ -63,14 +66,15 @@ class LLM:
 
         t0 = time.time()
         resp = None
-        for attempt in range(max_retries):
-            try:
-                resp = self.client.chat.completions.create(**params)
-                break
-            except Exception as e:  # transient upstream 429s / 5xx
-                if attempt == max_retries - 1:
-                    raise
-                time.sleep(2 ** attempt)
+        with self._sem:  # bound total concurrent API calls regardless of fan-out
+            for attempt in range(max_retries):
+                try:
+                    resp = self.client.chat.completions.create(**params)
+                    break
+                except Exception as e:  # transient upstream 429s / 5xx
+                    if attempt == max_retries - 1:
+                        raise
+                    time.sleep(2 ** attempt)
         latency = time.time() - t0
 
         message = resp.choices[0].message
