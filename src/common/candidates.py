@@ -33,16 +33,22 @@ Output the solution as JSON in this exact schema:
 Output only the JSON code block."""
 
 REVISE_PROMPT = """\
-You previously proposed this solution to the puzzle:
+A candidate solution to this puzzle satisfies some clues and violates others.
+
+{puzzle}
+
+--- Current solution ---
 {candidate}
+It satisfies these clues:
+{sat}
+It violates these clues:
+{failed}
 
-It VIOLATES these clues (your assignment is inconsistent with each):
-{feedback}
-
-Revise the solution so every clue holds. Re-read the conflicting clues
-carefully and change only what is needed to satisfy them without breaking
+Revise the solution so EVERY clue holds: keep the assignments that satisfy the
+clues above and change only what is needed to fix the violations without breaking
 the others. Output the corrected full solution as one JSON code block in the
-same schema ({n} rows aligned to {header}). Output only the JSON code block."""
+schema ({n} rows aligned to {header}, the "House" column is "1".."{n}"). Output
+only the JSON code block."""
 
 COMBINE_PROMPT = """\
 Two candidate solutions to this puzzle each satisfy some clues and violate others.
@@ -165,12 +171,14 @@ def generate(llm: LLM, puzzle: Puzzle, tags: dict[str, Any],
 
 
 def revise(llm: LLM, puzzle: Puzzle, candidate: dict, failed: list[str],
-           tags: dict[str, Any], temperature: float = 0.6) -> dict | None:
-    """A revision of `candidate` guided by the verbatim failed clues."""
-    feedback = "\n".join(f"- {c}" for c in failed)
+           satisfied: list[str], tags: dict[str, Any],
+           temperature: float = 0.6) -> dict | None:
+    """A revision of `candidate`, given the full puzzle + its satisfied/failed clues."""
     prompt = REVISE_PROMPT.format(
+        puzzle=puzzle.puzzle,
         candidate=json.dumps(candidate),
-        feedback=feedback,
+        sat=_bullets(satisfied),
+        failed=_bullets(failed),
         n=puzzle.n_houses,
         header=puzzle.header,
     )

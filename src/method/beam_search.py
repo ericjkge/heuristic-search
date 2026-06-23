@@ -10,7 +10,7 @@ import random
 
 from src.common.candidates import generate, matches_gold, revise
 from src.common.result import Result
-from src.common.verifiers import Verifier, failed_clues, score
+from src.common.verifiers import Verifier, failed_clues, satisfied_clues, score
 from utils.concurrency import run_parallel
 from utils.data import Puzzle
 from utils.llm import LLM
@@ -45,9 +45,10 @@ def beam_search(
     trajectory = []
     best = max((s for _, s in pool), default=0.0)
     trajectory.append(best)
+    gold = next((c for c, _ in pool if matches_gold(c, puzzle)), None)
 
     it = 0
-    while it < num_steps and best < 1.0 and pool:
+    while it < num_steps and gold is None and pool:
         it += 1
         ranked = sorted(pool, key=lambda cs: cs[1], reverse=True)
         # SELECT: top beam_width parents, plus one random low-scorer (explore).
@@ -56,29 +57,39 @@ def beam_search(
         if tail:
             parents = parents + [rng.choice(tail)]
 
-        for cand, _ in parents:
+        # Build every independent revise call for this step, then fire them in one wave.
+        thunks = []
+        for p_idx, (cand, _) in enumerate(parents):
             failed = failed_clues(verifiers, cand)
             if not failed:
                 continue
+            satisfied = satisfied_clues(verifiers, cand)
+            parent_score = round(score(verifiers, cand), 3)
             for k in range(branching):
-                child = revise(
-                    llm, puzzle, cand, failed,
-                    tags={"puzzle_id": puzzle.id, "condition": "beam",
-                          "phase": "revise", "iter": it, "k": k,
-                          "parent_score": round(score(verifiers, cand), 3)},
+                thunks.append(
+                    lambda cand=cand, failed=failed, satisfied=satisfied,
+                    parent_score=parent_score, p_idx=p_idx, k=k: revise(
+                        llm, puzzle, cand, failed, satisfied,
+                        tags={"puzzle_id": puzzle.id, "condition": "beam",
+                              "phase": "revise", "iter": it, "parent": p_idx, "k": k,
+                              "parent_score": parent_score},
+                    )
                 )
-                if child is not None:
-                    pool.append((child, score(verifiers, child)))
+        for child in run_parallel(thunks):
+            if child is not None:
+                pool.append((child, score(verifiers, child)))
 
         best = max(s for _, s in pool)
         trajectory.append(best)
+        gold = next((c for c, _ in pool if matches_gold(c, puzzle)), None)
 
+    # Return the gold candidate if search found one; else the best by verifier score.
     best_cand, best_score = max(pool, key=lambda cs: cs[1], default=(None, 0.0))
     return Result(
         puzzle_id=puzzle.id,
-        solved=matches_gold(best_cand, puzzle),  # ground truth, not score == 1.0
+        solved=gold is not None,  # stop/solve on ground truth, not verifier-perfect
         best_score=best_score,
-        best_candidate=best_cand,
+        best_candidate=gold if gold is not None else best_cand,
         trajectory=trajectory,
         condition="beam",
         extra={"pool_size": len(pool), "iterations": it,

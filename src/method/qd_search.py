@@ -9,7 +9,7 @@ only grows (no pruning).
 
 from src.common.candidates import combine, generate, matches_gold, revise
 from src.common.result import Result
-from src.common.verifiers import Verifier, failed_clues, verifier_scores
+from src.common.verifiers import Verifier, failed_clues, satisfied_clues, verifier_scores
 from utils.concurrency import run_parallel
 from utils.data import Puzzle
 from utils.llm import LLM
@@ -101,52 +101,59 @@ def qd_search(
     trajectory = []
     best = max((_quality(sc) for _, sc in population), default=0.0)
     trajectory.append(best)
+    gold = next((c for c, _ in population if matches_gold(c, puzzle)), None)
 
     step = 0
-    while step < num_steps and best < 1.0 and population:
+    while step < num_steps and gold is None and population:
         step += 1
         score_vectors = [sc for _, sc in population]
         expand_idx = select_expansion(score_vectors, num_expansions,
                                       quality_weight, diversity_weight)
         combine_idx = select_combination(score_vectors, num_combinations)
 
-        children = []
+        # Build every independent expand + combine call for this step (they all read
+        # the pre-step population), then fire them in one wave.
+        thunks = []
         # EXPAND: revise each selected candidate with its failed clues.
         for i in expand_idx:
             cand, scores = population[i]
             failed = failed_clues(verifiers, cand)
             if not failed:
                 continue
-            child = revise(
-                llm, puzzle, cand, failed,
-                tags={"puzzle_id": puzzle.id, "condition": "qd", "phase": "expand",
-                      "iter": step, "k": i, "parent_score": round(_quality(scores), 3)},
+            satisfied = satisfied_clues(verifiers, cand)
+            thunks.append(
+                lambda cand=cand, failed=failed, satisfied=satisfied, scores=scores, i=i: revise(
+                    llm, puzzle, cand, failed, satisfied,
+                    tags={"puzzle_id": puzzle.id, "condition": "qd", "phase": "expand",
+                          "iter": step, "k": i, "parent_score": round(_quality(scores), 3)},
+                )
             )
-            if child is not None:
-                children.append(child)
         # COMBINE: recombine each selected complementary pair.
         for k, (a, b) in enumerate(combine_idx):
-            child = combine(
-                llm, puzzle, verifiers, population[a][0], population[b][0],
-                tags={"puzzle_id": puzzle.id, "condition": "qd", "phase": "combine",
-                      "iter": step, "k": k, "parents": [a, b]},
+            thunks.append(
+                lambda a=a, b=b, k=k: combine(
+                    llm, puzzle, verifiers, population[a][0], population[b][0],
+                    tags={"puzzle_id": puzzle.id, "condition": "qd", "phase": "combine",
+                          "iter": step, "k": k, "parents": [a, b]},
+                )
             )
-            if child is not None:
-                children.append(child)
 
-        for child in children:
-            population.append((child, verifier_scores(verifiers, child)))
+        for child in run_parallel(thunks):
+            if child is not None:
+                population.append((child, verifier_scores(verifiers, child)))
 
         best = max(_quality(sc) for _, sc in population)
         trajectory.append(best)
+        gold = next((c for c, _ in population if matches_gold(c, puzzle)), None)
 
+    # Return the gold candidate if search found one; else the best by verifier score.
     best_cand, best_scores = max(population, key=lambda cs: _quality(cs[1]),
                                  default=(None, []))
     return Result(
         puzzle_id=puzzle.id,
-        solved=matches_gold(best_cand, puzzle),  # ground truth, not score == 1.0
+        solved=gold is not None,  # stop/solve on ground truth, not verifier-perfect
         best_score=_quality(best_scores),
-        best_candidate=best_cand,
+        best_candidate=gold if gold is not None else best_cand,
         trajectory=trajectory,
         condition="qd",
         extra={"pool_size": len(population), "iterations": step,
