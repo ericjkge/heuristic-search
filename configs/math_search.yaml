@@ -1,0 +1,25 @@
+model:
+  name: "qwen/qwen3-8b"
+  temperature: 0.6
+  think: true
+
+search:
+  num_seeds: 5
+  num_steps: 3
+  num_expansions: 4
+  num_combinations: 2
+  population_size: 7
+  quality_weight: 1.0
+  diversity_weight: 0.3
+  final_selection: "confidence_first"  # "confidence_first" | "best_verifier" | "majority_vote"
+
+bon:
+  n: 8
+  selection: "majority_vote"  # "majority_vote" | "highest_verifier"
+
+verifier_rerank:
+  n: 8
+
+verifiers:
+  soft_judge_threshold: 0.8
+  fail_threshold: 0.5
