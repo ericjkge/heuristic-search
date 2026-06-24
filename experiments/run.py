@@ -1,4 +1,4 @@
-"""Full run: 3x2..5x6 (15 sizes x 5 puzzles = 75) across {beam, bon, self_refine, qd}.
+"""Full run: 4x2..6x6 (15 sizes x 5 puzzles = 75) across {beam, bon, self_refine, qd}.
 
 beam = verifier-guided beam search; bon = pure sampling (pass@N oracle check);
 self_refine = generic self-critique + refine; qd = quality-diversity search
@@ -20,7 +20,7 @@ from src.common.verifiers import build_verifiers
 from utils.data import load_puzzles
 from utils.llm import LLM
 
-SIZES = [f"{r}*{c}" for r in (3, 4, 5) for c in (2, 3, 4, 5, 6)]  # 15 sizes
+SIZES = [f"{r}*{c}" for r in (4, 5, 6) for c in (2, 3, 4, 5, 6)]  # 15 sizes
 PER_SIZE = 5            # puzzles per size -> 75 total
 NUM_SEEDS = 2           # beam + qd: independent initial attempts
 NUM_STEPS = 3           # beam iters + self_refine rounds + qd steps

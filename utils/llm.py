@@ -65,22 +65,26 @@ class LLM:
             params["max_tokens"] = max_tokens
 
         t0 = time.time()
-        resp = None
+        message = usage = None
         with self._sem:  # bound total concurrent API calls regardless of fan-out
             for attempt in range(max_retries):
                 try:
                     resp = self.client.chat.completions.create(**params)
+                    # A malformed 200 (no choices) parses to choices=None; treat it
+                    # as retryable here so it doesn't crash outside the loop.
+                    if not getattr(resp, "choices", None):
+                        raise ValueError("response had no choices")
+                    message = resp.choices[0].message
+                    usage = resp.usage
                     break
-                except Exception as e:  # transient upstream 429s / 5xx
+                except Exception as e:  # transient upstream 429s / 5xx / empty body
                     if attempt == max_retries - 1:
                         raise
                     time.sleep(2 ** attempt)
         latency = time.time() - t0
 
-        message = resp.choices[0].message
         text = message.content or ""
         reasoning = getattr(message, "reasoning", None)
-        usage = resp.usage
         pt = getattr(usage, "prompt_tokens", 0) or 0
         ct = getattr(usage, "completion_tokens", 0) or 0  # includes reasoning tokens
 
