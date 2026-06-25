@@ -35,11 +35,16 @@ class TestExtractAimeAnswer:
     def test_out_of_range_negative(self):
         assert extract_aime_answer(r"\boxed{-1}") is None
 
-    def test_conflict_returns_none(self):
-        assert extract_aime_answer(r"\boxed{5} and \boxed{6}") is None
+    def test_multiple_boxed_takes_last(self):
+        # Final \boxed{} is the answer by convention; earlier boxes are intermediates.
+        assert extract_aime_answer(r"\boxed{5} and \boxed{6}") == "6"
 
     def test_same_value_twice_ok(self):
         assert extract_aime_answer(r"\boxed{42} so \boxed{42}") == "42"
+
+    def test_intermediate_then_final_boxed(self):
+        # Common real case: intermediate result boxed, then the final answer boxed last.
+        assert extract_aime_answer(r"so far \boxed{100}, hence \boxed{248}") == "248"
 
     def test_no_answer(self):
         assert extract_aime_answer("no answer here at all") is None

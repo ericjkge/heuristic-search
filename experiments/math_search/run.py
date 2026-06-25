@@ -45,6 +45,7 @@ except ImportError:
     _HAS_YAML = False
 
 from src.math.baselines.bon import best_of_n
+from src.math.baselines.self_refine import self_refine
 from src.math.baselines.single import single_attempt
 from src.math.baselines.verifier_rerank import verifier_rerank
 from src.math.data import MathProblem, load_problems, load_problems_hf
@@ -92,6 +93,8 @@ def _run_one(llm: LLM, problem: MathProblem, mode: str, cfg: dict):
         )
     if mode == "verifier_rerank":
         return verifier_rerank(llm, problem, n=cfg.get("n", 8))
+    if mode == "self_refine":
+        return self_refine(llm, problem, num_steps=cfg.get("num_steps", 3))
     if mode == "verifier_guided_search":
         return math_qd_search(
             llm, problem,
@@ -130,7 +133,8 @@ def main() -> None:
     src_group.add_argument("--hf_dataset", help="HuggingFace dataset name, e.g. math-ai/aime25")
     ap.add_argument("--hf_split", default="test", help="HuggingFace split (default: test)")
     ap.add_argument("--problem_id", default=None, help="Run a single problem by ID")
-    ap.add_argument("--mode", choices=["single", "bon", "verifier_rerank", "verifier_guided_search"],
+    ap.add_argument("--mode",
+                    choices=["single", "bon", "verifier_rerank", "self_refine", "verifier_guided_search"],
                     default="verifier_guided_search")
     ap.add_argument("--config", default="configs/math_search.yaml")
     ap.add_argument("--output", required=True, help="Output JSONL path")

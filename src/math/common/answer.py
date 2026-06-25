@@ -26,12 +26,15 @@ def _is_valid_aime_int(n: int) -> bool:
 
 def extract_aime_answer(text: str) -> str | None:
     """
-    Parse the first valid AIME answer (integer in [0, 999]) from solution text.
+    Parse the AIME answer (integer in [0, 999]) from solution text.
 
     Priority: \\boxed{N} > boxed{N} > "the answer is N" / "Answer: N"
 
+    Within a tier, the LAST match is taken — competition solutions routinely box
+    intermediate results, so the final \\boxed{} is the answer by convention.
+
     Returns the answer string as found (preserving any leading zeros),
-    or None if no valid integer found or if multiple conflicting values found.
+    or None if the last match in the highest-priority tier is not a valid AIME integer.
     """
     # Try \boxed{...} first
     boxed_matches = _BOXED_RE.findall(text)
@@ -53,26 +56,16 @@ def extract_aime_answer(text: str) -> str | None:
 
 def _resolve_matches(raw_matches: list[str]) -> str | None:
     """
-    Given a list of raw match strings, validate each as an AIME integer.
-    If all valid matches agree on the same integer value, return the first match string.
-    If they conflict (different integer values), return None.
-    If none are valid AIME integers, return None.
+    Take the LAST match (the final answer by convention) and validate it as an
+    AIME integer. Returns the raw match string if valid, else None.
     """
-    valid: list[tuple[str, int]] = []
-    for raw in raw_matches:
-        n = _to_int(raw)
-        if n is not None and _is_valid_aime_int(n):
-            valid.append((raw, n))
-
-    if not valid:
+    if not raw_matches:
         return None
-
-    values = {n for _, n in valid}
-    if len(values) > 1:
-        # Conflicting answers
-        return None
-
-    return valid[0][0]
+    last_raw = raw_matches[-1]
+    n = _to_int(last_raw)
+    if n is not None and _is_valid_aime_int(n):
+        return last_raw
+    return None
 
 
 def validate_aime_answer(answer: str | None) -> bool:

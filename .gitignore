@@ -22,3 +22,9 @@ multiagent-reasoning/
 .vscode/
 .idea/
 *.swp
+
+# OS
+.DS_Store
+
+# Local agent instructions
+CLAUDE.md
