@@ -8,7 +8,7 @@ search:
   num_steps: 3
   num_expansions: 4
   num_combinations: 2
-  population_size: 7
+  population_size: 8
   quality_weight: 1.0
   diversity_weight: 0.3
   final_selection: "confidence_first"  # "confidence_first" | "best_verifier" | "majority_vote"

@@ -12,7 +12,7 @@ import math
 from src.math.common.result import MathCandidate
 from src.math.common.verifiers import aggregate_score, get_verifier_vector
 
-_SATISFY_THRESHOLD = 0.8  # score >= this → "satisfied" for diversity/complementarity math
+_SATISFY_THRESHOLD = 0.9  # score >= this → "satisfied"; with discrete grades {0, 0.33, 0.66, 1.0} only D (1.0) qualifies
 
 
 def _quality(scores: list[float]) -> float:
@@ -20,7 +20,7 @@ def _quality(scores: list[float]) -> float:
 
 
 def _satisfied_set(scores: list[float]) -> set[int]:
-    """Indices where score >= threshold. Uses 0.8 not 1.0 — LLM judges rarely give perfect 1.0."""
+    """Indices where score >= threshold. Only grade D (1.0) is satisfied."""
     return {i for i, s in enumerate(scores) if s >= _SATISFY_THRESHOLD}
 
 
