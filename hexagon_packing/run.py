@@ -23,13 +23,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from best_of_n import best_of_n
+from concurrency import run_parallel
 from llm import LLM
 from search import search
 
 SOTA = {11: 3.931, 12: 3.942}  # AlphaEvolve best-known outer side per instance
 CONDITIONS = ["search_soft", "search_raw", "best_of_n"]
 
-HP = dict(num_seeds=3, num_steps=3, top_k=2, branching=2, k_verifiers=3, w_soft=0.3)
+HP = dict(num_seeds=2, num_steps=6, top_k=2, branching=2, k_verifiers=3, w_soft=0.3)
 BON_N = 4
 
 
@@ -79,25 +80,31 @@ def main():
     llm = LLM()
     print(f"run dir: {llm.run_dir}  |  hp={hp}  |  BoN N={BON_N}")
 
-    results = []
+    cells = []  # every (instance, condition, repeat) is independent -> run concurrently
     for n in instances:
-        s_target = SOTA.get(n)
-        if s_target is None:
+        if n not in SOTA:
             print(f"skip n={n}: no SOTA target in SOTA dict")
             continue
         for cond in conditions:
             for rep in range(args.repeats):
-                suffix = f"n{n}_{cond}" if args.repeats == 1 else f"n{n}_{cond}_r{rep}"
-                best, history = run_one(cond, n, llm, s_target, hp, llm.run_dir / suffix)
-                rec = {
-                    "n": n, "condition": cond, "repeat": rep,
-                    "best_s": best.raw_s, "s_target": s_target,
-                    "n_candidates": len(history),
-                    "n_feasible": sum(c.feasible for c in history),
-                }
-                results.append(rec)
-                print(f"  n={n} {cond} r{rep}: best_s={best.raw_s:.4f} "
-                      f"({rec['n_feasible']}/{rec['n_candidates']} feasible)")
+                cells.append((n, cond, rep))
+
+    def thunk(n, cond, rep):
+        def go():
+            suffix = f"n{n}_{cond}" if args.repeats == 1 else f"n{n}_{cond}_r{rep}"
+            best, history = run_one(cond, n, llm, SOTA[n], hp, llm.run_dir / suffix)
+            rec = {
+                "n": n, "condition": cond, "repeat": rep,
+                "best_s": best.raw_s, "s_target": SOTA[n],
+                "n_candidates": len(history),
+                "n_feasible": sum(c.feasible for c in history),
+            }
+            print(f"  n={n} {cond} r{rep}: best_s={best.raw_s:.4f} "
+                  f"({rec['n_feasible']}/{rec['n_candidates']} feasible)")
+            return rec
+        return go
+
+    results = run_parallel([thunk(*c) for c in cells])
 
     summary = {"hp": hp, "bon_n": BON_N, "results": results}
     (llm.run_dir / "summary.json").write_text(json.dumps(summary, indent=2))

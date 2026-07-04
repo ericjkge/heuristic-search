@@ -186,7 +186,7 @@ def _revise(llm, parent, n, cand_id, step, verifier_list, condition, use_soft, s
     raise ValueError(f"no usable {mode} after {max_patch_attempts} attempts: {error}")
 
 
-def search(n, llm, *, s_target, s_ref=None, num_seeds=4, num_steps=3, top_k=2,
+def search(n, llm, *, s_target, s_ref=None, num_seeds=2, num_steps=3, top_k=2,
            branching=2, k_verifiers=3, w_raw=1.0, w_soft=0.3, timeout=300,
            max_patch_attempts=3, work_dir=None, condition=None):
     """Run the search for instance n. Returns (best_candidate, history)."""

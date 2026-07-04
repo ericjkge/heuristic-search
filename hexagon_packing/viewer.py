@@ -38,16 +38,23 @@ def _hex(cx, cy, R, a0):
             for k in range(6)]
 
 
-def geom_path(run_dir, tags):
-    """Locate a candidate's geometry.npz from its trace tags."""
+def cand_dir(run_dir, tags):
+    """Locate a candidate's artifact dir from its trace tags."""
     inst, cond, cid = tags.get("instance"), tags.get("condition"), tags.get("cand_id")
     if not (inst and cond and cid):
         return None
-    p = run_dir / f"{inst}_{cond}" / cid / "geometry.npz"
+    p = run_dir / f"{inst}_{cond}" / cid
     if p.exists():
         return p
-    hits = list(run_dir.glob(f"{inst}_{cond}*/{cid}/geometry.npz"))  # repeats fallback
+    hits = list(run_dir.glob(f"{inst}_{cond}*/{cid}"))  # repeats fallback
     return hits[0] if hits else None
+
+
+def geom_path(run_dir, tags):
+    """Locate a candidate's geometry.npz from its trace tags (None if it never ran)."""
+    d = cand_dir(run_dir, tags)
+    p = d / "geometry.npz" if d else None
+    return p if (p and p.exists()) else None
 
 
 def read_metrics(npz):
@@ -179,10 +186,24 @@ def main():
                 continue
             st.header(f"{inst} · {cond}")
 
-            vlist = load_verifiers(run_dir, inst, cond, rows)
-            if vlist:
-                with st.expander("decompose → verifiers", expanded=True):
-                    render_verifiers(run_dir, inst, cond, vlist)
+            if cond == "decompose":  # raw decompose conversation, full width
+                for r in sub:
+                    att = r["tags"].get("attempt")
+                    head = (f"decompose call · {r.get('completion_tokens', '?')} tok"
+                            + (f" · attempt {att}" if att else ""))
+                    with st.expander(head):
+                        for msg in r["messages"]:
+                            st.caption(msg["role"])
+                            st.code(msg["content"][:6000], language="markdown")
+                        st.caption("response")
+                        st.code(r["response"][:6000], language="markdown")
+                continue
+
+            if cond == "search_soft":  # verifier stats only steer the soft condition
+                vlist = load_verifiers(run_dir, inst, cond, rows)
+                if vlist:
+                    with st.expander("decompose → verifiers", expanded=True):
+                        render_verifiers(run_dir, inst, cond, vlist)
 
             byid = {}  # retries share a cand_id; the last (chronological) attempt wins
             for r in sub:
@@ -192,14 +213,17 @@ def main():
                            key=lambda r: (r["tags"].get("step") or 0, str(r["tags"].get("cand_id"))))
             for r in cands:
                 t = r["tags"]
-                gp = geom_path(run_dir, t)
-                m = read_metrics(gp) if gp else {}
+                cd = cand_dir(run_dir, t)
+                gp = cd / "geometry.npz" if cd else None
+                gp = gp if (gp and gp.exists()) else None
+                mfile = cd / "metrics.json" if cd else None
+                m = json.loads(mfile.read_text()) if mfile and mfile.exists() else {}
                 if m.get("feasible"):
                     badge = f"✅ s={m['raw_s']:.4f}"
-                elif m:
-                    badge = f"❌ {m.get('reason', '')[:40]}"
-                else:
-                    badge = "(no geometry)"
+                elif m:  # ran but crashed/timed out/infeasible -- show why
+                    badge = f"❌ {m.get('reason', '')[:60]}"
+                else:  # no artifacts at all: revision attempts exhausted
+                    badge = "❌ no usable revision (attempts exhausted)"
                 att = t.get("attempt")
                 head = (f"{t['cand_id']} · {badge} · step {t.get('step')} · "
                         f"parent {t.get('parent_id')} · {r.get('completion_tokens', '?')} tok"
