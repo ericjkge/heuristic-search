@@ -1,4 +1,4 @@
-"""Experiment harness: sweep instances x conditions, aggregate, plot.
+"""Experiment harness: sweep instances x conditions x repeats, aggregate, plot.
 
 Conditions (all LLM conditions share ONE total candidate budget; comparisons are
 best-s-vs-candidates curves plus final bars -- unbounded best-of-N is banned):
@@ -10,8 +10,10 @@ best-s-vs-candidates curves plus final bars -- unbounded best-of-N is banned):
   search_quality  -- + hand-coded quality verifiers (w_soft=0.3)
   search_qd       -- + disjoint diversity descriptors (div_weight=0.3): full method
 
+Every (instance, condition, repeat) cell is independent and runs concurrently.
+
     python pentagon_packing/run.py --instances 10
-    python pentagon_packing/run.py --instances 10,25 --conditions search_qd,best_of_n
+    python pentagon_packing/run.py --instances 10,25 --conditions search_qd,best_of_n --repeats 3
 """
 
 import argparse
@@ -24,28 +26,38 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from baselines import best_of_n, hillclimb, multistart
+from concurrency import run_parallel
 from llm import LLM
 from search import search
 
-# Best-known outer sides from Erich Friedman's "Pentagons in Squares" page.
-# NOTE: records there are moving monthly in 2026 -- refresh before any claims.
-SOTA = {10: 4.906, 25: 7.454}
+# Best-known sides, Erich Friedman's "Pentagons in Squares" (records as of 2026-07;
+# only n=1,2 proved). Page shows "s = X+", i.e. best known to 5 decimals.
+SOTA = {
+    1: 1.59811, 2: 2.46345, 3: 2.90812, 4: 3.10252, 5: 3.54903,
+    6: 3.88299, 7: 4.18037, 8: 4.38191, 9: 4.60033, 10: 4.90581,
+    11: 5.11556, 12: 5.23221, 13: 5.52102, 14: 5.69659, 15: 5.90119,
+    16: 6.06452, 17: 6.23761, 18: 6.32566, 19: 6.55781, 20: 6.66135,
+    21: 6.85368, 22: 7.04445, 23: 7.20624, 24: 7.33690, 25: 7.45360,
+}
 
-HP = dict(num_seeds=4, num_steps=3, top_k=2, branching=2, pop_size=8,
+HP = dict(num_seeds=2, num_steps=5, top_k=2, branching=2, pop_size=8,
           w_soft=0.3, div_weight=0.3)
-BUDGET = HP["num_seeds"] + HP["num_steps"] * HP["top_k"] * HP["branching"]  # 16
+BUDGET = HP["num_seeds"] + HP["num_steps"] * HP["top_k"] * HP["branching"]  # 22
 CONDITIONS = ["multistart", "best_of_n", "hillclimb",
               "search_raw", "search_quality", "search_qd"]
 
 
-def run_one(cond, n, llm, s_target, work_dir):
+def run_one(cond, n, llm, s_target, work_dir, rep=0, label=None):
+    label = label or cond  # repeat-tagged condition (e.g. search_qd_r1) for the trace/viewer
     if cond == "multistart":
-        s, _ = multistart(n)
+        s, _ = multistart(n, seed=rep)  # deterministic per repeat, varied across
         return {"best_s": s, "curve": [s]}
     if cond == "best_of_n":
-        best, hist = best_of_n(n, llm, s_target=s_target, N=BUDGET, work_dir=work_dir)
+        best, hist = best_of_n(n, llm, s_target=s_target, N=BUDGET, work_dir=work_dir,
+                               condition=label)
     elif cond == "hillclimb":
-        best, hist = hillclimb(n, llm, s_target=s_target, iters=BUDGET, work_dir=work_dir)
+        best, hist = hillclimb(n, llm, s_target=s_target, iters=BUDGET, work_dir=work_dir,
+                               condition=label)
     else:
         w_soft = 0.0 if cond == "search_raw" else HP["w_soft"]
         div_w = HP["div_weight"] if cond == "search_qd" else 0.0
@@ -53,7 +65,7 @@ def run_one(cond, n, llm, s_target, work_dir):
             n, llm, s_target=s_target, num_seeds=HP["num_seeds"],
             num_steps=HP["num_steps"], top_k=HP["top_k"], branching=HP["branching"],
             pop_size=HP["pop_size"], w_soft=w_soft, div_weight=div_w,
-            work_dir=work_dir, condition=cond,
+            work_dir=work_dir, condition=label,
         )
     # anytime curve: best feasible s after each candidate, in evaluation order
     curve, cur = [], float("inf")
@@ -65,12 +77,17 @@ def run_one(cond, n, llm, s_target, work_dir):
 
 
 def plot_summary(results, instances, conditions, out_path):
+    """results: {(n, cond, rep): {best_s, curve}}. Bars = best over repeats."""
     fig, axes = plt.subplots(1, 2, figsize=(13, 4.5))
     ax = axes[0]
     width = 0.8 / max(1, len(conditions))
     base = np.arange(len(instances))
     for ci, cond in enumerate(conditions):
-        ys = [results.get((n, cond), {}).get("best_s") or np.nan for n in instances]
+        ys = []
+        for n in instances:
+            vals = [v["best_s"] for (nn, cc, _), v in results.items()
+                    if nn == n and cc == cond and v["best_s"] is not None]
+            ys.append(min(vals) if vals else np.nan)
         ax.bar(base + ci * width, ys, width=width, label=cond)
     for i, n in enumerate(instances):
         if n in SOTA:
@@ -82,14 +99,17 @@ def plot_summary(results, instances, conditions, out_path):
     ax.set_ylabel("best s (lower better; dashes = best known)")
     ax.legend(fontsize=7)
 
-    ax = axes[1]  # anytime curves for the first instance
+    ax = axes[1]  # anytime curves for the first instance, one line per repeat
     n0 = instances[0]
-    for cond in conditions:
-        curve = results.get((n0, cond), {}).get("curve")
-        if curve:
-            xs = range(1, len(curve) + 1)
-            ys = [v if v is not None else np.nan for v in curve]
-            ax.plot(xs, ys, marker=".", label=cond)
+    colors = {c: f"C{i}" for i, c in enumerate(conditions)}
+    seen = set()
+    for (n, cond, rep), v in sorted(results.items()):
+        if n != n0 or not v.get("curve"):
+            continue
+        ys = [y if y is not None else np.nan for y in v["curve"]]
+        ax.plot(range(1, len(ys) + 1), ys, marker=".", color=colors.get(cond),
+                alpha=0.8, label=cond if cond not in seen else None)
+        seen.add(cond)
     if n0 in SOTA:
         ax.axhline(SOTA[n0], color="k", ls="--", lw=1)
     ax.set_xlabel("candidates evaluated")
@@ -103,25 +123,35 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--instances", default="10")
     ap.add_argument("--conditions", default=",".join(CONDITIONS))
+    ap.add_argument("--repeats", type=int, default=1)
     args = ap.parse_args()
     instances = [int(x) for x in args.instances.split(",")]
     conditions = args.conditions.split(",")
 
     llm = LLM()
     print(f"run dir: {llm.run_dir} | budget: {BUDGET} candidates per LLM condition")
-    results = {}
+
+    cells = []
     for n in instances:
-        s_target = SOTA.get(n)
-        if s_target is None:
+        if n not in SOTA:
             raise SystemExit(f"no SOTA entry for n={n}; add it to run.py")
         for cond in conditions:
-            work_dir = llm.run_dir / f"n{n}_{cond}"
-            out = run_one(cond, n, llm, s_target, work_dir)
-            results[(n, cond)] = out
-            print(f"[n={n}] {cond:16} best_s={out['best_s']}")
+            for rep in range(args.repeats):
+                cells.append((n, cond, rep))
+
+    def thunk(n, cond, rep):
+        def go():
+            label = cond if args.repeats == 1 else f"{cond}_r{rep}"
+            out = run_one(cond, n, llm, SOTA[n], llm.run_dir / f"n{n}_{label}",
+                          rep=rep, label=label)
+            print(f"[n={n}] {cond:16} r{rep}: best_s={out['best_s']}")
+            return ((n, cond, rep), out)
+        return go
+
+    results = dict(run_parallel([thunk(*c) for c in cells]))
 
     (llm.run_dir / "summary.json").write_text(json.dumps(
-        {f"{n}/{c}": v for (n, c), v in results.items()}, indent=2))
+        {f"{n}/{c}/r{r}": v for (n, c, r), v in results.items()}, indent=2))
     plot_summary(results, instances, conditions, llm.run_dir / "summary.png")
     print(f"summary: {llm.run_dir}/summary.json + summary.png")
 

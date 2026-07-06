@@ -22,9 +22,8 @@ from search import Candidate, _gate, _make_candidate, _revise, INITIAL_PY
 
 
 def best_of_n(n, llm, *, s_target, N, s_ref=None, timeout=300,
-              max_patch_attempts=3, work_dir=None):
+              max_patch_attempts=3, work_dir=None, condition="best_of_n"):
     """N independent single-shot rewrites of initial.py. Returns (best, history)."""
-    condition = "best_of_n"
     work_dir = Path(work_dir) if work_dir else (llm.run_dir / f"n{n}_{condition}")
     root_source = INITIAL_PY.read_text()
     root_metrics, root_dir = _gate(root_source, n, f"n{n}.root", work_dir, timeout)
@@ -55,9 +54,8 @@ def best_of_n(n, llm, *, s_target, N, s_ref=None, timeout=300,
 
 
 def hillclimb(n, llm, *, s_target, iters, s_ref=None, timeout=300,
-              max_patch_attempts=3, work_dir=None):
+              max_patch_attempts=3, work_dir=None, condition="hillclimb"):
     """Sequential: always revise the best-so-far; keep the child iff s improves."""
-    condition = "hillclimb"
     work_dir = Path(work_dir) if work_dir else (llm.run_dir / f"n{n}_{condition}")
     root_source = INITIAL_PY.read_text()
     root_metrics, root_dir = _gate(root_source, n, f"n{n}.root", work_dir, timeout)

@@ -40,20 +40,25 @@ def descriptor_vector(ev, source=""):
     n, s = ev["n"], ev["s"]
     angles, centers, verts = ev["angles"], ev["centers"], ev["vertices"]
 
+    # Counts distinct pentagon orientations by group
     clusters = _cluster_count(angles, _SYM, tol=math.radians(5.0))
     orientation_clusters = min(1.0, clusters / 4.0)
 
+    # Fraction of pentagons close to the square perimeter
     wall = (s / 2.0) - np.abs(verts).reshape(n, -1).max(axis=1)
     boundary_fraction = float((wall < 0.05).mean())
 
+    # Counts rows of pentagons by y-axis
     rows = _cluster_count(centers[:, 1], period=max(s, 1e-9), tol=0.5)
     row_count = min(1.0, rows / 6.0)
 
+    # Entropy of angle distributions (e.g. 90/10 split in two clusters = low entropy, 50/50 split = high)
     hist, _ = np.histogram(angles % _SYM, bins=12, range=(0.0, _SYM))
     p = hist / max(1, hist.sum())
     p = p[p > 0]
     angle_entropy = float(-(p * np.log(p)).sum() / math.log(12))
 
+    # Checks for scipy and random use
     uses_scipy = 1.0 if "scipy" in source else 0.0
     uses_stochastic = 1.0 if ("random" in source or "np.random" in source) else 0.0
 
