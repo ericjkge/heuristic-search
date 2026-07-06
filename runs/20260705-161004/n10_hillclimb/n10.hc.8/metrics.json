@@ -1,0 +1,6 @@
+{
+  "feasible": false,
+  "raw_s": null,
+  "reason": "timeout>300s",
+  "n": 10
+}

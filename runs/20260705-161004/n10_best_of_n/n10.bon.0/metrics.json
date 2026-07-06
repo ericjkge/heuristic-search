@@ -1,0 +1,6 @@
+{
+  "feasible": false,
+  "raw_s": null,
+  "reason": "expected 10 pentagons, got 8 centers / 8 angles",
+  "n": 10
+}
