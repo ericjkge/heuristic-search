@@ -1,19 +1,17 @@
 """Experiment harness: sweep instances x conditions x repeats, aggregate, plot.
 
-Conditions (all LLM conditions share ONE total candidate budget; comparisons are
+Conditions (all share ONE total candidate budget; comparisons are
 best-s-vs-candidates curves plus final bars -- unbounded best-of-N is banned):
 
-  multistart      -- no LLM: random restarts + greedy local moves (numerics floor)
-  best_of_n       -- flat sampling, N = search budget; population, no feedback
-  hillclimb       -- iters = search budget; feedback, no population
-  search_raw      -- QD loop, w_soft=0, div_weight=0 (selection on raw s only)
-  search_quality  -- + hand-coded quality verifiers (w_soft=0.3)
-  search_qd       -- + disjoint diversity descriptors (div_weight=0.3): full method
+  best_of_n   -- flat sampling, N = search budget; population, no feedback
+  self_refine -- iters = search budget; feedback, no population
+  search_raw  -- bucket-rank + power-law parent sampling, verifiers OFF
+  search      -- + soft-verifier tiebreak within raw buckets: full method
 
 Every (instance, condition, repeat) cell is independent and runs concurrently.
 
     python pentagon_packing/run.py --instances 10
-    python pentagon_packing/run.py --instances 10,25 --conditions search_qd,best_of_n --repeats 3
+    python pentagon_packing/run.py --instances 10,25 --conditions search,best_of_n --repeats 3
 """
 
 import argparse
@@ -25,7 +23,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from baselines import best_of_n, hillclimb, multistart
+from baselines import best_of_n, self_refine
 from concurrency import run_parallel
 from llm import LLM
 from search import search
@@ -40,31 +38,25 @@ SOTA = {
     21: 6.85368, 22: 7.04445, 23: 7.20624, 24: 7.33690, 25: 7.45360,
 }
 
-HP = dict(num_seeds=2, num_steps=5, top_k=2, branching=2, pop_size=8,
-          w_soft=0.3, div_weight=0.3)
-BUDGET = HP["num_seeds"] + HP["num_steps"] * HP["top_k"] * HP["branching"]  # 22
-CONDITIONS = ["multistart", "best_of_n", "hillclimb",
-              "search_raw", "search_quality", "search_qd"]
+HP = dict(num_seeds=2, num_steps=5, expansions=4, pop_size=8, alpha=1.0)
+BUDGET = HP["num_seeds"] + HP["num_steps"] * HP["expansions"]  # 22
+CONDITIONS = ["best_of_n", "self_refine", "search_raw", "search"]
 
 
 def run_one(cond, n, llm, s_target, work_dir, rep=0, label=None):
-    label = label or cond  # repeat-tagged condition (e.g. search_qd_r1) for the trace/viewer
-    if cond == "multistart":
-        s, _ = multistart(n, seed=rep)  # deterministic per repeat, varied across
-        return {"best_s": s, "curve": [s]}
+    label = label or cond  # repeat-tagged condition (e.g. search_r1) for the trace/viewer
     if cond == "best_of_n":
         best, hist = best_of_n(n, llm, s_target=s_target, N=BUDGET, work_dir=work_dir,
                                condition=label)
-    elif cond == "hillclimb":
-        best, hist = hillclimb(n, llm, s_target=s_target, iters=BUDGET, work_dir=work_dir,
-                               condition=label)
+    elif cond == "self_refine":
+        best, hist = self_refine(n, llm, s_target=s_target, iters=BUDGET, work_dir=work_dir,
+                                 condition=label)
     else:
-        w_soft = 0.0 if cond == "search_raw" else HP["w_soft"]
-        div_w = HP["div_weight"] if cond == "search_qd" else 0.0
         best, hist = search(
             n, llm, s_target=s_target, num_seeds=HP["num_seeds"],
-            num_steps=HP["num_steps"], top_k=HP["top_k"], branching=HP["branching"],
-            pop_size=HP["pop_size"], w_soft=w_soft, div_weight=div_w,
+            num_steps=HP["num_steps"], expansions=HP["expansions"],
+            pop_size=HP["pop_size"], alpha=HP["alpha"],
+            use_soft=(cond != "search_raw"), seed=rep,
             work_dir=work_dir, condition=label,
         )
     # anytime curve: best feasible s after each candidate, in evaluation order

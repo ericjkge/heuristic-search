@@ -1,9 +1,5 @@
 """Quality verifiers: hand-coded geometric heuristics, dense in [0,1].
 
-Unlike the AIME harness (LLM judges, because correctness there isn't computable)
-every property of a packing IS computable, so quality verifiers are deterministic
-numpy functions: free, reproducible, and immune to judge noise.
-
 Design rules (same as hexagon_packing/decompose):
 - never a function of s alone (must distinguish packings with equal s);
 - dense, not saturated at the seed (headroom as packings improve);

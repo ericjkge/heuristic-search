@@ -1,38 +1,61 @@
-"""combined = w_raw * raw01(s) + w_soft * weighted_mean(quality). Feasible only.
+"""Effective scores: adaptive bucket interpolation (BES) over raw s, with the
+soft-verifier mean as the within-bucket tiebreak.
 
-raw01(s) = (s_ref - s) / (s_ref - s_target): 0 at the baseline seed, 1 at the
-best-known record, >1 beyond (rewarded, not clipped). w_soft is THE knob: how
-much quality verifiers steer selection vs the true objective; w_soft=0 is the
-raw-only ablation. The quality mean is weight-tiered (verifiers.QUALITY_WEIGHTS).
+Raw s is the dominant key: candidates are bucketed at BUCKET_PRECISION (raw
+differences below it are treated as ties, decided by verifiers; differences
+above it are decided by raw alone). Within a bucket, the plain mean of the
+[0,1] verifier scores interpolates toward the next-BETTER (lower) bucket:
 
-Diversity is deliberately NOT part of this score -- it enters only through
-population truncation and parent selection (search.py), mirroring the AIME v4
-disjoint quality/diversity design.
+    effective = bucket - soft_mean * gap * (1 - SOFT_SAFETY)     (lower = better)
+
+where gap is the distance to the next-lower bucket in the set being ranked
+(the best bucket reuses the runner-up's gap). Scaling by gap means even a
+perfect verifier score moves a candidate at most to the doorstep of the next
+raw bucket -- verifiers can order within a raw plateau but never override a
+real raw difference. SOFT_SAFETY keeps a perfect score strictly short of the
+boundary (no ties with, or float-crossing into, the better bucket).
+
+Scores are SET-RELATIVE (the gap landscape depends on which candidates are
+ranked together): always pass the specific set being compared.
 """
 
-from verifiers import weighted_soft_mean
-
-W_RAW = 1.0
-W_SOFT = 0.3
+BUCKET_PRECISION = 0.01  # bucket width in s units
+SOFT_SAFETY = 0.01       # fraction of the gap the tiebreak may never enter
 
 
-def raw01(s, s_ref, s_target):
-    span = s_ref - s_target
-    if span <= 0:
-        raise ValueError(f"need s_ref ({s_ref}) > s_target ({s_target})")
-    return (s_ref - s) / span
+def soft_mean(quality):
+    """Plain mean of the verifier scores dict, in [0, 1]; 0.0 when empty."""
+    if not quality:
+        return 0.0
+    return sum(quality.values()) / len(quality)
 
 
-def combined_score(s, quality, s_ref, s_target, w_raw=W_RAW, w_soft=W_SOFT):
-    return w_raw * raw01(s, s_ref, s_target) + w_soft * weighted_soft_mean(quality)
+def effective_scores(candidates):
+    """One effective score per feasible candidate (same order); lower is better.
+
+    Candidates need .raw_s (float) and .quality (dict name -> [0,1] score).
+    """
+    if not candidates:
+        return []
+    buckets = [round(c.raw_s / BUCKET_PRECISION) * BUCKET_PRECISION
+               for c in candidates]
+    ordered = sorted(set(buckets))  # best (lowest) first
+    gaps = {}
+    if len(ordered) >= 2:
+        gaps[ordered[0]] = ordered[1] - ordered[0]  # best reuses runner-up's gap
+        for k in range(1, len(ordered)):
+            gaps[ordered[k]] = ordered[k] - ordered[k - 1]
+    else:
+        # Single bucket: BES zeroes the gap (verifiers dead); we use the bucket
+        # width instead so verifiers still order the set -- there is no better
+        # bucket to cross, so the guarantee is vacuous here.
+        gaps[ordered[0]] = BUCKET_PRECISION
+    return [b - soft_mean(c.quality) * gaps[b] * (1.0 - SOFT_SAFETY)
+            for c, b in zip(candidates, buckets)]
 
 
-if __name__ == "__main__":
-    s_ref, s_target = 6.6, 4.906  # n=10 grid baseline / best known (July 2026)
-    for name, s, q in [
-        ("baseline", 6.6, {"contact_tightness": 0.4, "evenness": 0.8}),
-        ("modest improve", 5.8, {"contact_tightness": 0.5, "evenness": 0.7}),
-        ("beats record", 4.85, {"contact_tightness": 0.9, "evenness": 0.9}),
-    ]:
-        print(f"{name:16} s={s:.3f}  combined={combined_score(s, q, s_ref, s_target):+.3f}"
-              f"  raw-only={combined_score(s, q, s_ref, s_target, w_soft=0.0):+.3f}")
+def rank_by_effective(candidates):
+    """Candidates sorted best-first by effective score (stable on exact ties)."""
+    scores = effective_scores(candidates)
+    order = sorted(range(len(candidates)), key=lambda i: scores[i])
+    return [candidates[i] for i in order]

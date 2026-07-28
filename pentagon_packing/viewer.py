@@ -8,11 +8,10 @@ prompt/response. A per-condition diagnostics panel scores the hand-coded quality
 verifiers across all feasible candidates (corr with s = is each verifier pulling
 the right way?).
 
-Repeats: run.py tags each repeat's calls with a labeled condition (search_qd_r0,
-search_qd_r1, ...), so repeats appear as separate sections with exact artifact
+Repeats: run.py tags each repeat's calls with a labeled condition (search_r0,
+search_r1, ...), so repeats appear as separate sections with exact artifact
 resolution. Runs recorded before 2026-07-05 lack the labels and collapse repeats
-(last trace row wins; artifacts resolve to the first repeat dir). multistart
-cells make no LLM calls and don't appear.
+(last trace row wins; artifacts resolve to the first repeat dir).
 """
 
 import json
@@ -158,7 +157,7 @@ def main():
                 continue
             st.header(f"{inst} · {cond}")
 
-            if cond.startswith(("search_quality", "search_qd")):  # where quality steers
+            if cond.startswith("search") and not cond.startswith("search_raw"):  # where quality steers
                 with st.expander("quality verifier diagnostics", expanded=True):
                     render_quality(run_dir, inst, cond)
 
