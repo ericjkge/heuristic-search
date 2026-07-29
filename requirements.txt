@@ -1,6 +1,0 @@
-openai
-datasets
-python-dotenv
-streamlit
-matplotlib
-pandas

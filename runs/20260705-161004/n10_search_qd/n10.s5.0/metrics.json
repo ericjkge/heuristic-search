@@ -1,6 +1,0 @@
-{
-  "feasible": false,
-  "raw_s": null,
-  "reason": "program error: ValueError('not enough values to unpack (expected 3, got 2)')",
-  "n": 10
-}

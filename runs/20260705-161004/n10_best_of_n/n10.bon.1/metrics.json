@@ -1,6 +1,0 @@
-{
-  "feasible": false,
-  "raw_s": null,
-  "reason": "program error: TypeError(\"'tuple' object does not support item assignment\")",
-  "n": 10
-}
