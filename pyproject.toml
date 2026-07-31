@@ -11,6 +11,19 @@ dependencies = [
     "elasticsearch>=8,<9",
     "sentence-transformers>=5.6.1",
     "streamlit>=1.60.0",
+    "qwen-agent>=0.0.34",
+    "dashscope>=1.26.4",
+    "rank-bm25>=0.2.2",
+    "json5>=0.15.0",
+    "jsonlines>=4.0.0",
+    "jsonschema>=4.26.0",
+    "pydantic>=2.13.4",
+    "tiktoken>=0.13.0",
+    "eval-type-backport>=0.4.0",
+    "pillow>=12.3.0",
+    "tabulate>=0.10.0",
+    "pandas>=3.0.5",
+    "soundfile>=0.14.0",
 ]
 
 [tool.uv]
