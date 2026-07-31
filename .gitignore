@@ -28,3 +28,7 @@ deepplanning/shoppingplanning/database_level*/
 # DeepPlanning outputs
 deepplanning/travelplanning/results/
 deepplanning/shoppingplanning/results/
+
+# Claude Code
+.agents/
+.claude/

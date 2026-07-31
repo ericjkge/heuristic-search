@@ -1,9 +1,9 @@
 """Live search-tree viewer.
 
-    uv run streamlit run viewer.py
+    uv run streamlit run multihop/viewer.py
 
 Replays the append-only JSONL event logs that runs write to
-runs/<name>/logs/<question_id>.jsonl, re-reading on an interval so a running
+multihop/runs/<name>/logs/<question_id>.jsonl, re-reading on an interval so a running
 search can be watched live. Each node shows the exact input prompt sent to
 the LLM and the raw completion that produced it.
 """
@@ -16,8 +16,11 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from multihop.metrics import f1 as answer_f1
-from multihop.metrics import exact_match
+import sys
+
+sys.path.insert(0, str(Path(__file__).parent))
+from metrics import f1 as answer_f1
+from metrics import exact_match
 
 RUNS = Path(__file__).parent / "runs"
 

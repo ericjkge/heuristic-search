@@ -26,7 +26,7 @@ import random
 from dataclasses import dataclass, field
 from typing import Any, Callable, Protocol
 
-from verifiers import Verifier, VerifierSet
+from .verifiers import Verifier, VerifierSet
 
 
 @dataclass

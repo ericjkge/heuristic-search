@@ -1,6 +1,6 @@
 """DeepPlanning trajectory viewer.
 
-    uv run streamlit run viewer_deepplanning.py
+    uv run streamlit run deepplanning/viewer.py
 
 Renders the trajectory JSONs their pipeline writes under
 deepplanning/<domain>/results/<model_lang>/trajectories/id_*.json as a
@@ -17,7 +17,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-DP = Path(__file__).parent / "deepplanning"
+DP = Path(__file__).parent
 
 st.set_page_config(
     page_title="DeepPlanning viewer",

@@ -18,8 +18,8 @@ from typing import Any
 
 import llm
 from embeddings import get_embedder
-from search import Node
-from verifiers import VERIFIER_RULES, Verifier, VerifierSet
+from .search import Node
+from .verifiers import VERIFIER_RULES, Verifier, VerifierSet
 
 from .es_retriever import ESRetriever
 

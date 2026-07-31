@@ -18,13 +18,13 @@ from pathlib import Path
 from tqdm.asyncio import tqdm_asyncio
 
 import llm
-from search import SearchConfig, best_first_search
+from .search import SearchConfig, best_first_search
 
 from .env import MusiqueEnv
 from .es_retriever import DEFAULT_URL, ESRetriever
 from .metrics import score
 
-ROOT = Path(__file__).parent.parent
+PKG = Path(__file__).parent
 
 
 async def run_one(
@@ -78,7 +78,7 @@ async def run_one(
 
 async def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--data", default=str(ROOT / "multihop/data/dev_small.jsonl"))
+    ap.add_argument("--data", default=str(PKG / "data/dev_small.jsonl"))
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--model", default=llm.DEFAULT_MODEL)
     ap.add_argument("--provider", default=llm.DEFAULT_PROVIDER, choices=sorted(llm.PROVIDERS))
@@ -105,7 +105,7 @@ async def main() -> None:
     )
     examples = [json.loads(l) for l in Path(args.data).open()][: args.limit]
     name = args.name or time.strftime("%m%d-%H%M%S") + ("-greedy" if args.greedy else "")
-    out_dir = ROOT / "runs" / name
+    out_dir = PKG / "runs" / name
     out_dir.mkdir(parents=True, exist_ok=True)
 
     retriever = ESRetriever(args.es_url)
