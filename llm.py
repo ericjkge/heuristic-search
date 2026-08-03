@@ -128,6 +128,8 @@ async def generate(
     temperature: float = 1.0,
     max_tokens: int | None = None,
     json_mode: bool = False,
+    tools: list[dict] | None = None,
+    tool_choice: Any = None,
     return_response: bool = False,
 ) -> Any:
     """Single chat completion. `prompt` is a user string or a full messages list.
@@ -159,6 +161,10 @@ async def generate(
         kwargs["max_tokens"] = max_tokens
     if json_mode:
         kwargs["response_format"] = {"type": "json_object"}
+    if tools is not None:
+        kwargs["tools"] = tools
+    if tool_choice is not None:
+        kwargs["tool_choice"] = tool_choice
 
     client = _get_client(provider)
     sem = _get_semaphore()

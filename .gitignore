@@ -32,3 +32,4 @@ deepplanning/shoppingplanning/results/
 # Claude Code
 .agents/
 .claude/
+deepplanning/travelplanning/search/runs/
