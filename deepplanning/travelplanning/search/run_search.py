@@ -81,6 +81,8 @@ async def main() -> None:
     ap.add_argument("--deg-coef", type=float, default=0.3)
     ap.add_argument("--satisfy-threshold", type=float, default=0.7)
     ap.add_argument("--temperature", type=float, default=0.8)
+    ap.add_argument("--no-feedback", action="store_true",
+                    help="do not show verifier statements+scores to the agent")
     args = ap.parse_args()
 
     cfg = SearchConfig(
@@ -88,6 +90,7 @@ async def main() -> None:
         max_rounds=args.max_rounds, tau=args.tau, deg_coef=args.deg_coef,
         evolve_every=args.evolve_every,
         satisfy_threshold=args.satisfy_threshold, expand_temperature=args.temperature,
+        feedback=not args.no_feedback,
     )
     examples = json.loads(TEST_DATA.read_text())
     if args.ids:

@@ -164,6 +164,7 @@ class SearchConfig:
     tau: float = 0.2
     deg_coef: float = 0.3        # V-point price per child in sampling
     satisfy_threshold: float = 0.7
+    feedback: bool = True        # show verifier statements+scores to the agent
     expand_temperature: float = 0.8
     max_tokens: int = 4000
     seed: int = 0
@@ -234,8 +235,23 @@ class TravelSearch:
             return json.dumps({"error": str(e)}, ensure_ascii=False)
 
     # -------------------------------------------------------------- expansion
-    async def expand(self, node: Node, k: int, rnd: int, add_child) -> None:
-        msgs = list(node.state)
+    def guidance_message(self, node: Node, vset: VerifierSet) -> dict:
+        lines = sorted(
+            ((node.scores.get(v.name, 0.0), v.statement) for v in vset.active),
+            key=lambda x: x[0])
+        body = "\n".join(f"  {sc:.2f}  {st}" for sc, st in lines)
+        return {"role": "user", "content": (
+            "[Automated search guidance — not a user message]\n"
+            "Verifier status for your trajectory so far. Each line is a tool-call "
+            "pattern with a 0-1 score of how well your calls match it; low scores "
+            "usually mean a lookup is still missing:\n"
+            + body +
+            "\nAddress genuinely missing lookups if relevant, then produce the "
+            "final plan when your information is sufficient.")}
+
+    async def expand(self, node: Node, k: int, rnd: int, add_child,
+                     guidance: dict | None = None) -> None:
+        msgs = list(node.state) + ([guidance] if guidance else [])
         prompt_text = render_messages(msgs)
 
         async def one() -> None:
@@ -252,7 +268,8 @@ class TravelSearch:
                 return
             self.llm_calls += 1
             msg = message_to_dict(resp.choices[0].message)
-            new_state = msgs + [msg]
+            # guidance is transient: child state stays a canonical agent conversation
+            new_state = list(node.state) + [msg]
             tool_calls = msg.get("tool_calls") or []
             rendered = [render_tool_call(tc["function"]["name"], tc["function"]["arguments"])
                         for tc in tool_calls]
@@ -340,9 +357,11 @@ class TravelSearch:
         except Exception:
             return []
 
-    async def finalize(self, node: Node) -> tuple[str, str, str]:
+    async def finalize(self, node: Node,
+                       guidance: dict | None = None) -> tuple[str, str, str]:
         """Force a plan from `node`. Returns (plan, rendered_prompt, raw_text)."""
-        msgs = list(node.state) + [{"role": "user", "content": PLAN_NOW}]
+        msgs = (list(node.state) + ([guidance] if guidance else [])
+                + [{"role": "user", "content": PLAN_NOW}])
         prompt_text = render_messages(msgs)
         try:
             resp = await llm.generate(
@@ -416,8 +435,11 @@ class TravelSearch:
                                 best_node_id=best.id if best else None,
                                 verifiers=vset.to_json())
 
+        def guide(node: Node) -> dict | None:
+            return self.guidance_message(node, vset) if cfg.feedback else None
+
         # 2. seed solutions
-        await self.expand(root, cfg.n_seed, 0, add_child)
+        await self.expand(root, cfg.n_seed, 0, add_child, guidance=guide(root))
 
         for rnd in range(1, cfg.max_rounds + 1):
             if (win := solved()) is not None:
@@ -426,7 +448,8 @@ class TravelSearch:
             if not expandable:
                 break
             parents = softmax_sample(rng, expandable, cfg.n_parents, cfg.tau, cfg.deg_coef)
-            await asyncio.gather(*(self.expand(p, cfg.k_children, rnd, add_child)
+            await asyncio.gather(*(self.expand(p, cfg.k_children, rnd, add_child,
+                                               guidance=guide(p))
                                    for p in parents))
             if cfg.evolve_every > 0 and rnd % cfg.evolve_every == 0:
                 added = await self.evolve(vset, nodes)
@@ -454,7 +477,7 @@ class TravelSearch:
         if not candidates:
             return finish("", "budget_forced", cfg.max_rounds, None)
         best = max(candidates, key=lambda n: n.value)
-        plan, prompt_text, raw = await self.finalize(best)
+        plan, prompt_text, raw = await self.finalize(best, guidance=guide(best))
         # log the forced plan as a synthetic terminal node so it shows in the viewer
         forced_state = list(best.state) + [{"role": "user", "content": PLAN_NOW},
                                            {"role": "assistant", "content": raw}]

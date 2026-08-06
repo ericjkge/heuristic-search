@@ -66,7 +66,16 @@ class VerifierSet:
 
 
 RULES = """\
-The agent plans travel by calling database tools: query_train_info, query_flight_info, query_hotel_info, query_attraction_details, recommend_attractions, recommend_restaurants, query_restaurant_details, query_road_route_info, search_location.
+The agent plans travel by calling these database tools (? = optional argument):
+  query_train_info(origin, destination, depDate, seatClassName?)
+  query_flight_info(origin, destination, depDate, seatClassName?)
+  query_hotel_info(destination, checkinDate, checkoutDate, hotelStar?, hotelBrands?)
+  query_attraction_details(attraction_name)
+  recommend_attractions(city, attraction_type?)
+  search_location(place_name)
+  query_road_route_info(origin, destination)
+  recommend_restaurants(latitude, longitude)
+  query_restaurant_details(restaurant_name)
 
 Each verifier checks whether a specific tool call was made. Scoring is fully automatic: your `statement` is
 embedded and compared (cosine similarity) against every tool call the agent
