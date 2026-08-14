@@ -50,6 +50,7 @@ PROVIDERS = {
 DEFAULT_PROVIDER = os.environ.get("LLM_PROVIDER", "abaka")
 DEFAULT_MODEL = os.environ.get("LLM_MODEL", "qwen3-8b")
 MAX_CONCURRENCY = int(os.environ.get("LLM_MAX_CONCURRENCY", "16"))
+TIMEOUT_S = float(os.environ.get("LLM_TIMEOUT", "180"))
 MAX_RETRIES = 6
 
 _clients: dict[str, AsyncOpenAI] = {}
@@ -63,7 +64,7 @@ def _get_client(provider: str) -> AsyncOpenAI:
         _clients[provider] = AsyncOpenAI(
             base_url=spec["base_url"],
             api_key=os.environ.get(spec["key_env"]),
-            timeout=180.0,
+            timeout=TIMEOUT_S,
             max_retries=0,  # we handle retries ourselves
         )
     return _clients[provider]
@@ -128,6 +129,7 @@ async def generate(
     temperature: float = 1.0,
     max_tokens: int | None = None,
     json_mode: bool = False,
+    reasoning_effort: str | None = None,
     tools: list[dict] | None = None,
     tool_choice: Any = None,
     return_response: bool = False,
@@ -159,6 +161,8 @@ async def generate(
         kwargs["extra_body"] = extra_body
     if max_tokens is not None:
         kwargs["max_tokens"] = max_tokens
+    if reasoning_effort is not None:
+        kwargs["reasoning_effort"] = reasoning_effort
     if json_mode:
         kwargs["response_format"] = {"type": "json_object"}
     if tools is not None:
@@ -198,6 +202,7 @@ async def generate_json(
     system: str | None = None,
     temperature: float = 1.0,
     max_tokens: int | None = None,
+    reasoning_effort: str | None = None,
     max_parse_retries: int = 2,
 ) -> Any:
     """generate() with JSON mode, parsed. Re-samples on unparseable output."""
@@ -205,6 +210,7 @@ async def generate_json(
         text = await generate(
             prompt, model=model, provider=provider, system=system,
             temperature=temperature, max_tokens=max_tokens, json_mode=True,
+            reasoning_effort=reasoning_effort,
         )
         try:
             return json.loads(_strip_code_fence(text))
