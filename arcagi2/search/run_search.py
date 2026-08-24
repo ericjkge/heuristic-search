@@ -82,20 +82,21 @@ async def main() -> None:
     ap.add_argument("--provider", default="abaka", choices=sorted(llm.PROVIDERS))
     ap.add_argument("--reasoning-effort", default="medium")
     ap.add_argument("--name", default=None)
-    # search config
-    ap.add_argument("--n-seed", type=int, default=2)
-    ap.add_argument("--n-parents", type=int, default=1)
-    ap.add_argument("--k-children", type=int, default=1)
-    ap.add_argument("--max-rounds", type=int, default=6)
-    ap.add_argument("--evolve-every", type=int, default=2,
+    # search config — defaults come from SearchConfig so file edits take effect
+    dflt = SearchConfig()
+    ap.add_argument("--n-seed", type=int, default=dflt.n_seed)
+    ap.add_argument("--n-parents", type=int, default=dflt.n_parents)
+    ap.add_argument("--k-children", type=int, default=dflt.k_children)
+    ap.add_argument("--max-rounds", type=int, default=dflt.max_rounds)
+    ap.add_argument("--evolve-every", type=int, default=dflt.evolve_every,
                     help="add verifiers every N rounds; 0 disables")
-    ap.add_argument("--seed-verifiers", default="5-8",
+    ap.add_argument("--seed-verifiers", default=dflt.seed_verifiers,
                     help="verifier count range asked for in the seed prompt")
-    ap.add_argument("--evolve-verifiers", default="1-3",
+    ap.add_argument("--evolve-verifiers", default=dflt.evolve_verifiers,
                     help="verifier count range asked for per evolve round")
-    ap.add_argument("--tau", type=float, default=0.2)
-    ap.add_argument("--deg-coef", type=float, default=0.3)
-    ap.add_argument("--temperature", type=float, default=0.8)
+    ap.add_argument("--tau", type=float, default=dflt.tau)
+    ap.add_argument("--deg-coef", type=float, default=dflt.deg_coef)
+    ap.add_argument("--temperature", type=float, default=dflt.expand_temperature)
     ap.add_argument("--no-feedback", action="store_true",
                     help="do not show verifier statements+scores to the generator")
     ap.add_argument("--n-inspirations", type=int, default=2,

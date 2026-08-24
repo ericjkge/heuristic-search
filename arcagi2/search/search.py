@@ -132,7 +132,7 @@ class ArcSearch:
         else:
             lines = [f"--Parent Candidate--\n{json.dumps(parent.candidate)}",
                      "\n--End of Candidates--",
-                     "\nProduce an improved output grid. Give your final output grid at the end of your response."]
+                     "\nRevise the parent candidate. Give your final output grid at the end of your response."]
         return "\n".join(lines)
 
     def frontier_desc(self, k: int = 2) -> str:
