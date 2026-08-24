@@ -1,0 +1,1700 @@
+{
+  "name": "selfrefine10-120-s0",
+  "method": "self_refine",
+  "split": "evaluation",
+  "model": "gpt-5.6-luna",
+  "provider": "abaka",
+  "reasoning_effort": "medium",
+  "config": {
+    "split": "evaluation",
+    "dev": false,
+    "limit": null,
+    "model": "gpt-5.6-luna",
+    "provider": "abaka",
+    "reasoning_effort": "medium",
+    "retry_attempts": 2,
+    "max_tokens": null,
+    "steps": 10
+  },
+  "n": 120,
+  "score": 0.08888888888888888,
+  "n_solved": 8,
+  "per_task": [
+    {
+      "id": "0934a4d8",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.4074
+        }
+      ]
+    },
+    {
+      "id": "135a2760",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "136b0064",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.7669
+        }
+      ]
+    },
+    {
+      "id": "13e47133",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.4933
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "142ca369",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.966
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.95
+        }
+      ]
+    },
+    {
+      "id": "16b78196",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.8967
+        }
+      ]
+    },
+    {
+      "id": "16de56c4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9524
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "1818057f",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9814
+        }
+      ]
+    },
+    {
+      "id": "195c6913",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8633
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "1ae2feb7",
+      "score": 0.6666666666666666,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        },
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.6833
+        }
+      ]
+    },
+    {
+      "id": "20270e3b",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "20a9e565",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "21897d95",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0689
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.1458
+        }
+      ]
+    },
+    {
+      "id": "221dfab4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.6928
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8778
+        }
+      ]
+    },
+    {
+      "id": "247ef758",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.9867
+        },
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.9537
+        }
+      ]
+    },
+    {
+      "id": "269e22fb",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.6325
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.5225
+        }
+      ]
+    },
+    {
+      "id": "271d71e2",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "28a6681f",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.93
+        }
+      ]
+    },
+    {
+      "id": "291dc1e1",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "2b83f449",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "2ba387bc",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "2c181942",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8766
+        }
+      ]
+    },
+    {
+      "id": "2d0172a1",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "31f7f899",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9896
+        }
+      ]
+    },
+    {
+      "id": "332f06d7",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.9175
+        }
+      ]
+    },
+    {
+      "id": "35ab12c3",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.907
+        }
+      ]
+    },
+    {
+      "id": "36a08778",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.8867
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.7856
+        }
+      ]
+    },
+    {
+      "id": "38007db0",
+      "score": 0.5,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.944
+        },
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "3a25b0d8",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "3dc255db",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.9872
+        }
+      ]
+    },
+    {
+      "id": "3e6067c3",
+      "score": 0.5,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9976
+        },
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "409aa875",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.9766
+        }
+      ]
+    },
+    {
+      "id": "446ef5d2",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.62
+        }
+      ]
+    },
+    {
+      "id": "45a5af55",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "4a21e3da",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9925
+        }
+      ]
+    },
+    {
+      "id": "4c3d4a41",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9563
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9875
+        }
+      ]
+    },
+    {
+      "id": "4c416de3",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9761
+        }
+      ]
+    },
+    {
+      "id": "4c7dc4dd",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.08
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "4e34c42c",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "53fb4810",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "5545f144",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.96
+        }
+      ]
+    },
+    {
+      "id": "581f7754",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8929
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9587
+        }
+      ]
+    },
+    {
+      "id": "58490d8a",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "58f5dbd5",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.996
+        }
+      ]
+    },
+    {
+      "id": "5961cc34",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.9588
+        }
+      ]
+    },
+    {
+      "id": "5dbc8537",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.672
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9812
+        }
+      ]
+    },
+    {
+      "id": "62593bfd",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8992
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9398
+        }
+      ]
+    },
+    {
+      "id": "64efde09",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8347
+        }
+      ]
+    },
+    {
+      "id": "65b59efc",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8368
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "67e490f4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8333
+        }
+      ]
+    },
+    {
+      "id": "6e453dd6",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9833
+        }
+      ]
+    },
+    {
+      "id": "6e4f6532",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8958
+        }
+      ]
+    },
+    {
+      "id": "6ffbe589",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.8343
+        }
+      ]
+    },
+    {
+      "id": "71e489b6",
+      "score": 0.5,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.9336
+        },
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "7491f3cf",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9429
+        }
+      ]
+    },
+    {
+      "id": "7666fa5d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.9375
+        }
+      ]
+    },
+    {
+      "id": "78332cb0",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8957
+        }
+      ]
+    },
+    {
+      "id": "7b0280bc",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.8167
+        }
+      ]
+    },
+    {
+      "id": "7b3084d4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.4643
+        }
+      ]
+    },
+    {
+      "id": "7b5033c1",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "7b80bb43",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9817
+        }
+      ]
+    },
+    {
+      "id": "7c66cb00",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9861
+        }
+      ]
+    },
+    {
+      "id": "7ed72f31",
+      "score": 0.5,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9936
+        }
+      ]
+    },
+    {
+      "id": "800d221b",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8678
+        }
+      ]
+    },
+    {
+      "id": "80a900e0",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "8698868d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.7585
+        }
+      ]
+    },
+    {
+      "id": "88bcf3b4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9153
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9561
+        }
+      ]
+    },
+    {
+      "id": "88e364bc",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.975
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.985
+        }
+      ]
+    },
+    {
+      "id": "89565ca0",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "898e7135",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "8b7bacbf",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9167
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9615
+        }
+      ]
+    },
+    {
+      "id": "8b9c3697",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9646
+        }
+      ]
+    },
+    {
+      "id": "8e5c0c38",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.9773
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9153
+        }
+      ]
+    },
+    {
+      "id": "8f215267",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9936
+        }
+      ]
+    },
+    {
+      "id": "8f3a5a89",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9722
+        }
+      ]
+    },
+    {
+      "id": "9385bd28",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.7773
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9595
+        }
+      ]
+    },
+    {
+      "id": "97d7923e",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.945
+        }
+      ]
+    },
+    {
+      "id": "981571dc",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "9aaea919",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9311
+        }
+      ]
+    },
+    {
+      "id": "9bbf930d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9669
+        }
+      ]
+    },
+    {
+      "id": "a251c730",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "a25697e4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8856
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8813
+        }
+      ]
+    },
+    {
+      "id": "a32d8b75",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.655
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "a395ee82",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9959
+        }
+      ]
+    },
+    {
+      "id": "a47bf94d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9438
+        }
+      ]
+    },
+    {
+      "id": "a6f40cea",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.725
+        }
+      ]
+    },
+    {
+      "id": "aa4ec2a5",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "abc82100",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.8075
+        }
+      ]
+    },
+    {
+      "id": "b0039139",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "b10624e5",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8409
+        }
+      ]
+    },
+    {
+      "id": "b5ca7ac4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9938
+        }
+      ]
+    },
+    {
+      "id": "b6f77b65",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.6736
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8542
+        }
+      ]
+    },
+    {
+      "id": "b99e7126",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "b9e38dc0",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.0912
+        }
+      ]
+    },
+    {
+      "id": "bf45cf4b",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "c4d067a0",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.7805
+        }
+      ]
+    },
+    {
+      "id": "c7f57c3e",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9107
+        }
+      ]
+    },
+    {
+      "id": "cb2d8a2c",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.783
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9246
+        }
+      ]
+    },
+    {
+      "id": "cbebaa4b",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.7781
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.7766
+        }
+      ]
+    },
+    {
+      "id": "d35bdbdc",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.99
+        },
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.82
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.91
+        }
+      ]
+    },
+    {
+      "id": "d59b0160",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9414
+        }
+      ]
+    },
+    {
+      "id": "d8e07eb2",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.953
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9333
+        }
+      ]
+    },
+    {
+      "id": "da515329",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "db0c5428",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9516
+        }
+      ]
+    },
+    {
+      "id": "db695cfb",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "dbff022c",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.8935
+        }
+      ]
+    },
+    {
+      "id": "dd6b8c4b",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9339
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9174
+        }
+      ]
+    },
+    {
+      "id": "de809cff",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "dfadab01",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.96
+        }
+      ]
+    },
+    {
+      "id": "e12f9a14",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8711
+        }
+      ]
+    },
+    {
+      "id": "e3721c99",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.7533
+        },
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.8489
+        }
+      ]
+    },
+    {
+      "id": "e376de54",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9766
+        }
+      ]
+    },
+    {
+      "id": "e8686506",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "e87109e9",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "edb79dae",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8481
+        }
+      ]
+    },
+    {
+      "id": "eee78d87",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.7891
+        }
+      ]
+    },
+    {
+      "id": "f560132c",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.5139
+        }
+      ]
+    },
+    {
+      "id": "f931b4a8",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        },
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "faa9f03d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9583
+        }
+      ]
+    },
+    {
+      "id": "fc7cae8d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    }
+  ],
+  "usage": "1618 requests | 23,231,560 prompt tok | 5,683,090 completion tok | $0.0000"
+}

@@ -1,0 +1,2546 @@
+{
+  "name": "search120-r6-seed2-s0",
+  "split": "evaluation",
+  "model": "openai/gpt-5.6-luna",
+  "provider": "openrouter",
+  "reasoning_effort": "medium",
+  "config": {
+    "n_seed": 2,
+    "n_parents": 1,
+    "k_children": 1,
+    "max_rounds": 6,
+    "evolve_every": 2,
+    "tau": 0.2,
+    "deg_coef": 0.3,
+    "feedback": true,
+    "random_parents": false,
+    "expand_temperature": 0.8,
+    "max_feedback_items": 8,
+    "n_inspirations": 2,
+    "seed_verifiers": "5-8",
+    "evolve_verifiers": "1-3"
+  },
+  "n": 120,
+  "score": 0.125,
+  "n_solved": 14,
+  "rows": [
+    {
+      "id": "0934a4d8",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "135a2760",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "136b0064",
+      "n_nodes": 8,
+      "n_verifiers": 14,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "13e47133",
+      "n_nodes": 16,
+      "n_verifiers": 21,
+      "llm_calls": 32,
+      "parse_failures": 1
+    },
+    {
+      "id": "142ca369",
+      "n_nodes": 16,
+      "n_verifiers": 21,
+      "llm_calls": 29,
+      "parse_failures": 0
+    },
+    {
+      "id": "16b78196",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "16de56c4",
+      "n_nodes": 16,
+      "n_verifiers": 23,
+      "llm_calls": 30,
+      "parse_failures": 0
+    },
+    {
+      "id": "1818057f",
+      "n_nodes": 8,
+      "n_verifiers": 13,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "195c6913",
+      "n_nodes": 16,
+      "n_verifiers": 22,
+      "llm_calls": 25,
+      "parse_failures": 0
+    },
+    {
+      "id": "1ae2feb7",
+      "n_nodes": 24,
+      "n_verifiers": 35,
+      "llm_calls": 39,
+      "parse_failures": 0
+    },
+    {
+      "id": "20270e3b",
+      "n_nodes": 16,
+      "n_verifiers": 24,
+      "llm_calls": 27,
+      "parse_failures": 0
+    },
+    {
+      "id": "20a9e565",
+      "n_nodes": 16,
+      "n_verifiers": 24,
+      "llm_calls": 25,
+      "parse_failures": 0
+    },
+    {
+      "id": "21897d95",
+      "n_nodes": 16,
+      "n_verifiers": 19,
+      "llm_calls": 30,
+      "parse_failures": 1
+    },
+    {
+      "id": "221dfab4",
+      "n_nodes": 16,
+      "n_verifiers": 22,
+      "llm_calls": 29,
+      "parse_failures": 0
+    },
+    {
+      "id": "247ef758",
+      "n_nodes": 16,
+      "n_verifiers": 18,
+      "llm_calls": 27,
+      "parse_failures": 0
+    },
+    {
+      "id": "269e22fb",
+      "n_nodes": 16,
+      "n_verifiers": 23,
+      "llm_calls": 25,
+      "parse_failures": 0
+    },
+    {
+      "id": "271d71e2",
+      "n_nodes": 8,
+      "n_verifiers": 13,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "28a6681f",
+      "n_nodes": 8,
+      "n_verifiers": 9,
+      "llm_calls": 16,
+      "parse_failures": 0
+    },
+    {
+      "id": "291dc1e1",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "2b83f449",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "2ba387bc",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "2c181942",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "2d0172a1",
+      "n_nodes": 16,
+      "n_verifiers": 13,
+      "llm_calls": 32,
+      "parse_failures": 0
+    },
+    {
+      "id": "31f7f899",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "332f06d7",
+      "n_nodes": 8,
+      "n_verifiers": 14,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "35ab12c3",
+      "n_nodes": 8,
+      "n_verifiers": 7,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "36a08778",
+      "n_nodes": 16,
+      "n_verifiers": 22,
+      "llm_calls": 29,
+      "parse_failures": 0
+    },
+    {
+      "id": "38007db0",
+      "n_nodes": 16,
+      "n_verifiers": 22,
+      "llm_calls": 27,
+      "parse_failures": 0
+    },
+    {
+      "id": "3a25b0d8",
+      "n_nodes": 16,
+      "n_verifiers": 24,
+      "llm_calls": 30,
+      "parse_failures": 0
+    },
+    {
+      "id": "3dc255db",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "3e6067c3",
+      "n_nodes": 16,
+      "n_verifiers": 21,
+      "llm_calls": 31,
+      "parse_failures": 0
+    },
+    {
+      "id": "409aa875",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "446ef5d2",
+      "n_nodes": 16,
+      "n_verifiers": 25,
+      "llm_calls": 26,
+      "parse_failures": 0
+    },
+    {
+      "id": "45a5af55",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "4a21e3da",
+      "n_nodes": 8,
+      "n_verifiers": 14,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "4c3d4a41",
+      "n_nodes": 16,
+      "n_verifiers": 26,
+      "llm_calls": 29,
+      "parse_failures": 0
+    },
+    {
+      "id": "4c416de3",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 16,
+      "parse_failures": 0
+    },
+    {
+      "id": "4c7dc4dd",
+      "n_nodes": 16,
+      "n_verifiers": 22,
+      "llm_calls": 31,
+      "parse_failures": 0
+    },
+    {
+      "id": "4e34c42c",
+      "n_nodes": 16,
+      "n_verifiers": 22,
+      "llm_calls": 26,
+      "parse_failures": 0
+    },
+    {
+      "id": "53fb4810",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "5545f144",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "581f7754",
+      "n_nodes": 16,
+      "n_verifiers": 17,
+      "llm_calls": 30,
+      "parse_failures": 0
+    },
+    {
+      "id": "58490d8a",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "58f5dbd5",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "5961cc34",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "5dbc8537",
+      "n_nodes": 16,
+      "n_verifiers": 18,
+      "llm_calls": 30,
+      "parse_failures": 0
+    },
+    {
+      "id": "62593bfd",
+      "n_nodes": 16,
+      "n_verifiers": 22,
+      "llm_calls": 29,
+      "parse_failures": 0
+    },
+    {
+      "id": "64efde09",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 16,
+      "parse_failures": 0
+    },
+    {
+      "id": "65b59efc",
+      "n_nodes": 16,
+      "n_verifiers": 20,
+      "llm_calls": 27,
+      "parse_failures": 0
+    },
+    {
+      "id": "67e490f4",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "6e453dd6",
+      "n_nodes": 8,
+      "n_verifiers": 9,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "6e4f6532",
+      "n_nodes": 16,
+      "n_verifiers": 17,
+      "llm_calls": 31,
+      "parse_failures": 0
+    },
+    {
+      "id": "6ffbe589",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "71e489b6",
+      "n_nodes": 16,
+      "n_verifiers": 20,
+      "llm_calls": 32,
+      "parse_failures": 0
+    },
+    {
+      "id": "7491f3cf",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "7666fa5d",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "78332cb0",
+      "n_nodes": 16,
+      "n_verifiers": 17,
+      "llm_calls": 27,
+      "parse_failures": 0
+    },
+    {
+      "id": "7b0280bc",
+      "n_nodes": 8,
+      "n_verifiers": 13,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "7b3084d4",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "7b5033c1",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "7b80bb43",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "7c66cb00",
+      "n_nodes": 8,
+      "n_verifiers": 9,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "7ed72f31",
+      "n_nodes": 16,
+      "n_verifiers": 21,
+      "llm_calls": 28,
+      "parse_failures": 0
+    },
+    {
+      "id": "800d221b",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "80a900e0",
+      "n_nodes": 8,
+      "n_verifiers": 13,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "8698868d",
+      "n_nodes": 8,
+      "n_verifiers": 9,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "88bcf3b4",
+      "n_nodes": 16,
+      "n_verifiers": 20,
+      "llm_calls": 30,
+      "parse_failures": 0
+    },
+    {
+      "id": "88e364bc",
+      "n_nodes": 16,
+      "n_verifiers": 19,
+      "llm_calls": 26,
+      "parse_failures": 0
+    },
+    {
+      "id": "89565ca0",
+      "n_nodes": 8,
+      "n_verifiers": 9,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "898e7135",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "8b7bacbf",
+      "n_nodes": 16,
+      "n_verifiers": 19,
+      "llm_calls": 31,
+      "parse_failures": 0
+    },
+    {
+      "id": "8b9c3697",
+      "n_nodes": 8,
+      "n_verifiers": 14,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "8e5c0c38",
+      "n_nodes": 16,
+      "n_verifiers": 26,
+      "llm_calls": 31,
+      "parse_failures": 0
+    },
+    {
+      "id": "8f215267",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "8f3a5a89",
+      "n_nodes": 8,
+      "n_verifiers": 13,
+      "llm_calls": 16,
+      "parse_failures": 0
+    },
+    {
+      "id": "9385bd28",
+      "n_nodes": 16,
+      "n_verifiers": 19,
+      "llm_calls": 30,
+      "parse_failures": 0
+    },
+    {
+      "id": "97d7923e",
+      "n_nodes": 8,
+      "n_verifiers": 13,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "981571dc",
+      "n_nodes": 8,
+      "n_verifiers": 7,
+      "llm_calls": 15,
+      "parse_failures": 1
+    },
+    {
+      "id": "9aaea919",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "9bbf930d",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "a251c730",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "a25697e4",
+      "n_nodes": 16,
+      "n_verifiers": 21,
+      "llm_calls": 28,
+      "parse_failures": 0
+    },
+    {
+      "id": "a32d8b75",
+      "n_nodes": 16,
+      "n_verifiers": 21,
+      "llm_calls": 28,
+      "parse_failures": 0
+    },
+    {
+      "id": "a395ee82",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "a47bf94d",
+      "n_nodes": 8,
+      "n_verifiers": 7,
+      "llm_calls": 16,
+      "parse_failures": 0
+    },
+    {
+      "id": "a6f40cea",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "aa4ec2a5",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "abc82100",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "b0039139",
+      "n_nodes": 16,
+      "n_verifiers": 17,
+      "llm_calls": 31,
+      "parse_failures": 0
+    },
+    {
+      "id": "b10624e5",
+      "n_nodes": 8,
+      "n_verifiers": 14,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "b5ca7ac4",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "b6f77b65",
+      "n_nodes": 16,
+      "n_verifiers": 21,
+      "llm_calls": 31,
+      "parse_failures": 0
+    },
+    {
+      "id": "b99e7126",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "b9e38dc0",
+      "n_nodes": 8,
+      "n_verifiers": 8,
+      "llm_calls": 16,
+      "parse_failures": 0
+    },
+    {
+      "id": "bf45cf4b",
+      "n_nodes": 8,
+      "n_verifiers": 8,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "c4d067a0",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "c7f57c3e",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "cb2d8a2c",
+      "n_nodes": 16,
+      "n_verifiers": 26,
+      "llm_calls": 28,
+      "parse_failures": 0
+    },
+    {
+      "id": "cbebaa4b",
+      "n_nodes": 16,
+      "n_verifiers": 25,
+      "llm_calls": 30,
+      "parse_failures": 0
+    },
+    {
+      "id": "d35bdbdc",
+      "n_nodes": 24,
+      "n_verifiers": 34,
+      "llm_calls": 40,
+      "parse_failures": 0
+    },
+    {
+      "id": "d59b0160",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "d8e07eb2",
+      "n_nodes": 16,
+      "n_verifiers": 21,
+      "llm_calls": 26,
+      "parse_failures": 0
+    },
+    {
+      "id": "da515329",
+      "n_nodes": 8,
+      "n_verifiers": 13,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "db0c5428",
+      "n_nodes": 8,
+      "n_verifiers": 6,
+      "llm_calls": 16,
+      "parse_failures": 0
+    },
+    {
+      "id": "db695cfb",
+      "n_nodes": 8,
+      "n_verifiers": 13,
+      "llm_calls": 15,
+      "parse_failures": 0
+    },
+    {
+      "id": "dbff022c",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 12,
+      "parse_failures": 0
+    },
+    {
+      "id": "dd6b8c4b",
+      "n_nodes": 16,
+      "n_verifiers": 21,
+      "llm_calls": 30,
+      "parse_failures": 0
+    },
+    {
+      "id": "de809cff",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 16,
+      "parse_failures": 0
+    },
+    {
+      "id": "dfadab01",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 16,
+      "parse_failures": 0
+    },
+    {
+      "id": "e12f9a14",
+      "n_nodes": 16,
+      "n_verifiers": 23,
+      "llm_calls": 28,
+      "parse_failures": 0
+    },
+    {
+      "id": "e3721c99",
+      "n_nodes": 16,
+      "n_verifiers": 18,
+      "llm_calls": 31,
+      "parse_failures": 0
+    },
+    {
+      "id": "e376de54",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "e8686506",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "e87109e9",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "edb79dae",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "eee78d87",
+      "n_nodes": 8,
+      "n_verifiers": 10,
+      "llm_calls": 16,
+      "parse_failures": 0
+    },
+    {
+      "id": "f560132c",
+      "n_nodes": 8,
+      "n_verifiers": 11,
+      "llm_calls": 14,
+      "parse_failures": 0
+    },
+    {
+      "id": "f931b4a8",
+      "n_nodes": 16,
+      "n_verifiers": 21,
+      "llm_calls": 26,
+      "parse_failures": 0
+    },
+    {
+      "id": "faa9f03d",
+      "n_nodes": 8,
+      "n_verifiers": 12,
+      "llm_calls": 13,
+      "parse_failures": 0
+    },
+    {
+      "id": "fc7cae8d",
+      "n_nodes": 8,
+      "n_verifiers": 7,
+      "llm_calls": 15,
+      "parse_failures": 0
+    }
+  ],
+  "per_task": [
+    {
+      "id": "0934a4d8",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.5556
+        }
+      ]
+    },
+    {
+      "id": "135a2760",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9548
+        }
+      ]
+    },
+    {
+      "id": "136b0064",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "13e47133",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.5556
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.6
+        }
+      ]
+    },
+    {
+      "id": "142ca369",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.4753
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9026
+        }
+      ]
+    },
+    {
+      "id": "16b78196",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "16de56c4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9524
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8889
+        }
+      ]
+    },
+    {
+      "id": "1818057f",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9876
+        }
+      ]
+    },
+    {
+      "id": "195c6913",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9222
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8822
+        }
+      ]
+    },
+    {
+      "id": "1ae2feb7",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        },
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        },
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "20270e3b",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "20a9e565",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "21897d95",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0022
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.25
+        }
+      ]
+    },
+    {
+      "id": "221dfab4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8096
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.83
+        }
+      ]
+    },
+    {
+      "id": "247ef758",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9907
+        }
+      ]
+    },
+    {
+      "id": "269e22fb",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.6025
+        },
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.4825
+        }
+      ]
+    },
+    {
+      "id": "271d71e2",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.6701
+        }
+      ]
+    },
+    {
+      "id": "28a6681f",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.98
+        }
+      ]
+    },
+    {
+      "id": "291dc1e1",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "2b83f449",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9505
+        }
+      ]
+    },
+    {
+      "id": "2ba387bc",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "2c181942",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "2d0172a1",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "31f7f899",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9965
+        }
+      ]
+    },
+    {
+      "id": "332f06d7",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.91
+        }
+      ]
+    },
+    {
+      "id": "35ab12c3",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9161
+        }
+      ]
+    },
+    {
+      "id": "36a08778",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9883
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "38007db0",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9914
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "3a25b0d8",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "3dc255db",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9295
+        }
+      ]
+    },
+    {
+      "id": "3e6067c3",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        },
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "409aa875",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9258
+        }
+      ]
+    },
+    {
+      "id": "446ef5d2",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.5875
+        }
+      ]
+    },
+    {
+      "id": "45a5af55",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9645
+        }
+      ]
+    },
+    {
+      "id": "4a21e3da",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9875
+        }
+      ]
+    },
+    {
+      "id": "4c3d4a41",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9875
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9938
+        }
+      ]
+    },
+    {
+      "id": "4c416de3",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9617
+        }
+      ]
+    },
+    {
+      "id": "4c7dc4dd",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.1111
+        }
+      ]
+    },
+    {
+      "id": "4e34c42c",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "53fb4810",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "5545f144",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9556
+        }
+      ]
+    },
+    {
+      "id": "581f7754",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.925
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9835
+        }
+      ]
+    },
+    {
+      "id": "58490d8a",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "58f5dbd5",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.996
+        }
+      ]
+    },
+    {
+      "id": "5961cc34",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9945
+        }
+      ]
+    },
+    {
+      "id": "5dbc8537",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.66
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9875
+        }
+      ]
+    },
+    {
+      "id": "62593bfd",
+      "score": 0.5,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9392
+        },
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "64efde09",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8609
+        }
+      ]
+    },
+    {
+      "id": "65b59efc",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.6992
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9023
+        }
+      ]
+    },
+    {
+      "id": "67e490f4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.819
+        }
+      ]
+    },
+    {
+      "id": "6e453dd6",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "6e4f6532",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9125
+        }
+      ]
+    },
+    {
+      "id": "6ffbe589",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8343
+        }
+      ]
+    },
+    {
+      "id": "71e489b6",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9453
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9825
+        }
+      ]
+    },
+    {
+      "id": "7491f3cf",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.96
+        }
+      ]
+    },
+    {
+      "id": "7666fa5d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9414
+        }
+      ]
+    },
+    {
+      "id": "78332cb0",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "7b0280bc",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8833
+        }
+      ]
+    },
+    {
+      "id": "7b3084d4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.2704
+        }
+      ]
+    },
+    {
+      "id": "7b5033c1",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.28
+        }
+      ]
+    },
+    {
+      "id": "7b80bb43",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9817
+        }
+      ]
+    },
+    {
+      "id": "7c66cb00",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9764
+        }
+      ]
+    },
+    {
+      "id": "7ed72f31",
+      "score": 0.5,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9707
+        }
+      ]
+    },
+    {
+      "id": "800d221b",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8356
+        }
+      ]
+    },
+    {
+      "id": "80a900e0",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9048
+        }
+      ]
+    },
+    {
+      "id": "8698868d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.6122
+        }
+      ]
+    },
+    {
+      "id": "88bcf3b4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9504
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9383
+        }
+      ]
+    },
+    {
+      "id": "88e364bc",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.97
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.97
+        }
+      ]
+    },
+    {
+      "id": "89565ca0",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "898e7135",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "8b7bacbf",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9456
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.965
+        }
+      ]
+    },
+    {
+      "id": "8b9c3697",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9549
+        }
+      ]
+    },
+    {
+      "id": "8e5c0c38",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9463
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9793
+        }
+      ]
+    },
+    {
+      "id": "8f215267",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "8f3a5a89",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8611
+        }
+      ]
+    },
+    {
+      "id": "9385bd28",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9069
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9636
+        }
+      ]
+    },
+    {
+      "id": "97d7923e",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.95
+        }
+      ]
+    },
+    {
+      "id": "981571dc",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9989
+        }
+      ]
+    },
+    {
+      "id": "9aaea919",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9244
+        }
+      ]
+    },
+    {
+      "id": "9bbf930d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "a251c730",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9048
+        }
+      ]
+    },
+    {
+      "id": "a25697e4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8444
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "a32d8b75",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.4967
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.3848
+        }
+      ]
+    },
+    {
+      "id": "a395ee82",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "a47bf94d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9453
+        }
+      ]
+    },
+    {
+      "id": "a6f40cea",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8875
+        }
+      ]
+    },
+    {
+      "id": "aa4ec2a5",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9345
+        }
+      ]
+    },
+    {
+      "id": "abc82100",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.805
+        }
+      ]
+    },
+    {
+      "id": "b0039139",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "b10624e5",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.893
+        }
+      ]
+    },
+    {
+      "id": "b5ca7ac4",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9711
+        }
+      ]
+    },
+    {
+      "id": "b6f77b65",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        },
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "b99e7126",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9667
+        }
+      ]
+    },
+    {
+      "id": "b9e38dc0",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.7123
+        }
+      ]
+    },
+    {
+      "id": "bf45cf4b",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "c4d067a0",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "c7f57c3e",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.926
+        }
+      ]
+    },
+    {
+      "id": "cb2d8a2c",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8077
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8276
+        }
+      ]
+    },
+    {
+      "id": "cbebaa4b",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.784
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8062
+        }
+      ]
+    },
+    {
+      "id": "d35bdbdc",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.91
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.82
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.85
+        }
+      ]
+    },
+    {
+      "id": "d59b0160",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "d8e07eb2",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9924
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9848
+        }
+      ]
+    },
+    {
+      "id": "da515329",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.0
+        }
+      ]
+    },
+    {
+      "id": "db0c5428",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9619
+        }
+      ]
+    },
+    {
+      "id": "db695cfb",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8495
+        }
+      ]
+    },
+    {
+      "id": "dbff022c",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8935
+        }
+      ]
+    },
+    {
+      "id": "dd6b8c4b",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9835
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9421
+        }
+      ]
+    },
+    {
+      "id": "de809cff",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.7467
+        }
+      ]
+    },
+    {
+      "id": "dfadab01",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 1,
+          "best_cell_acc": 0.96
+        }
+      ]
+    },
+    {
+      "id": "e12f9a14",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8611
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8789
+        }
+      ]
+    },
+    {
+      "id": "e3721c99",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8522
+        },
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.8478
+        }
+      ]
+    },
+    {
+      "id": "e376de54",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9883
+        }
+      ]
+    },
+    {
+      "id": "e8686506",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.875
+        }
+      ]
+    },
+    {
+      "id": "e87109e9",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.5938
+        }
+      ]
+    },
+    {
+      "id": "edb79dae",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.7619
+        }
+      ]
+    },
+    {
+      "id": "eee78d87",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.1406
+        }
+      ]
+    },
+    {
+      "id": "f560132c",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.6597
+        }
+      ]
+    },
+    {
+      "id": "f931b4a8",
+      "score": 1.0,
+      "solved": true,
+      "per_test": [
+        {
+          "correct": true,
+          "n_attempts": 1,
+          "best_cell_acc": 1.0
+        },
+        {
+          "correct": true,
+          "n_attempts": 2,
+          "best_cell_acc": 1.0
+        }
+      ]
+    },
+    {
+      "id": "faa9f03d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.9167
+        }
+      ]
+    },
+    {
+      "id": "fc7cae8d",
+      "score": 0.0,
+      "solved": false,
+      "per_test": [
+        {
+          "correct": false,
+          "n_attempts": 2,
+          "best_cell_acc": 0.5292
+        }
+      ]
+    }
+  ],
+  "usage": "2358 requests | 24,904,940 prompt tok | 10,360,000 completion tok | $17.2393"
+}
