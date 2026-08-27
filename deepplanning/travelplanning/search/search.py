@@ -1,14 +1,15 @@
-"""Best-first search over travel-planning agent states (seed-once verifiers).
+"""Self-improving verifier search (SVS) over complete travel plans.
 
-State = the OpenAI message list so far (system, user, assistant tool-call
-turns, tool results). One expansion = one assistant turn: the model either
-issues tool calls (executed inline against the task's sandbox databases) or
-emits the final <plan>...</plan>, which makes the node terminal.
-
-Search loop mirrors multihop: seed verifiers once from the query, expand seeds,
-sample parents ~ softmax((V - deg)/tau), stop when a terminal node satisfies
-every verifier at the threshold or budget ends (best terminal by V, else a
-forced plan from the best node).
+Node = a full agent conversation (system, user, tool-call turns, tool results)
+that ends in a <plan>...</plan>. Seeds are n_seed independent episodes; an
+expansion appends rubric feedback + a revise instruction to the parent's
+conversation and runs another episode (tool turns allowed) that ends in a
+revised plan. Every node is scored by one LLM-judge call over its full
+conversation against the current rubric; node value = mean item score.
+Parents ~ softmax((V - deg_coef*children)/tau). Every evolve_every rounds the
+rubric grows (add-only) from the top-2 and lowest-V conversations, and all
+nodes are rescored on the new items. Search runs for max_rounds rounds and
+returns the best-V plan.
 """
 
 from __future__ import annotations
@@ -33,16 +34,20 @@ for p in (str(ROOT), str(TP_DIR), str(TP_DIR / "agent"), str(TP_DIR / "tools")):
         sys.path.insert(0, p)
 
 import llm
-from embeddings import get_embedder
 from prompts import get_system_prompt
 
-from verifiers import Verifier, VerifierSet, evolve_prompt, seed_prompt
+from verifiers import (Verifier, VerifierSet, evolve_prompt, judge_prompt,
+                       parse_judge, parse_verifiers, seed_prompt)
 
 PLAN_NOW = (
     "You have used all available tool-call turns. Based on the information "
     "gathered so far, produce your final complete travel plan now, strictly "
     "following the required format."
 )
+
+GUIDANCE_TAG = "[Automated search guidance — not a user message]"
+
+REVISE = "Revise your plan above: fix each item that scores below 1 and re-check any part you now believe was wrong. You may call the database tools first to look up any information you need. When ready, output the complete revised plan wrapped in <plan></plan> tags."
 
 _PLAN = re.compile(r"<plan>(.*?)</plan>", re.S | re.I)
 
@@ -95,7 +100,7 @@ def load_tools(sample_id: str, language: str = "en") -> tuple[list[dict], dict[s
 
 
 def render_tool_call(name: str, arguments: str) -> str:
-    """Tool call -> keyword text that verifier statements embed against."""
+    """Tool call -> compact one-line text."""
     try:
         vals = " ".join(str(v) for v in json.loads(arguments or "{}").values())
     except Exception:
@@ -129,6 +134,32 @@ def render_messages(msgs: list[dict], cap: int = 3000) -> str:
     return "\n\n".join(parts)
 
 
+def render_conversation(msgs: list[dict], include_guidance: bool = True) -> str:
+    """Full conversation for the judge / rubric writer: user request, every tool
+    call and complete tool result, every assistant text (plans). The system
+    prompt is omitted; search-guidance messages optionally."""
+    parts = []
+    for m in msgs:
+        role = m.get("role")
+        body = m.get("content") or ""
+        if role == "system":
+            continue
+        if role == "user":
+            if body.startswith(GUIDANCE_TAG) and not include_guidance:
+                continue
+            parts.append(f"[user]\n{body}")
+        elif role == "assistant":
+            calls = [render_tool_call(tc["function"]["name"], tc["function"]["arguments"])
+                     for tc in m.get("tool_calls") or []]
+            if calls:
+                parts.append("[assistant tool calls]\n" + "\n".join(calls))
+            if body.strip():
+                parts.append(f"[assistant]\n{body}")
+        elif role == "tool":
+            parts.append(f"[tool result: {m.get('name', 'tool')}]\n{body}")
+    return "\n\n".join(parts)
+
+
 def extract_plan(text: str) -> str:
     if not text:
         return ""
@@ -142,38 +173,40 @@ def extract_plan(text: str) -> str:
 class Node:
     id: int
     parent: int | None
-    depth: int  # number of assistant turns
-    state: list[dict]  # full message list
-    is_terminal: bool
+    depth: int  # number of revisions from a seed
+    state: list[dict]  # full message list, ends with the plan turn
     plan: str = ""
     scores: dict[str, float] = field(default_factory=dict)
+    reasons: dict[str, str] = field(default_factory=dict)
     value: float = 0.0
     children_count: int = 0
     born_round: int = 0
-    output: str = ""  # rendered assistant turn that produced this node
-    prompt: str = ""  # rendered input messages that produced this node
+    n_turns: int = 0  # tool-call turns in the episode that produced this node
+    forced: bool = False  # plan was forced after the turn budget
+    prompt: str = ""  # rendered messages the episode started from
 
 
 @dataclass
 class SearchConfig:
-    n_seed: int = 2
+    n_seed: int = 3
     n_parents: int = 1
     k_children: int = 1
-    max_rounds: int = 16
-    evolve_every: int = 4        # add verifiers every R rounds; 0 disables
+    max_rounds: int = 10
+    evolve_every: int = 3        # add verifiers every R rounds; 0 disables
     tau: float = 0.2
     deg_coef: float = 0.3        # V-point price per child in sampling
-    satisfy_threshold: float = 0.7
-    feedback: bool = True        # show verifier statements+scores to the agent
-    expand_temperature: float = 0.8
-    max_tokens: int = 4000
+    feedback: bool = True        # show per-item scores to the agent on revision
+    seed_verifiers: str = "8-12"
+    evolve_verifiers: str = "1-3"
+    max_turns: int = 100         # tool-call turns per episode before a forced plan
+    max_tokens: int | None = None  # max_output_tokens per call; None = uncapped
     seed: int = 0
 
 
 @dataclass
 class SearchResult:
     plan: str
-    reason: str  # solved | budget_terminal | budget_forced
+    reason: str  # budget | empty
     rounds: int
     n_nodes: int
     best_node_id: int | None
@@ -194,31 +227,25 @@ def softmax_sample(rng: random.Random, pool: list[Node], n: int, tau: float,
 
 class TravelSearch:
     def __init__(self, example: dict, model: str, provider: str, cfg: SearchConfig,
-                 log: Callable[[dict], None] | None = None, language: str = "en"):
+                 log: Callable[[dict], None] | None = None, language: str = "en",
+                 reasoning_effort: str | None = "none"):
         self.example = example
         self.query: str = example["query"]
         self.sample_id = str(example["id"])
         self.model, self.provider = model, provider
+        self.reasoning_effort = reasoning_effort
         self.cfg = cfg
         self.log = log or (lambda ev: None)
-        self.embedder = get_embedder()
         self.openai_tools, self.tool_instances = load_tools(self.sample_id, language)
         self.system_prompt = get_system_prompt(language)
         self.parse_failures = 0
         self.llm_calls = 0
+        self.vset = VerifierSet()
 
     # ------------------------------------------------------------------ state
     def initial_state(self) -> list[dict]:
         return [{"role": "system", "content": self.system_prompt},
                 {"role": "user", "content": self.query}]
-
-    def eval_vars(self, node: Node) -> dict[str, Any]:
-        searches = [
-            render_tool_call(tc["function"]["name"], tc["function"]["arguments"])
-            for m in node.state if m.get("role") == "assistant"
-            for tc in m.get("tool_calls") or []
-        ]
-        return {"searches": searches, "plan": node.plan, "n_turns": node.depth}
 
     def _exec_tool(self, name: str, arguments: str) -> str:
         inst = self.tool_instances.get(name)
@@ -234,253 +261,202 @@ class TravelSearch:
         except Exception as e:
             return json.dumps({"error": str(e)}, ensure_ascii=False)
 
-    # -------------------------------------------------------------- expansion
-    def guidance_message(self, node: Node, vset: VerifierSet) -> dict:
-        lines = sorted(
-            ((node.scores.get(v.name, 0.0), v.statement) for v in vset.active),
-            key=lambda x: x[0])
-        body = "\n".join(f"  {sc:.2f}  {st}" for sc, st in lines)
-        return {"role": "user", "content": (
-            "[Automated search guidance — not a user message]\n"
-            "Verifier status for your trajectory so far. Each line is a tool-call "
-            "pattern with a 0-1 score of how well your calls match it; low scores "
-            "usually mean a lookup is still missing:\n"
-            + body +
-            "\nAddress genuinely missing lookups if relevant, then produce the "
-            "final plan when your information is sufficient.")}
+    # ---------------------------------------------------------------- episode
+    async def episode(self, msgs: list[dict]) -> tuple[str, list[dict], list[dict], int, bool]:
+        """Run the agent from `msgs` until it emits a plan (or the turn budget
+        forces one). Returns (plan, full messages, tool results, n_turns, forced)."""
+        msgs = list(msgs)
+        tool_results: list[dict] = []
+        n_turns = 0
+        for _ in range(self.cfg.max_turns):
+            msg = await llm.generate_agentic(
+                msgs, model=self.model, provider=self.provider, tools=self.openai_tools,
+                reasoning_effort=self.reasoning_effort, max_tokens=self.cfg.max_tokens)
+            self.llm_calls += 1
+            msgs.append(msg)
+            tool_calls = msg.get("tool_calls") or []
+            for tc in tool_calls:
+                result = await asyncio.to_thread(
+                    self._exec_tool, tc["function"]["name"], tc["function"]["arguments"])
+                msgs.append({"role": "tool", "tool_call_id": tc["id"],
+                             "name": tc["function"]["name"], "content": result})
+                tool_results.append({"name": tc["function"]["name"], "content": result})
+            if tool_calls:
+                n_turns += 1
+                continue
+            plan = extract_plan(msg.get("content", ""))
+            if plan:
+                return plan, msgs, tool_results, n_turns, False
+            break  # dead turn: no tools, no plan — force below
+        msgs.append({"role": "user", "content": PLAN_NOW})
+        msg = await llm.generate_agentic(
+            msgs, model=self.model, provider=self.provider,
+            reasoning_effort=self.reasoning_effort, max_tokens=self.cfg.max_tokens)
+        self.llm_calls += 1
+        msgs.append(msg)
+        text = msg.get("content", "") or ""
+        return extract_plan(text) or text, msgs, tool_results, n_turns, True
 
-    async def expand(self, node: Node, k: int, rnd: int, add_child,
-                     guidance: dict | None = None) -> None:
-        msgs = list(node.state) + ([guidance] if guidance else [])
+    # ---------------------------------------------------------------- scoring
+    async def judge(self, node: Node, verifiers: list[Verifier]) -> None:
+        """Score `node` on `verifiers` (one LLM call) and merge into node.scores."""
+        if not verifiers:
+            return
+        try:
+            data = await llm.generate_json(
+                judge_prompt(self.query, render_conversation(node.state, include_guidance=False),
+                             verifiers),
+                model=self.model, provider=self.provider,
+                reasoning_effort=self.reasoning_effort)
+            self.llm_calls += 1
+            scores, reasons = parse_judge(data, verifiers)
+        except Exception as e:
+            self.parse_failures += 1
+            scores = {v.name: 0.0 for v in verifiers}
+            reasons = {v.name: f"(judge error: {e!r})" for v in verifiers}
+        node.scores.update(scores)
+        node.reasons.update(reasons)
+        node.value = self.vset.aggregate(node.scores)
+
+    # -------------------------------------------------------------- expansion
+    def guidance_message(self, node: Node) -> dict:
+        """Persisted user turn: per-item scores (lowest first) + revise instruction."""
+        if self.cfg.feedback and self.vset.active:
+            lines = sorted(((node.scores.get(v.name, 0.0), v.name,
+                             node.reasons.get(v.name, ""))
+                            for v in self.vset.active), key=lambda x: x[0])
+            body = "\n".join(f"{name} ({sc:.2f}): {reason}" for sc, name, reason in lines)
+            text = (f"{GUIDANCE_TAG}\n"
+                    f"Judge feedback on your plan above (V = {node.value:.2f}; 1 = fully satisfied, 0 = not at all), lowest first:\n"
+                    + body + "\n\n" + REVISE)
+        else:
+            text = f"{GUIDANCE_TAG}\n{REVISE}"
+        return {"role": "user", "content": text}
+
+    async def expand(self, parent: Node | None, k: int, rnd: int, add_child) -> None:
+        """k episodes from `parent` (None = seeds from the initial state)."""
+        if parent is None:
+            msgs = self.initial_state()
+        else:
+            msgs = list(parent.state) + [self.guidance_message(parent)]
         prompt_text = render_messages(msgs)
 
         async def one() -> None:
             try:
-                resp = await llm.generate(
-                    msgs, model=self.model, provider=self.provider,
-                    temperature=self.cfg.expand_temperature,
-                    max_tokens=self.cfg.max_tokens,
-                    tools=self.openai_tools,
-                    return_response=True,
-                )
+                plan, state, tool_results, n_turns, forced = await self.episode(msgs)
             except Exception:
                 self.parse_failures += 1
                 return
-            self.llm_calls += 1
-            msg = message_to_dict(resp.choices[0].message)
-            # guidance is transient: child state stays a canonical agent conversation
-            new_state = list(node.state) + [msg]
-            tool_calls = msg.get("tool_calls") or []
-            rendered = [render_tool_call(tc["function"]["name"], tc["function"]["arguments"])
-                        for tc in tool_calls]
-            tool_results = []
-            for tc in tool_calls:
-                result = await asyncio.to_thread(
-                    self._exec_tool, tc["function"]["name"], tc["function"]["arguments"])
-                tool_msg = {"role": "tool", "tool_call_id": tc["id"],
-                            "name": tc["function"]["name"], "content": result}
-                new_state.append(tool_msg)
-                tool_results.append({"name": tc["function"]["name"], "content": result})
-            plan = "" if tool_calls else extract_plan(msg.get("content", ""))
-            if not tool_calls and not plan:
-                self.parse_failures += 1  # neither tools nor a plan: dead turn
+            if not plan:
+                self.parse_failures += 1
                 return
-            add_child(node, new_state, bool(plan), plan, rnd,
-                      output=(msg.get("content", "") + ("\n" if rendered else "")
-                              + "\n".join(rendered)).strip(),
-                      information=tool_results, prompt=prompt_text)
+            await add_child(parent, state, plan, rnd, tool_results, n_turns, forced, prompt_text)
 
         await asyncio.gather(*(one() for _ in range(k)))
 
-    def describe_frontier(self, nodes: list[Node], k: int = 2,
-                          cap_per_traj: int = 120_000) -> str:
-        """The top-k distinct trajectories by V, with FULL tool history:
-        every turn's rendered calls and complete tool responses."""
-        by_id = {n.id: n for n in nodes}
-
-        def path_ids(n: Node) -> set[int]:
-            ids = set()
-            cur: Node | None = n
-            while cur is not None and cur.id != 0:
-                ids.add(cur.id)
-                cur = by_id.get(cur.parent)
-            return ids
-
-        ranked = sorted((n for n in nodes if n.id != 0),
-                        key=lambda n: n.value, reverse=True)
-        picked: list[Node] = []
-        picked_paths: list[set[int]] = []
-        for n in ranked:
-            pids = path_ids(n)
-            # skip nodes on an already-picked trajectory (ancestor/descendant)
-            if any(n.id in pp or p.id in pids for p, pp in zip(picked, picked_paths)):
-                continue
-            picked.append(n)
-            picked_paths.append(pids)
-            if len(picked) >= k:
-                break
-
+    # ----------------------------------------------------------------- evolve
+    def describe_frontier(self, nodes: list[Node]) -> str:
+        """Top-2 by V plus the lowest-V node, each with its full conversation
+        and per-item scores."""
+        ranked = sorted(nodes, key=lambda n: n.value, reverse=True)
+        picked = list(zip(["BEST", "SECOND BEST"], ranked[:2]))
+        if len(ranked) > 2:
+            picked.append(("WORST", ranked[-1]))
         parts = []
-        for n in picked:
-            lines = [f"[trajectory n{n.id}, V={n.value:.2f}, {n.depth} turns]"]
-            turn = 0
-            for m in n.state:
-                if m.get("role") == "assistant":
-                    calls = [render_tool_call(tc["function"]["name"],
-                                              tc["function"]["arguments"])
-                             for tc in m.get("tool_calls") or []]
-                    if calls:
-                        turn += 1
-                        lines.append(f"turn {turn} calls: " + "; ".join(calls))
-                elif m.get("role") == "tool":
-                    lines.append(f"  result ({m.get('name', 'tool')}): "
-                                 + (m.get("content") or ""))
-            block = "\n".join(lines)
-            if len(block) > cap_per_traj:
-                block = block[:cap_per_traj] + " ...[truncated]"
-            parts.append(block)
+        for label, n in picked:
+            scores = "\n".join(f"  {n.scores.get(v.name, 0.0):.2f}  {v.name}"
+                               for v in self.vset.active)
+            convo = render_conversation(n.state)
+            parts.append(f"## {label}: plan n{n.id} (V = {n.value:.2f}, {n.depth} revisions)\n"
+                         f"Scores:\n{scores}\n\nConversation:\n{convo}")
         return "\n\n".join(parts)
 
-    async def evolve(self, vset: VerifierSet, nodes: list[Node]) -> list[Verifier]:
+    async def evolve(self, nodes: list[Node]) -> list[Verifier]:
         try:
             data = await llm.generate_json(
-                evolve_prompt(self.query, vset, self.describe_frontier(nodes)),
-                model=self.model, provider=self.provider, temperature=0.7,
-                max_tokens=1500)
+                evolve_prompt(self.query, self.vset, self.describe_frontier(nodes),
+                              n_verifiers=self.cfg.evolve_verifiers),
+                model=self.model, provider=self.provider,
+                reasoning_effort=self.reasoning_effort)
             self.llm_calls += 1
-            return [
-                Verifier(name=str(i["name"]), description=str(i.get("description", "")),
-                         statement=str(i["statement"]), kind="evolved")
-                for i in data.get("verifiers", [])
-                if isinstance(i, dict) and i.get("name") and i.get("statement")
-            ]
+            return parse_verifiers(data, "evolved")
         except Exception:
+            self.parse_failures += 1
             return []
-
-    async def finalize(self, node: Node,
-                       guidance: dict | None = None) -> tuple[str, str, str]:
-        """Force a plan from `node`. Returns (plan, rendered_prompt, raw_text)."""
-        msgs = (list(node.state) + ([guidance] if guidance else [])
-                + [{"role": "user", "content": PLAN_NOW}])
-        prompt_text = render_messages(msgs)
-        try:
-            resp = await llm.generate(
-                msgs, model=self.model, provider=self.provider, temperature=0.0,
-                max_tokens=self.cfg.max_tokens, return_response=True)
-            self.llm_calls += 1
-            text = resp.choices[0].message.content or ""
-            return extract_plan(text) or text, prompt_text, text
-        except Exception:
-            return "", prompt_text, ""
 
     # ------------------------------------------------------------------- run
     async def run(self) -> SearchResult:
         cfg = self.cfg
         rng = random.Random(cfg.seed)
 
-        # 1. seed verifiers from the query (one LLM call, once)
+        # 1. seed rubric from the request + plan requirements (one LLM call)
         try:
             data = await llm.generate_json(
-                seed_prompt(self.query), model=self.model, provider=self.provider,
-                temperature=0.7, max_tokens=2500)
+                seed_prompt(self.query, n_verifiers=cfg.seed_verifiers),
+                model=self.model, provider=self.provider,
+                reasoning_effort=self.reasoning_effort)
             self.llm_calls += 1
-            seed_vs = [
-                Verifier(name=str(i["name"]), description=str(i.get("description", "")),
-                         statement=str(i["statement"]),
-                         kind=str(i.get("kind", "constraint")))
-                for i in data.get("verifiers", [])
-                if isinstance(i, dict) and i.get("name") and i.get("statement")
-            ]
+            seed_vs = parse_verifiers(data, "seed")
         except Exception:
+            self.parse_failures += 1
             seed_vs = []
-        vset = VerifierSet(seed_vs, embedder=self.embedder)
-        self.log({"event": "verifiers", "verifiers": vset.to_json(), "values": {}})
+        for v in seed_vs:
+            self.vset.add(v)
+        self.log({"event": "verifiers", "verifiers": self.vset.to_json(), "values": {}})
 
-        root = Node(id=0, parent=None, depth=0, state=self.initial_state(), is_terminal=False)
-        nodes: list[Node] = [root]
+        nodes: list[Node] = []
         next_id = 1
 
         def node_json(n: Node) -> dict:
-            return {"id": n.id, "parent": n.parent, "depth": n.depth,
-                    "terminal": n.is_terminal, "value": round(n.value, 4),
+            return {"id": n.id, "parent": n.parent, "depth": n.depth, "terminal": True,
+                    "value": round(n.value, 4),
                     "scores": {k: round(v, 3) for k, v in n.scores.items()},
-                    "children": n.children_count, "born_round": n.born_round,
-                    "output": n.output, "plan": n.plan, "prompt": n.prompt}
+                    "reasons": n.reasons, "children": n.children_count,
+                    "born_round": n.born_round, "n_turns": n.n_turns, "forced": n.forced,
+                    "output": n.plan, "plan": n.plan, "prompt": n.prompt}
 
-        def add_child(parent: Node, state, terminal, plan, rnd, output, information,
-                      prompt=""):
+        async def add_child(parent: Node | None, state, plan, rnd, tool_results,
+                            n_turns, forced, prompt):
             nonlocal next_id
-            child = Node(id=next_id, parent=parent.id, depth=parent.depth + 1,
-                         state=state, is_terminal=terminal, plan=plan,
-                         born_round=rnd, output=output, prompt=prompt)
-            child.scores = vset.score_node(self.eval_vars(child))
-            child.value = vset.aggregate(child.scores)
-            parent.children_count += 1
-            nodes.append(child)
+            child = Node(id=next_id, parent=parent.id if parent else None,
+                         depth=parent.depth + 1 if parent else 0, state=state, plan=plan,
+                         born_round=rnd, n_turns=n_turns, forced=forced, prompt=prompt)
             next_id += 1
-            self.log({"event": "node", **node_json(child), "information": information})
+            if parent is not None:
+                parent.children_count += 1
+            await self.judge(child, self.vset.active)
+            nodes.append(child)
+            self.log({"event": "node", **node_json(child), "information": tool_results})
 
-        def solved() -> Node | None:
-            for n in nodes:
-                if n.is_terminal and vset.all_satisfied(n.scores, cfg.satisfy_threshold):
-                    return n
-            return None
-
-        def finish(plan: str, reason: str, rnd: int, best: Node | None) -> SearchResult:
+        def finish(reason: str, rnd: int) -> SearchResult:
+            best = max(nodes, key=lambda n: (n.value, n.id)) if nodes else None  # ties -> later node
+            plan = best.plan if best else ""
             self.log({"event": "done", "reason": reason, "rounds": rnd,
-                      "best_node_id": best.id if best else None,
-                      "plan": plan})
-            return SearchResult(plan=plan, reason=reason, rounds=rnd,
-                                n_nodes=len(nodes) - 1,
+                      "best_node_id": best.id if best else None, "plan": plan})
+            return SearchResult(plan=plan, reason=reason, rounds=rnd, n_nodes=len(nodes),
                                 best_node_id=best.id if best else None,
-                                verifiers=vset.to_json())
+                                verifiers=self.vset.to_json())
 
-        def guide(node: Node) -> dict | None:
-            return self.guidance_message(node, vset) if cfg.feedback else None
+        # 2. seed plans: n_seed independent episodes
+        await self.expand(None, cfg.n_seed, 0, add_child)
+        if not nodes:
+            return finish("empty", 0)
 
-        # 2. seed solutions
-        await self.expand(root, cfg.n_seed, 0, add_child, guidance=guide(root))
-
+        # 3. revise / evolve
         for rnd in range(1, cfg.max_rounds + 1):
-            if (win := solved()) is not None:
-                return finish(win.plan, "solved", rnd, win)
-            expandable = [n for n in nodes if not n.is_terminal and n.id != 0]
-            if not expandable:
-                break
-            parents = softmax_sample(rng, expandable, cfg.n_parents, cfg.tau, cfg.deg_coef)
-            await asyncio.gather(*(self.expand(p, cfg.k_children, rnd, add_child,
-                                               guidance=guide(p))
+            parents = softmax_sample(rng, nodes, cfg.n_parents, cfg.tau, cfg.deg_coef)
+            await asyncio.gather(*(self.expand(p, cfg.k_children, rnd, add_child)
                                    for p in parents))
             if cfg.evolve_every > 0 and rnd % cfg.evolve_every == 0:
-                added = await self.evolve(vset, nodes)
+                added = [v for v in await self.evolve(nodes) if self.vset.add(v)]
                 if added:
-                    for v in added:
-                        vset.add(v)
-                    for n in nodes:
-                        if n.id != 0:
-                            n.scores = vset.score_node(self.eval_vars(n))
-                            n.value = vset.aggregate(n.scores)
-                    self.log({"event": "verifiers", "verifiers": vset.to_json(),
+                    await asyncio.gather(*(self.judge(n, added) for n in nodes))
+                    self.log({"event": "verifiers", "verifiers": self.vset.to_json(),
                               "values": {n.id: {"value": round(n.value, 4),
                                                 "scores": {k: round(x, 3)
-                                                           for k, x in n.scores.items()}}
-                                         for n in nodes if n.id != 0}})
+                                                           for k, x in n.scores.items()},
+                                                "reasons": n.reasons}
+                                         for n in nodes}})
             self.log({"event": "round", "round": rnd})
 
-        if (win := solved()) is not None:
-            return finish(win.plan, "solved", cfg.max_rounds, win)
-        terminals = [n for n in nodes if n.is_terminal]
-        if terminals:
-            best = max(terminals, key=lambda n: n.value)
-            return finish(best.plan, "budget_terminal", cfg.max_rounds, best)
-        candidates = [n for n in nodes if n.id != 0]
-        if not candidates:
-            return finish("", "budget_forced", cfg.max_rounds, None)
-        best = max(candidates, key=lambda n: n.value)
-        plan, prompt_text, raw = await self.finalize(best, guidance=guide(best))
-        # log the forced plan as a synthetic terminal node so it shows in the viewer
-        forced_state = list(best.state) + [{"role": "user", "content": PLAN_NOW},
-                                           {"role": "assistant", "content": raw}]
-        add_child(best, forced_state, True, plan, cfg.max_rounds,
-                  output=raw.strip(), information=[], prompt=prompt_text)
-        return finish(plan, "budget_forced", cfg.max_rounds, nodes[-1])
+        return finish("budget", cfg.max_rounds)

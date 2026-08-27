@@ -47,7 +47,8 @@ async def run_one(ex: dict, args, cfg: SearchConfig, out_dir: Path) -> dict:
     log_event({"event": "start", "id": tid, "question": ex["query"]})
     try:
         search = TravelSearch(ex, model=args.model, provider=args.provider,
-                              cfg=cfg, log=log_event)
+                              cfg=cfg, log=log_event,
+                              reasoning_effort=args.reasoning_effort)
         result = await search.run()
         row = {"id": tid, "reason": result.reason, "n_nodes": result.n_nodes,
                "rounds": result.rounds, "llm_calls": search.llm_calls,
@@ -66,30 +67,38 @@ async def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--ids", default=None, help="comma-separated task ids, e.g. 0,3,7")
     ap.add_argument("--limit", type=int, default=None)
-    ap.add_argument("--model", default="gpt-5.4-mini")
+    ap.add_argument("--model", default="gpt-5.6-luna")
     ap.add_argument("--provider", default="abaka", choices=sorted(llm.PROVIDERS))
+    ap.add_argument("--reasoning-effort", default="none")
     ap.add_argument("--name", default=None)
     ap.add_argument("--no-eval", action="store_true", help="skip conversion+evaluation")
     # search config
-    ap.add_argument("--n-seed", type=int, default=2)
-    ap.add_argument("--n-parents", type=int, default=1)
-    ap.add_argument("--k-children", type=int, default=1)
-    ap.add_argument("--max-rounds", type=int, default=16)
-    ap.add_argument("--evolve-every", type=int, default=4,
+    # search config — defaults come from SearchConfig so file edits take effect
+    dflt = SearchConfig()
+    ap.add_argument("--n-seed", type=int, default=dflt.n_seed)
+    ap.add_argument("--n-parents", type=int, default=dflt.n_parents)
+    ap.add_argument("--k-children", type=int, default=dflt.k_children)
+    ap.add_argument("--max-rounds", type=int, default=dflt.max_rounds)
+    ap.add_argument("--evolve-every", type=int, default=dflt.evolve_every,
                     help="add verifiers every N rounds; 0 disables")
-    ap.add_argument("--tau", type=float, default=0.2)
-    ap.add_argument("--deg-coef", type=float, default=0.3)
-    ap.add_argument("--satisfy-threshold", type=float, default=0.7)
-    ap.add_argument("--temperature", type=float, default=0.8)
+    ap.add_argument("--tau", type=float, default=dflt.tau)
+    ap.add_argument("--deg-coef", type=float, default=dflt.deg_coef)
+    ap.add_argument("--seed-verifiers", default=dflt.seed_verifiers,
+                    help="how many rubric items to seed, e.g. '8-12'")
+    ap.add_argument("--evolve-verifiers", default=dflt.evolve_verifiers,
+                    help="how many rubric items to add per evolution, e.g. '1-3'")
+    ap.add_argument("--max-turns", type=int, default=dflt.max_turns,
+                    help="tool-call turns per episode before a forced plan")
     ap.add_argument("--no-feedback", action="store_true",
-                    help="do not show verifier statements+scores to the agent")
+                    help="do not show rubric scores to the agent on revision")
     args = ap.parse_args()
 
     cfg = SearchConfig(
         n_seed=args.n_seed, n_parents=args.n_parents, k_children=args.k_children,
         max_rounds=args.max_rounds, tau=args.tau, deg_coef=args.deg_coef,
         evolve_every=args.evolve_every,
-        satisfy_threshold=args.satisfy_threshold, expand_temperature=args.temperature,
+        seed_verifiers=args.seed_verifiers, evolve_verifiers=args.evolve_verifiers,
+        max_turns=args.max_turns,
         feedback=not args.no_feedback,
     )
     examples = json.loads(TEST_DATA.read_text())

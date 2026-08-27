@@ -50,6 +50,8 @@ def replay(events: list[dict]) -> dict:
                 if node is not None:
                     node["value"] = upd["value"]
                     node["scores"] = upd["scores"]
+                    if "reasons" in upd:
+                        node["reasons"] = upd["reasons"]
         elif kind == "round":
             s["round"] = ev.get("round", s["round"])
         elif kind == "done":
@@ -165,12 +167,15 @@ def render() -> None:
         default = ids.index(s["best_node_id"]) if s["best_node_id"] in by_id else len(ids) - 1
         sel = st.selectbox("Node", ids, index=default,
                            format_func=lambda i: (f"n{i} · V={by_id[i].get('value', 0):.3f}"
-                                                  + (" · plan" if by_id[i].get("terminal") else "")),
+                                                  + f" · {by_id[i].get('n_turns', 0)} turns"
+                                                  + (" · forced" if by_id[i].get("forced") else "")),
                            key="node_select")
         n = by_id[sel]
         if n.get("scores"):
             st.dataframe(
-                pd.DataFrame([{"verifier": k, "score": v} for k, v in n["scores"].items()]),
+                pd.DataFrame([{"verifier": k, "score": v,
+                               "reason": (n.get("reasons") or {}).get(k, "")}
+                              for k, v in n["scores"].items()]),
                 hide_index=True, width="stretch",
                 column_config={"score": st.column_config.ProgressColumn(
                     "score", min_value=0.0, max_value=1.0, format="%.2f")})
