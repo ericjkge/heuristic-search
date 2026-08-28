@@ -33,3 +33,9 @@ deepplanning/shoppingplanning/results/
 .agents/
 .claude/
 deepplanning/travelplanning/search/runs/
+
+# LiveCodeBench-Pro judge runtime data (test cases download lazily)
+livecodebench_pro/LightCPVerifier/problems/
+livecodebench_pro/LightCPVerifier/submissions/
+livecodebench_pro/LightCPVerifier/data/
+livecodebench_pro/results/

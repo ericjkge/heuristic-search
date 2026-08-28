@@ -1,0 +1,3482 @@
+[
+ {
+  "problem_id": "2053I1",
+  "title": "I1. Affectionate Arrays (Easy Version)",
+  "rating": 2800,
+  "tags": [
+   "data structures",
+   "dp",
+   "greedy"
+  ],
+  "category": "knowledge",
+  "contest": 2053
+ },
+ {
+  "problem_id": "2053E",
+  "title": "E. Resourceful Caterpillar Sequence",
+  "rating": 1900,
+  "tags": [
+   "dfs and similar",
+   "dp",
+   "games",
+   "graphs",
+   "greedy",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2053
+ },
+ {
+  "problem_id": "2053F",
+  "title": "F. Earnest Matrix Complement",
+  "rating": 2600,
+  "tags": [
+   "brute force",
+   "data structures",
+   "dp",
+   "greedy",
+   "implementation",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2053
+ },
+ {
+  "problem_id": "2043E",
+  "title": "E. Matrix Transformation",
+  "rating": 2300,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "data structures",
+   "dfs and similar",
+   "graphs",
+   "greedy",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2043
+ },
+ {
+  "problem_id": "2043G",
+  "title": "G. Problem with Queries",
+  "rating": 3000,
+  "tags": [
+   "brute force",
+   "data structures",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2043
+ },
+ {
+  "problem_id": "2043F",
+  "title": "F. Nim",
+  "rating": 2700,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "combinatorics",
+   "dp",
+   "games",
+   "greedy",
+   "implementation",
+   "shortest paths"
+  ],
+  "category": "logic",
+  "contest": 2043
+ },
+ {
+  "problem_id": "2051G",
+  "title": "G. Snakes",
+  "rating": 2100,
+  "tags": [
+   "bitmasks",
+   "dp",
+   "dsu",
+   "graphs"
+  ],
+  "category": "knowledge",
+  "contest": 2051
+ },
+ {
+  "problem_id": "2051F",
+  "title": "F. Joker",
+  "rating": 2000,
+  "tags": [
+   "brute force",
+   "greedy",
+   "implementation",
+   "math"
+  ],
+  "category": "observation",
+  "contest": 2051
+ },
+ {
+  "problem_id": "2049F",
+  "title": "F. MEX OR Mania",
+  "rating": 2700,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "data structures",
+   "dsu",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2049
+ },
+ {
+  "problem_id": "2049D",
+  "title": "D. Shift + Esc",
+  "rating": 1900,
+  "tags": [
+   "brute force",
+   "dp"
+  ],
+  "category": "logic",
+  "contest": 2049
+ },
+ {
+  "problem_id": "2049E",
+  "title": "E. Broken Queries",
+  "rating": 2400,
+  "tags": [
+   "binary search",
+   "bitmasks",
+   "brute force",
+   "constructive algorithms",
+   "implementation",
+   "interactive"
+  ],
+  "category": "observation",
+  "contest": 2049
+ },
+ {
+  "problem_id": "2048G",
+  "title": "G. Kevin and Matrices",
+  "rating": 2800,
+  "tags": [
+   "brute force",
+   "combinatorics",
+   "dp",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2048
+ },
+ {
+  "problem_id": "2048F",
+  "title": "F. Kevin and Math Class",
+  "rating": 2500,
+  "tags": [
+   "brute force",
+   "data structures",
+   "divide and conquer",
+   "dp",
+   "implementation",
+   "math",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2048
+ },
+ {
+  "problem_id": "2048E",
+  "title": "E. Kevin and Bipartite Graph",
+  "rating": 2000,
+  "tags": [
+   "constructive algorithms",
+   "graphs",
+   "greedy"
+  ],
+  "category": "observation",
+  "contest": 2048
+ },
+ {
+  "problem_id": "2044F",
+  "title": "F. Easy Demon Problem",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2044
+ },
+ {
+  "problem_id": "2044G2",
+  "title": "G2. Medium Demon Problem (hard version)",
+  "rating": 1900,
+  "tags": [
+   "dfs and similar",
+   "dp",
+   "dsu",
+   "graphs",
+   "implementation",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2044
+ },
+ {
+  "problem_id": "2044H",
+  "title": "H. Hard Demon Problem",
+  "rating": 2100,
+  "tags": [
+   "constructive algorithms",
+   "data structures",
+   "dp",
+   "implementation",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2044
+ },
+ {
+  "problem_id": "2040E",
+  "title": "E. Control of Randomness",
+  "rating": 2100,
+  "tags": [
+   "combinatorics",
+   "dfs and similar",
+   "dp",
+   "graphs",
+   "greedy",
+   "math",
+   "probabilities",
+   "trees"
+  ],
+  "category": "logic",
+  "contest": 2040
+ },
+ {
+  "problem_id": "2040F",
+  "title": "F. Number of Cubes",
+  "rating": 2700,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2040
+ },
+ {
+  "problem_id": "2040D",
+  "title": "D. Non Prime Tree",
+  "rating": 1900,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "dfs and similar",
+   "greedy",
+   "number theory",
+   "trees",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2040
+ },
+ {
+  "problem_id": "2050G",
+  "title": "G. Tree Destruction",
+  "rating": 1900,
+  "tags": [
+   "dfs and similar",
+   "dp",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2050
+ },
+ {
+  "problem_id": "2046E1",
+  "title": "E1. Cheops and a Contest (Easy Version)",
+  "rating": 2900,
+  "tags": [
+   "constructive algorithms",
+   "greedy"
+  ],
+  "category": "observation",
+  "contest": 2046
+ },
+ {
+  "problem_id": "2046C",
+  "title": "C. Adventurers",
+  "rating": 2100,
+  "tags": [
+   "binary search",
+   "data structures",
+   "greedy",
+   "sortings",
+   "ternary search",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2046
+ },
+ {
+  "problem_id": "2042D",
+  "title": "D. Recommendations",
+  "rating": 1900,
+  "tags": [
+   "data structures",
+   "implementation",
+   "sortings",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2042
+ },
+ {
+  "problem_id": "2042E",
+  "title": "E. Vertex Pairs",
+  "rating": 2900,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "dfs and similar",
+   "divide and conquer",
+   "greedy",
+   "implementation",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2042
+ },
+ {
+  "problem_id": "2042F",
+  "title": "F. Two Subarrays",
+  "rating": 2600,
+  "tags": [
+   "data structures",
+   "dp",
+   "implementation",
+   "matrices"
+  ],
+  "category": "knowledge",
+  "contest": 2042
+ },
+ {
+  "problem_id": "2034F1",
+  "title": "F1. Khayyam's Royal Decree (Easy Version)",
+  "rating": 2500,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "math",
+   "sortings"
+  ],
+  "category": "logic",
+  "contest": 2034
+ },
+ {
+  "problem_id": "2034F2",
+  "title": "F2. Khayyam's Royal Decree (Hard Version)",
+  "rating": 2800,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "math",
+   "sortings"
+  ],
+  "category": "logic",
+  "contest": 2034
+ },
+ {
+  "problem_id": "2034E",
+  "title": "E. Permutations Harmony",
+  "rating": 2200,
+  "tags": [
+   "combinatorics",
+   "constructive algorithms",
+   "greedy",
+   "hashing",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2034
+ },
+ {
+  "problem_id": "2039E",
+  "title": "E. Shohag Loves Inversions",
+  "rating": 2200,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "implementation",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2039
+ },
+ {
+  "problem_id": "2039F1",
+  "title": "F1. Shohag Loves Counting (Easy Version)",
+  "rating": 2800,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2039
+ },
+ {
+  "problem_id": "2037G",
+  "title": "G. Natlan Exploring",
+  "rating": 2000,
+  "tags": [
+   "bitmasks",
+   "combinatorics",
+   "data structures",
+   "dp",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2037
+ },
+ {
+  "problem_id": "2037F",
+  "title": "F. Ardent Flames",
+  "rating": 2100,
+  "tags": [
+   "binary search",
+   "data structures",
+   "math",
+   "sortings",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2037
+ },
+ {
+  "problem_id": "2031F",
+  "title": "F. Penchick and Even Medians",
+  "rating": 2800,
+  "tags": [
+   "binary search",
+   "constructive algorithms",
+   "interactive",
+   "probabilities"
+  ],
+  "category": "logic",
+  "contest": 2031
+ },
+ {
+  "problem_id": "2031E",
+  "title": "E. Penchick and Chloe's Trees",
+  "rating": 2100,
+  "tags": [
+   "data structures",
+   "dfs and similar",
+   "dp",
+   "greedy",
+   "implementation",
+   "math",
+   "sortings",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2031
+ },
+ {
+  "problem_id": "2028F",
+  "title": "F. Alice's Adventures in Addition",
+  "rating": 2700,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "dp",
+   "implementation"
+  ],
+  "category": "logic",
+  "contest": 2028
+ },
+ {
+  "problem_id": "2028D",
+  "title": "D. Alice's Adventures in Cards",
+  "rating": 2000,
+  "tags": [
+   "constructive algorithms",
+   "data structures",
+   "dp",
+   "graphs",
+   "greedy",
+   "implementation",
+   "ternary search"
+  ],
+  "category": "knowledge",
+  "contest": 2028
+ },
+ {
+  "problem_id": "2028E",
+  "title": "E. Alice's Adventures in the Rabbit Hole",
+  "rating": 2300,
+  "tags": [
+   "combinatorics",
+   "dfs and similar",
+   "dp",
+   "games",
+   "greedy",
+   "math",
+   "probabilities",
+   "trees"
+  ],
+  "category": "logic",
+  "contest": 2028
+ },
+ {
+  "problem_id": "2029F",
+  "title": "F. Palindrome Everywhere",
+  "rating": 2500,
+  "tags": [
+   "constructive algorithms",
+   "graphs",
+   "greedy"
+  ],
+  "category": "observation",
+  "contest": 2029
+ },
+ {
+  "problem_id": "2029D",
+  "title": "D. Cool Graph",
+  "rating": 1900,
+  "tags": [
+   "constructive algorithms",
+   "data structures",
+   "dfs and similar",
+   "dsu",
+   "graphs",
+   "greedy",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2029
+ },
+ {
+  "problem_id": "2029E",
+  "title": "E. Common Generator",
+  "rating": 2100,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2029
+ },
+ {
+  "problem_id": "2029G",
+  "title": "G. Balanced Problem",
+  "rating": 3000,
+  "tags": [
+   "data structures",
+   "dp"
+  ],
+  "category": "knowledge",
+  "contest": 2029
+ },
+ {
+  "problem_id": "2036F",
+  "title": "F. XORificator 3000",
+  "rating": 1900,
+  "tags": [
+   "bitmasks",
+   "dp",
+   "number theory",
+   "two pointers"
+  ],
+  "category": "logic",
+  "contest": 2036
+ },
+ {
+  "problem_id": "2036G",
+  "title": "G. Library of Magic",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "constructive algorithms",
+   "divide and conquer",
+   "interactive",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2036
+ },
+ {
+  "problem_id": "2032E",
+  "title": "E. Balanced",
+  "rating": 2400,
+  "tags": [
+   "constructive algorithms",
+   "data structures",
+   "greedy",
+   "implementation",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2032
+ },
+ {
+  "problem_id": "2032F",
+  "title": "F. Peanuts",
+  "rating": 2700,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "games",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2032
+ },
+ {
+  "problem_id": "2026D",
+  "title": "D. Sums of Segments",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "data structures",
+   "dp",
+   "implementation",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2026
+ },
+ {
+  "problem_id": "2026F",
+  "title": "F. Bermart Ice Cream",
+  "rating": 2700,
+  "tags": [
+   "data structures",
+   "dfs and similar",
+   "divide and conquer",
+   "dp",
+   "implementation",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2026
+ },
+ {
+  "problem_id": "2026E",
+  "title": "E. Best Subsequence",
+  "rating": 2500,
+  "tags": [
+   "bitmasks",
+   "dfs and similar",
+   "flows",
+   "graph matchings",
+   "graphs"
+  ],
+  "category": "knowledge",
+  "contest": 2026
+ },
+ {
+  "problem_id": "2035F",
+  "title": "F. Tree Operations",
+  "rating": 2500,
+  "tags": [
+   "binary search",
+   "brute force",
+   "dfs and similar",
+   "dp",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2035
+ },
+ {
+  "problem_id": "2035E",
+  "title": "E. Monster",
+  "rating": 2300,
+  "tags": [
+   "binary search",
+   "brute force",
+   "constructive algorithms",
+   "greedy",
+   "implementation",
+   "math",
+   "ternary search"
+  ],
+  "category": "observation",
+  "contest": 2035
+ },
+ {
+  "problem_id": "2027E1",
+  "title": "E1. Bit Game (Easy Version)",
+  "rating": 2800,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "games",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2027
+ },
+ {
+  "problem_id": "2027D2",
+  "title": "D2. The Endspeaker (Hard Version)",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "data structures",
+   "dp",
+   "greedy",
+   "implementation",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2027
+ },
+ {
+  "problem_id": "2033G",
+  "title": "G. Sakurako and Chefir",
+  "rating": 2200,
+  "tags": [
+   "data structures",
+   "dfs and similar",
+   "dp",
+   "greedy",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2033
+ },
+ {
+  "problem_id": "2023D",
+  "title": "D. Many Games",
+  "rating": 2900,
+  "tags": [
+   "brute force",
+   "dp",
+   "greedy",
+   "math",
+   "probabilities"
+  ],
+  "category": "logic",
+  "contest": 2023
+ },
+ {
+  "problem_id": "2023C",
+  "title": "C. C+K+S",
+  "rating": 2400,
+  "tags": [
+   "constructive algorithms",
+   "dfs and similar",
+   "graphs",
+   "greedy",
+   "hashing",
+   "implementation",
+   "strings"
+  ],
+  "category": "knowledge",
+  "contest": 2023
+ },
+ {
+  "problem_id": "2030E",
+  "title": "E. MEXimize the Score",
+  "rating": 2200,
+  "tags": [
+   "combinatorics",
+   "data structures",
+   "dp",
+   "greedy",
+   "implementation",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2030
+ },
+ {
+  "problem_id": "2030G1",
+  "title": "G1. The Destruction of the Universe (Easy Version)",
+  "rating": 2900,
+  "tags": [
+   "combinatorics",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2030
+ },
+ {
+  "problem_id": "2030F",
+  "title": "F. Orangutan Approved Subarrays",
+  "rating": 2400,
+  "tags": [
+   "binary search",
+   "data structures",
+   "dp",
+   "greedy",
+   "implementation",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2030
+ },
+ {
+  "problem_id": "2025G",
+  "title": "G. Variable Damage",
+  "rating": 3000,
+  "tags": [
+   "data structures",
+   "flows"
+  ],
+  "category": "knowledge",
+  "contest": 2025
+ },
+ {
+  "problem_id": "2025E",
+  "title": "E. Card Game",
+  "rating": 2200,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "fft",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2025
+ },
+ {
+  "problem_id": "2025F",
+  "title": "F. Choose Your Queries",
+  "rating": 2700,
+  "tags": [
+   "constructive algorithms",
+   "dfs and similar",
+   "dp",
+   "graphs",
+   "greedy",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2025
+ },
+ {
+  "problem_id": "2022E1",
+  "title": "E1. Billetes MX (Easy Version)",
+  "rating": 2500,
+  "tags": [
+   "2-sat",
+   "binary search",
+   "combinatorics",
+   "constructive algorithms",
+   "dfs and similar",
+   "dsu",
+   "graphs"
+  ],
+  "category": "knowledge",
+  "contest": 2022
+ },
+ {
+  "problem_id": "2022E2",
+  "title": "E2. Billetes MX (Hard Version)",
+  "rating": 2600,
+  "tags": [
+   "binary search",
+   "combinatorics",
+   "data structures",
+   "dsu",
+   "graphs"
+  ],
+  "category": "knowledge",
+  "contest": 2022
+ },
+ {
+  "problem_id": "2022D1",
+  "title": "D1. Asesino (Easy Version)",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "brute force",
+   "constructive algorithms",
+   "implementation",
+   "interactive"
+  ],
+  "category": "observation",
+  "contest": 2022
+ },
+ {
+  "problem_id": "2022D2",
+  "title": "D2. Asesino (Hard Version)",
+  "rating": 2700,
+  "tags": [
+   "constructive algorithms",
+   "dp",
+   "interactive"
+  ],
+  "category": "observation",
+  "contest": 2022
+ },
+ {
+  "problem_id": "2021E1",
+  "title": "E1. Digital Village (Easy Version)",
+  "rating": 2300,
+  "tags": [
+   "brute force",
+   "data structures",
+   "dfs and similar",
+   "dp",
+   "dsu",
+   "fft",
+   "graphs",
+   "greedy",
+   "implementation",
+   "math",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2021
+ },
+ {
+  "problem_id": "2021E3",
+  "title": "E3. Digital Village (Extreme Version)",
+  "rating": 2800,
+  "tags": [
+   "data structures",
+   "dfs and similar",
+   "dp",
+   "dsu",
+   "graphs",
+   "greedy",
+   "math",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2021
+ },
+ {
+  "problem_id": "2021E2",
+  "title": "E2. Digital Village (Hard Version)",
+  "rating": 2500,
+  "tags": [
+   "data structures",
+   "dp",
+   "dsu",
+   "graphs",
+   "math",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2021
+ },
+ {
+  "problem_id": "2021D",
+  "title": "D. Boss, Thirsty",
+  "rating": 2500,
+  "tags": [
+   "dp",
+   "greedy",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2021
+ },
+ {
+  "problem_id": "2021C2",
+  "title": "C2. Adjust The Presentation (Hard Version)",
+  "rating": 1900,
+  "tags": [
+   "constructive algorithms",
+   "data structures",
+   "greedy",
+   "implementation",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2021
+ },
+ {
+  "problem_id": "2020E",
+  "title": "E. Expected Power",
+  "rating": 2000,
+  "tags": [
+   "bitmasks",
+   "dp",
+   "math",
+   "probabilities"
+  ],
+  "category": "logic",
+  "contest": 2020
+ },
+ {
+  "problem_id": "2020F",
+  "title": "F. Count Leaves",
+  "rating": 2900,
+  "tags": [
+   "dp",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2020
+ },
+ {
+  "problem_id": "2018B",
+  "title": "B. Speedbreaker",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "data structures",
+   "dp",
+   "greedy",
+   "implementation",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2018
+ },
+ {
+  "problem_id": "2018F2",
+  "title": "F2. Speedbreaker Counting (Medium Version)",
+  "rating": 3000,
+  "tags": [
+   "dp",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2018
+ },
+ {
+  "problem_id": "2018D",
+  "title": "D. Max Plus Min Plus Size",
+  "rating": 2200,
+  "tags": [
+   "data structures",
+   "dp",
+   "dsu",
+   "greedy",
+   "implementation",
+   "matrices",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2018
+ },
+ {
+  "problem_id": "2018F1",
+  "title": "F1. Speedbreaker Counting (Easy Version)",
+  "rating": 2900,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2018
+ },
+ {
+  "problem_id": "2014G",
+  "title": "G. Milky Days",
+  "rating": 2200,
+  "tags": [
+   "brute force",
+   "data structures",
+   "greedy",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2014
+ },
+ {
+  "problem_id": "2014H",
+  "title": "H. Robin Hood Archery",
+  "rating": 1900,
+  "tags": [
+   "data structures",
+   "divide and conquer",
+   "greedy",
+   "hashing"
+  ],
+  "category": "knowledge",
+  "contest": 2014
+ },
+ {
+  "problem_id": "2014F",
+  "title": "F. Sheriff's Defense",
+  "rating": 2000,
+  "tags": [
+   "dfs and similar",
+   "dp",
+   "greedy",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2014
+ },
+ {
+  "problem_id": "2013D",
+  "title": "D. Minimize the Difference",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "greedy"
+  ],
+  "category": "logic",
+  "contest": 2013
+ },
+ {
+  "problem_id": "2013F1",
+  "title": "F1. Game in Tree (Easy Version)",
+  "rating": 2700,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "dp",
+   "games",
+   "greedy",
+   "implementation",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2013
+ },
+ {
+  "problem_id": "2013E",
+  "title": "E. Prefix GCD",
+  "rating": 2200,
+  "tags": [
+   "brute force",
+   "dp",
+   "greedy",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2013
+ },
+ {
+  "problem_id": "2005E1",
+  "title": "E1. Subtangle Game (Easy Version)",
+  "rating": 2100,
+  "tags": [
+   "dp",
+   "games",
+   "greedy",
+   "implementation"
+  ],
+  "category": "observation",
+  "contest": 2005
+ },
+ {
+  "problem_id": "2005E2",
+  "title": "E2. Subtangle Game (Hard Version)",
+  "rating": 2500,
+  "tags": [
+   "data structures",
+   "dp",
+   "games",
+   "greedy",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2005
+ },
+ {
+  "problem_id": "2005D",
+  "title": "D. Alter the GCD",
+  "rating": 2400,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "divide and conquer",
+   "implementation",
+   "number theory"
+  ],
+  "category": "knowledge",
+  "contest": 2005
+ },
+ {
+  "problem_id": "2008H",
+  "title": "H. Sakurako's Test",
+  "rating": 2100,
+  "tags": [
+   "binary search",
+   "brute force",
+   "greedy",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2008
+ },
+ {
+  "problem_id": "2006D",
+  "title": "D. Iris and Adjacent Products",
+  "rating": 2600,
+  "tags": [
+   "data structures",
+   "greedy",
+   "implementation",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2006
+ },
+ {
+  "problem_id": "2006C",
+  "title": "C. Eri and Expanded Sets",
+  "rating": 2300,
+  "tags": [
+   "data structures",
+   "divide and conquer",
+   "math",
+   "number theory",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2006
+ },
+ {
+  "problem_id": "2003E1",
+  "title": "E1. Turtle and Inversions (Easy Version)",
+  "rating": 2600,
+  "tags": [
+   "brute force",
+   "divide and conquer",
+   "dp",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2003
+ },
+ {
+  "problem_id": "2003E2",
+  "title": "E2. Turtle and Inversions (Hard Version)",
+  "rating": 2700,
+  "tags": [
+   "brute force",
+   "data structures",
+   "divide and conquer",
+   "dp",
+   "greedy",
+   "math",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2003
+ },
+ {
+  "problem_id": "2003F",
+  "title": "F. Turtle and Three Sequences",
+  "rating": 2800,
+  "tags": [
+   "brute force",
+   "data structures",
+   "dp",
+   "greedy",
+   "math",
+   "probabilities",
+   "two pointers"
+  ],
+  "category": "logic",
+  "contest": 2003
+ },
+ {
+  "problem_id": "2003D2",
+  "title": "D2. Turtle and a MEX Problem (Hard Version)",
+  "rating": 2100,
+  "tags": [
+   "dfs and similar",
+   "dp",
+   "graphs",
+   "greedy",
+   "implementation",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2003
+ },
+ {
+  "problem_id": "2001E2",
+  "title": "E2. Deterministic Heap (Hard Version)",
+  "rating": 2900,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "trees"
+  ],
+  "category": "logic",
+  "contest": 2001
+ },
+ {
+  "problem_id": "2001E1",
+  "title": "E1. Deterministic Heap (Easy Version)",
+  "rating": 2400,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "math",
+   "trees"
+  ],
+  "category": "logic",
+  "contest": 2001
+ },
+ {
+  "problem_id": "2001D",
+  "title": "D. Longest Max Min Subsequence",
+  "rating": 1900,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "data structures",
+   "greedy",
+   "implementation"
+  ],
+  "category": "observation",
+  "contest": 2001
+ },
+ {
+  "problem_id": "2004E",
+  "title": "E. Not a Nim Problem",
+  "rating": 2100,
+  "tags": [
+   "brute force",
+   "games",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2004
+ },
+ {
+  "problem_id": "2004F",
+  "title": "F. Make a Palindrome",
+  "rating": 2600,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2004
+ },
+ {
+  "problem_id": "2000G",
+  "title": "G. Call During the Journey",
+  "rating": 2100,
+  "tags": [
+   "binary search",
+   "brute force",
+   "graphs",
+   "greedy",
+   "shortest paths"
+  ],
+  "category": "knowledge",
+  "contest": 2000
+ },
+ {
+  "problem_id": "2000H",
+  "title": "H. Ksyusha and the Loaded Set",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2000
+ },
+ {
+  "problem_id": "2000F",
+  "title": "F. Color Rows and Columns",
+  "rating": 1900,
+  "tags": [
+   "dp",
+   "greedy",
+   "implementation",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2000
+ },
+ {
+  "problem_id": "2002E",
+  "title": "E. Cosmic Rays",
+  "rating": 2300,
+  "tags": [
+   "brute force",
+   "data structures",
+   "dp"
+  ],
+  "category": "knowledge",
+  "contest": 2002
+ },
+ {
+  "problem_id": "2002D2",
+  "title": "D2. DFS Checker (Hard Version)",
+  "rating": 2300,
+  "tags": [
+   "binary search",
+   "data structures",
+   "dfs and similar",
+   "graphs",
+   "hashing",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2002
+ },
+ {
+  "problem_id": "2002D1",
+  "title": "D1. DFS Checker (Easy Version)",
+  "rating": 1900,
+  "tags": [
+   "brute force",
+   "data structures",
+   "dfs and similar",
+   "graphs",
+   "hashing",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2002
+ },
+ {
+  "problem_id": "2002F1",
+  "title": "F1. Court Blue (Easy Version)",
+  "rating": 2600,
+  "tags": [
+   "brute force",
+   "dfs and similar",
+   "dp",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2002
+ },
+ {
+  "problem_id": "2002F2",
+  "title": "F2. Court Blue (Hard Version)",
+  "rating": 2800,
+  "tags": [
+   "brute force",
+   "dp",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2002
+ },
+ {
+  "problem_id": "1998E2",
+  "title": "E2. Eliminating Balls With Merging (Hard Version)",
+  "rating": 2500,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "divide and conquer",
+   "greedy",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 1998
+ },
+ {
+  "problem_id": "1998D",
+  "title": "D. Determine Winning Islands in Race",
+  "rating": 2100,
+  "tags": [
+   "data structures",
+   "dp",
+   "graphs",
+   "greedy",
+   "shortest paths"
+  ],
+  "category": "knowledge",
+  "contest": 1998
+ },
+ {
+  "problem_id": "1998E1",
+  "title": "E1. Eliminating Balls With Merging (Easy Version)",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "divide and conquer",
+   "greedy"
+  ],
+  "category": "knowledge",
+  "contest": 1998
+ },
+ {
+  "problem_id": "1998C",
+  "title": "C. Perform Operations to Maximize Score",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "brute force",
+   "constructive algorithms",
+   "greedy",
+   "implementation"
+  ],
+  "category": "observation",
+  "contest": 1998
+ },
+ {
+  "problem_id": "1993E",
+  "title": "E. Xor-Grid Problem",
+  "rating": 2700,
+  "tags": [
+   "bitmasks",
+   "constructive algorithms",
+   "dp",
+   "implementation"
+  ],
+  "category": "logic",
+  "contest": 1993
+ },
+ {
+  "problem_id": "1993F2",
+  "title": "F2. Dyn-scripted Robot (Hard Version)",
+  "rating": 2800,
+  "tags": [
+   "chinese remainder theorem",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 1993
+ },
+ {
+  "problem_id": "1993D",
+  "title": "D. Med-imize",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "dp",
+   "greedy"
+  ],
+  "category": "logic",
+  "contest": 1993
+ },
+ {
+  "problem_id": "1993F1",
+  "title": "F1. Dyn-scripted Robot (Easy Version)",
+  "rating": 2400,
+  "tags": [
+   "brute force",
+   "chinese remainder theorem",
+   "constructive algorithms",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 1993
+ },
+ {
+  "problem_id": "1997F",
+  "title": "F. Chips on a Line",
+  "rating": 2700,
+  "tags": [
+   "brute force",
+   "combinatorics",
+   "dp",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 1997
+ },
+ {
+  "problem_id": "1997E",
+  "title": "E. Level Up",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "divide and conquer",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 1997
+ },
+ {
+  "problem_id": "1991G",
+  "title": "G. Grid Reset",
+  "rating": 2700,
+  "tags": [
+   "constructive algorithms",
+   "greedy",
+   "implementation"
+  ],
+  "category": "observation",
+  "contest": 1991
+ },
+ {
+  "problem_id": "1991D",
+  "title": "D. Prime XOR Coloring",
+  "rating": 1900,
+  "tags": [
+   "bitmasks",
+   "constructive algorithms",
+   "graphs",
+   "greedy",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 1991
+ },
+ {
+  "problem_id": "1996F",
+  "title": "F. Bomb",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 1996
+ },
+ {
+  "problem_id": "1996G",
+  "title": "G. Penacony",
+  "rating": 2200,
+  "tags": [
+   "brute force",
+   "data structures",
+   "graphs",
+   "greedy",
+   "hashing"
+  ],
+  "category": "knowledge",
+  "contest": 1996
+ },
+ {
+  "problem_id": "1995E1",
+  "title": "E1. Let Me Teach You a Lesson (Easy Version)",
+  "rating": 2700,
+  "tags": [
+   "2-sat",
+   "data structures",
+   "dp",
+   "matrices",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 1995
+ },
+ {
+  "problem_id": "1995E2",
+  "title": "E2. Let Me Teach You a Lesson (Hard Version)",
+  "rating": 2900,
+  "tags": [
+   "data structures",
+   "dp",
+   "matrices",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 1995
+ },
+ {
+  "problem_id": "1995D",
+  "title": "D. Cases",
+  "rating": 2300,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "dp",
+   "strings"
+  ],
+  "category": "logic",
+  "contest": 1995
+ },
+ {
+  "problem_id": "1990E1",
+  "title": "E1. Catch the Mole(Easy Version)",
+  "rating": 2500,
+  "tags": [
+   "binary search",
+   "data structures",
+   "dfs and similar",
+   "interactive",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 1990
+ },
+ {
+  "problem_id": "1990E2",
+  "title": "E2. Catch the Mole(Hard Version)",
+  "rating": 2600,
+  "tags": [
+   "binary search",
+   "data structures",
+   "dfs and similar",
+   "divide and conquer",
+   "interactive",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 1990
+ },
+ {
+  "problem_id": "1994F",
+  "title": "F. Stardew Valley",
+  "rating": 2500,
+  "tags": [
+   "constructive algorithms",
+   "dfs and similar",
+   "graphs",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 1994
+ },
+ {
+  "problem_id": "1994G",
+  "title": "G. Minecraft",
+  "rating": 2600,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "dp",
+   "graphs",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 1994
+ },
+ {
+  "problem_id": "1994E",
+  "title": "E. Wooden Game",
+  "rating": 2000,
+  "tags": [
+   "bitmasks",
+   "greedy",
+   "math",
+   "trees"
+  ],
+  "category": "logic",
+  "contest": 1994
+ },
+ {
+  "problem_id": "1994D",
+  "title": "D. Funny Game",
+  "rating": 1900,
+  "tags": [
+   "constructive algorithms",
+   "dsu",
+   "graphs",
+   "greedy",
+   "math",
+   "number theory",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 1994
+ },
+ {
+  "problem_id": "1988E",
+  "title": "E. Range Minimum Sum",
+  "rating": 2300,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "divide and conquer",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 1988
+ },
+ {
+  "problem_id": "1988D",
+  "title": "D. The Omnipotent Monster Killer",
+  "rating": 2000,
+  "tags": [
+   "brute force",
+   "dfs and similar",
+   "dp",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 1988
+ },
+ {
+  "problem_id": "1992G",
+  "title": "G. Ultra-Meow",
+  "rating": 2000,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 1992
+ },
+ {
+  "problem_id": "1992F",
+  "title": "F. Valuable Cards",
+  "rating": 1900,
+  "tags": [
+   "brute force",
+   "dp",
+   "greedy",
+   "number theory",
+   "two pointers"
+  ],
+  "category": "logic",
+  "contest": 1992
+ },
+ {
+  "problem_id": "1983E",
+  "title": "E. I Love Balls",
+  "rating": 2300,
+  "tags": [
+   "combinatorics",
+   "math",
+   "probabilities"
+  ],
+  "category": "logic",
+  "contest": 1983
+ },
+ {
+  "problem_id": "1983F",
+  "title": "F. array-value",
+  "rating": 2500,
+  "tags": [
+   "binary search",
+   "bitmasks",
+   "data structures",
+   "greedy",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 1983
+ },
+ {
+  "problem_id": "1983G",
+  "title": "G. Your Loss",
+  "rating": 3000,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "dp",
+   "trees"
+  ],
+  "category": "logic",
+  "contest": 1983
+ },
+ {
+  "problem_id": "2092E",
+  "title": "E. She knows...",
+  "rating": 2100,
+  "tags": [
+   "combinatorics",
+   "constructive algorithms",
+   "graphs",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2092
+ },
+ {
+  "problem_id": "2092F",
+  "title": "F. Andryusha and CCB",
+  "rating": 2900,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "greedy",
+   "math",
+   "number theory",
+   "strings"
+  ],
+  "category": "observation",
+  "contest": 2092
+ },
+ {
+  "problem_id": "2091G",
+  "title": "G. Gleb and Boating",
+  "rating": 2300,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "data structures",
+   "dp",
+   "graphs",
+   "greedy",
+   "math",
+   "number theory",
+   "shortest paths"
+  ],
+  "category": "knowledge",
+  "contest": 2091
+ },
+ {
+  "problem_id": "2089B2",
+  "title": "B2. Canteen (Hard Version)",
+  "rating": 2300,
+  "tags": [
+   "binary search",
+   "data structures",
+   "dp",
+   "flows",
+   "greedy",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2089
+ },
+ {
+  "problem_id": "2089B1",
+  "title": "B1. Canteen (Easy Version)",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "data structures",
+   "flows",
+   "greedy",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2089
+ },
+ {
+  "problem_id": "2089C1",
+  "title": "C1. Key of Like (Easy Version)",
+  "rating": 2200,
+  "tags": [
+   "dp",
+   "games",
+   "math",
+   "probabilities"
+  ],
+  "category": "logic",
+  "contest": 2089
+ },
+ {
+  "problem_id": "2085F2",
+  "title": "F2. Serval and Colorful Array (Hard Version)",
+  "rating": 2900,
+  "tags": [
+   "data structures",
+   "greedy"
+  ],
+  "category": "knowledge",
+  "contest": 2085
+ },
+ {
+  "problem_id": "2085D",
+  "title": "D. Serval and Kaitenzushi Buffet",
+  "rating": 2000,
+  "tags": [
+   "data structures",
+   "graph matchings",
+   "greedy"
+  ],
+  "category": "knowledge",
+  "contest": 2085
+ },
+ {
+  "problem_id": "2085E",
+  "title": "E. Serval and Modulo",
+  "rating": 2200,
+  "tags": [
+   "constructive algorithms",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2085
+ },
+ {
+  "problem_id": "2085F1",
+  "title": "F1. Serval and Colorful Array (Easy Version)",
+  "rating": 2600,
+  "tags": [
+   "data structures",
+   "greedy"
+  ],
+  "category": "knowledge",
+  "contest": 2085
+ },
+ {
+  "problem_id": "2075F",
+  "title": "F. Beautiful Sequence Returns",
+  "rating": 3000,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2075
+ },
+ {
+  "problem_id": "2075D",
+  "title": "D. Equalization",
+  "rating": 2000,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "dp",
+   "graphs",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2075
+ },
+ {
+  "problem_id": "2075E",
+  "title": "E. XOR Matrix",
+  "rating": 2500,
+  "tags": [
+   "bitmasks",
+   "combinatorics",
+   "dp",
+   "implementation",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2075
+ },
+ {
+  "problem_id": "2074F",
+  "title": "F. Counting Necessary Nodes",
+  "rating": 2000,
+  "tags": [
+   "bitmasks",
+   "divide and conquer",
+   "greedy",
+   "implementation",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2074
+ },
+ {
+  "problem_id": "2074G",
+  "title": "G. Game With Triangles: Season 2",
+  "rating": 2100,
+  "tags": [
+   "dp",
+   "geometry"
+  ],
+  "category": "knowledge",
+  "contest": 2074
+ },
+ {
+  "problem_id": "2077C",
+  "title": "C. Binary Subsequence Value Sum",
+  "rating": 2300,
+  "tags": [
+   "combinatorics",
+   "data structures",
+   "dp",
+   "fft",
+   "math",
+   "matrices"
+  ],
+  "category": "knowledge",
+  "contest": 2077
+ },
+ {
+  "problem_id": "2077B",
+  "title": "B. Finding OR Sum",
+  "rating": 1900,
+  "tags": [
+   "bitmasks",
+   "constructive algorithms",
+   "implementation",
+   "interactive",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2077
+ },
+ {
+  "problem_id": "2077E",
+  "title": "E. Another Folding Strip",
+  "rating": 2700,
+  "tags": [
+   "combinatorics",
+   "constructive algorithms",
+   "data structures",
+   "divide and conquer",
+   "dp",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2077
+ },
+ {
+  "problem_id": "2071F",
+  "title": "F. Towering Arrays",
+  "rating": 2700,
+  "tags": [
+   "binary search",
+   "data structures"
+  ],
+  "category": "knowledge",
+  "contest": 2071
+ },
+ {
+  "problem_id": "2071E",
+  "title": "E. LeaFall",
+  "rating": 2600,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "probabilities",
+   "trees"
+  ],
+  "category": "logic",
+  "contest": 2071
+ },
+ {
+  "problem_id": "2071D2",
+  "title": "D2. Infinite Sequence (Hard Version)",
+  "rating": 2500,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "constructive algorithms",
+   "data structures",
+   "dp",
+   "implementation",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2071
+ },
+ {
+  "problem_id": "2070F",
+  "title": "F. Friends and Pizza",
+  "rating": 3000,
+  "tags": [
+   "bitmasks",
+   "divide and conquer",
+   "dp",
+   "fft"
+  ],
+  "category": "knowledge",
+  "contest": 2070
+ },
+ {
+  "problem_id": "2070E",
+  "title": "E. Game with Binary String",
+  "rating": 2200,
+  "tags": [
+   "constructive algorithms",
+   "data structures",
+   "divide and conquer",
+   "games",
+   "greedy",
+   "math"
+  ],
+  "category": "observation",
+  "contest": 2070
+ },
+ {
+  "problem_id": "2072G",
+  "title": "G. I've Been Flipping Numbers for 300 Years and Calculated the Sum",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "brute force",
+   "combinatorics",
+   "divide and conquer",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2072
+ },
+ {
+  "problem_id": "2069E",
+  "title": "E. A, B, AB and BA",
+  "rating": 2300,
+  "tags": [
+   "constructive algorithms",
+   "greedy",
+   "sortings",
+   "strings"
+  ],
+  "category": "knowledge",
+  "contest": 2069
+ },
+ {
+  "problem_id": "2069F",
+  "title": "F. Graph Inclusion",
+  "rating": 2800,
+  "tags": [
+   "data structures",
+   "dfs and similar",
+   "divide and conquer",
+   "dsu",
+   "graphs"
+  ],
+  "category": "knowledge",
+  "contest": 2069
+ },
+ {
+  "problem_id": "2064D",
+  "title": "D. Eating",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "bitmasks",
+   "brute force",
+   "data structures",
+   "dp",
+   "greedy",
+   "trees",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2064
+ },
+ {
+  "problem_id": "2064E",
+  "title": "E. Mycraft Sand Sort",
+  "rating": 2400,
+  "tags": [
+   "combinatorics",
+   "data structures",
+   "dsu",
+   "greedy",
+   "math",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2064
+ },
+ {
+  "problem_id": "2064F",
+  "title": "F. We Be Summing",
+  "rating": 2600,
+  "tags": [
+   "binary search",
+   "data structures",
+   "dp",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2064
+ },
+ {
+  "problem_id": "2066C",
+  "title": "C. Bitwise Slides",
+  "rating": 2300,
+  "tags": [
+   "bitmasks",
+   "combinatorics",
+   "dp",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2066
+ },
+ {
+  "problem_id": "2066B",
+  "title": "B. White Magic",
+  "rating": 1900,
+  "tags": [
+   "constructive algorithms",
+   "data structures",
+   "dp",
+   "greedy",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2066
+ },
+ {
+  "problem_id": "2066D2",
+  "title": "D2. Club of Young Aircraft Builders (hard version)",
+  "rating": 2900,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2066
+ },
+ {
+  "problem_id": "2066D1",
+  "title": "D1. Club of Young Aircraft Builders (easy version)",
+  "rating": 2400,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2066
+ },
+ {
+  "problem_id": "2065H",
+  "title": "H. Bro Thinks He's Him",
+  "rating": 2200,
+  "tags": [
+   "combinatorics",
+   "data structures",
+   "divide and conquer",
+   "dp",
+   "math",
+   "matrices"
+  ],
+  "category": "knowledge",
+  "contest": 2065
+ },
+ {
+  "problem_id": "2059D",
+  "title": "D. Graph and Graph",
+  "rating": 1900,
+  "tags": [
+   "data structures",
+   "graphs",
+   "greedy",
+   "shortest paths"
+  ],
+  "category": "knowledge",
+  "contest": 2059
+ },
+ {
+  "problem_id": "2059E1",
+  "title": "E1. Stop Gaming (Easy Version)",
+  "rating": 2500,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "greedy",
+   "hashing",
+   "strings"
+  ],
+  "category": "observation",
+  "contest": 2059
+ },
+ {
+  "problem_id": "2059E2",
+  "title": "E2. Stop Gaming (Hard Version)",
+  "rating": 2900,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "data structures",
+   "hashing",
+   "strings"
+  ],
+  "category": "knowledge",
+  "contest": 2059
+ },
+ {
+  "problem_id": "2062E1",
+  "title": "E1. The Game (Easy Version)",
+  "rating": 2000,
+  "tags": [
+   "data structures",
+   "dfs and similar",
+   "games",
+   "graphs",
+   "greedy",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2062
+ },
+ {
+  "problem_id": "2062F",
+  "title": "F. Traveling Salescat",
+  "rating": 2900,
+  "tags": [
+   "constructive algorithms",
+   "dp",
+   "geometry",
+   "graphs",
+   "greedy",
+   "math",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2062
+ },
+ {
+  "problem_id": "2062D",
+  "title": "D. Balanced Tree",
+  "rating": 2200,
+  "tags": [
+   "dfs and similar",
+   "dp",
+   "graphs",
+   "greedy",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2062
+ },
+ {
+  "problem_id": "2063D",
+  "title": "D. Game With Triangles",
+  "rating": 2000,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "geometry",
+   "greedy",
+   "implementation",
+   "math",
+   "ternary search",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2063
+ },
+ {
+  "problem_id": "2063F2",
+  "title": "F2. Counting Is Not Fun (Hard Version)",
+  "rating": 2700,
+  "tags": [
+   "combinatorics",
+   "data structures",
+   "dfs and similar",
+   "dsu",
+   "graphs",
+   "implementation",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2063
+ },
+ {
+  "problem_id": "2063F1",
+  "title": "F1. Counting Is Not Fun (Easy Version)",
+  "rating": 2400,
+  "tags": [
+   "combinatorics",
+   "data structures",
+   "dfs and similar",
+   "dp",
+   "dsu",
+   "graphs",
+   "hashing",
+   "implementation",
+   "math",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2063
+ },
+ {
+  "problem_id": "2063E",
+  "title": "E. Triangle Tree",
+  "rating": 2300,
+  "tags": [
+   "data structures",
+   "dfs and similar",
+   "dp",
+   "greedy",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2063
+ },
+ {
+  "problem_id": "2061E",
+  "title": "E. Kevin and And",
+  "rating": 2000,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "dp",
+   "greedy",
+   "math",
+   "sortings"
+  ],
+  "category": "logic",
+  "contest": 2061
+ },
+ {
+  "problem_id": "2061F1",
+  "title": "F1. Kevin and Binary String (Easy Version)",
+  "rating": 2100,
+  "tags": [
+   "greedy",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2061
+ },
+ {
+  "problem_id": "2061G",
+  "title": "G. Kevin and Teams",
+  "rating": 2900,
+  "tags": [
+   "constructive algorithms",
+   "graphs",
+   "interactive"
+  ],
+  "category": "observation",
+  "contest": 2061
+ },
+ {
+  "problem_id": "2060F",
+  "title": "F. Multiplicative Arrays",
+  "rating": 2200,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2060
+ },
+ {
+  "problem_id": "2060G",
+  "title": "G. Bugged Sort",
+  "rating": 2400,
+  "tags": [
+   "dp",
+   "greedy",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2060
+ },
+ {
+  "problem_id": "2056D",
+  "title": "D. Unique Median",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "brute force",
+   "combinatorics",
+   "data structures",
+   "divide and conquer",
+   "dp"
+  ],
+  "category": "logic",
+  "contest": 2056
+ },
+ {
+  "problem_id": "2056F1",
+  "title": "F1. Xor of Median (Easy Version)",
+  "rating": 2700,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "combinatorics",
+   "dp",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2056
+ },
+ {
+  "problem_id": "2056F2",
+  "title": "F2. Xor of Median (Hard Version)",
+  "rating": 3000,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "combinatorics",
+   "dp",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2056
+ },
+ {
+  "problem_id": "2056E",
+  "title": "E. Nested Segments",
+  "rating": 2500,
+  "tags": [
+   "combinatorics",
+   "dfs and similar",
+   "dp",
+   "dsu",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2056
+ },
+ {
+  "problem_id": "2055E",
+  "title": "E. Haystacks",
+  "rating": 2800,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "data structures",
+   "greedy",
+   "sortings"
+  ],
+  "category": "observation",
+  "contest": 2055
+ },
+ {
+  "problem_id": "2055D",
+  "title": "D. Scarecrow",
+  "rating": 2000,
+  "tags": [
+   "greedy",
+   "implementation",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2055
+ },
+ {
+  "problem_id": "2057G",
+  "title": "G. Secret Message",
+  "rating": 3000,
+  "tags": [
+   "constructive algorithms",
+   "dfs and similar",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2057
+ },
+ {
+  "problem_id": "2057D",
+  "title": "D. Gifts Order",
+  "rating": 2000,
+  "tags": [
+   "data structures",
+   "greedy",
+   "implementation",
+   "math",
+   "matrices"
+  ],
+  "category": "knowledge",
+  "contest": 2057
+ },
+ {
+  "problem_id": "2057E2",
+  "title": "E2. Another Exercise on Graphs (hard version)",
+  "rating": 2500,
+  "tags": [
+   "binary search",
+   "dfs and similar",
+   "dp",
+   "dsu",
+   "graphs",
+   "shortest paths",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2057
+ },
+ {
+  "problem_id": "2057E1",
+  "title": "E1. Another Exercise on Graphs (Easy Version)",
+  "rating": 2300,
+  "tags": [
+   "binary search",
+   "brute force",
+   "dp",
+   "dsu",
+   "graphs",
+   "shortest paths",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2057
+ },
+ {
+  "problem_id": "2112F",
+  "title": "F. Variables and Operations",
+  "rating": 2800,
+  "tags": [
+   "graphs",
+   "greedy",
+   "shortest paths"
+  ],
+  "category": "knowledge",
+  "contest": 2112
+ },
+ {
+  "problem_id": "2112E",
+  "title": "E. Tree Colorings",
+  "rating": 2200,
+  "tags": [
+   "combinatorics",
+   "dfs and similar",
+   "dp",
+   "graphs",
+   "math",
+   "number theory",
+   "trees"
+  ],
+  "category": "logic",
+  "contest": 2112
+ },
+ {
+  "problem_id": "2120F",
+  "title": "F. Superb Graphs",
+  "rating": 2600,
+  "tags": [
+   "2-sat",
+   "graphs"
+  ],
+  "category": "knowledge",
+  "contest": 2120
+ },
+ {
+  "problem_id": "2120G",
+  "title": "G. Eulerian Line Graph",
+  "rating": 3000,
+  "tags": [
+   "graphs",
+   "greedy",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2120
+ },
+ {
+  "problem_id": "2120E",
+  "title": "E. Lanes of Cars",
+  "rating": 2300,
+  "tags": [
+   "binary search",
+   "dp",
+   "ternary search"
+  ],
+  "category": "logic",
+  "contest": 2120
+ },
+ {
+  "problem_id": "2121G",
+  "title": "G. Gangsta",
+  "rating": 1900,
+  "tags": [
+   "data structures",
+   "divide and conquer",
+   "math",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2121
+ },
+ {
+  "problem_id": "2121H",
+  "title": "H. Ice Baby",
+  "rating": 2300,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "dp",
+   "implementation",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2121
+ },
+ {
+  "problem_id": "2113F",
+  "title": "F. Two Arrays",
+  "rating": 2500,
+  "tags": [
+   "constructive algorithms",
+   "dfs and similar",
+   "graphs",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2113
+ },
+ {
+  "problem_id": "2113E",
+  "title": "E. From Kazan with Love",
+  "rating": 2800,
+  "tags": [
+   "dfs and similar",
+   "graphs",
+   "implementation",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2113
+ },
+ {
+  "problem_id": "2113D",
+  "title": "D. Cheater",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "constructive algorithms",
+   "greedy",
+   "implementation"
+  ],
+  "category": "observation",
+  "contest": 2113
+ },
+ {
+  "problem_id": "2118E",
+  "title": "E. Grid Coloring",
+  "rating": 2400,
+  "tags": [
+   "constructive algorithms",
+   "geometry",
+   "greedy",
+   "math"
+  ],
+  "category": "observation",
+  "contest": 2118
+ },
+ {
+  "problem_id": "2118D2",
+  "title": "D2. Red Light, Green Light (Hard version)",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "dfs and similar",
+   "dp",
+   "graphs",
+   "implementation",
+   "math",
+   "number theory"
+  ],
+  "category": "knowledge",
+  "contest": 2118
+ },
+ {
+  "problem_id": "2117G",
+  "title": "G. Omg Graph",
+  "rating": 1900,
+  "tags": [
+   "brute force",
+   "dsu",
+   "graphs",
+   "greedy",
+   "shortest paths",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2117
+ },
+ {
+  "problem_id": "2117H",
+  "title": "H. Incessant Rain",
+  "rating": 2500,
+  "tags": [
+   "data structures",
+   "divide and conquer",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2117
+ },
+ {
+  "problem_id": "2111E",
+  "title": "E. Changing the String",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "data structures",
+   "greedy",
+   "implementation",
+   "sortings",
+   "strings"
+  ],
+  "category": "knowledge",
+  "contest": 2111
+ },
+ {
+  "problem_id": "2111G",
+  "title": "G. Divisible Subarrays",
+  "rating": 2900,
+  "tags": [
+   "binary search",
+   "bitmasks",
+   "brute force",
+   "data structures",
+   "interactive"
+  ],
+  "category": "logic",
+  "contest": 2111
+ },
+ {
+  "problem_id": "2111F",
+  "title": "F. Puzzle",
+  "rating": 2400,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "greedy",
+   "math"
+  ],
+  "category": "observation",
+  "contest": 2111
+ },
+ {
+  "problem_id": "2115C",
+  "title": "C. Gellyfish and Eternal Violet",
+  "rating": 2700,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "greedy",
+   "math",
+   "probabilities"
+  ],
+  "category": "logic",
+  "contest": 2115
+ },
+ {
+  "problem_id": "2115B",
+  "title": "B. Gellyfish and Camellia Japonica",
+  "rating": 2100,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "dfs and similar",
+   "dp",
+   "graphs",
+   "greedy",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2115
+ },
+ {
+  "problem_id": "2115D",
+  "title": "D. Gellyfish and Forget-Me-Not",
+  "rating": 2900,
+  "tags": [
+   "bitmasks",
+   "dp",
+   "games",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2115
+ },
+ {
+  "problem_id": "2114G",
+  "title": "G. Build an Array",
+  "rating": 2200,
+  "tags": [
+   "brute force",
+   "constructive algorithms",
+   "dp",
+   "greedy",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2114
+ },
+ {
+  "problem_id": "2114F",
+  "title": "F. Small Operations",
+  "rating": 2000,
+  "tags": [
+   "binary search",
+   "brute force",
+   "dfs and similar",
+   "dp",
+   "math",
+   "number theory",
+   "sortings"
+  ],
+  "category": "logic",
+  "contest": 2114
+ },
+ {
+  "problem_id": "2110E",
+  "title": "E. Melody",
+  "rating": 2300,
+  "tags": [
+   "dfs and similar",
+   "graphs",
+   "implementation"
+  ],
+  "category": "knowledge",
+  "contest": 2110
+ },
+ {
+  "problem_id": "2110F",
+  "title": "F. Faculty",
+  "rating": 2400,
+  "tags": [
+   "brute force",
+   "greedy",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2110
+ },
+ {
+  "problem_id": "2109E",
+  "title": "E. Binary String Wowee",
+  "rating": 2400,
+  "tags": [
+   "combinatorics",
+   "dp",
+   "strings"
+  ],
+  "category": "logic",
+  "contest": 2109
+ },
+ {
+  "problem_id": "2109C3",
+  "title": "C3. Hacking Numbers (Hard Version)",
+  "rating": 2600,
+  "tags": [
+   "constructive algorithms",
+   "interactive",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2109
+ },
+ {
+  "problem_id": "2109D",
+  "title": "D. D/D/D",
+  "rating": 1900,
+  "tags": [
+   "dfs and similar",
+   "graphs",
+   "greedy",
+   "shortest paths"
+  ],
+  "category": "knowledge",
+  "contest": 2109
+ },
+ {
+  "problem_id": "2109F",
+  "title": "F. Penguin Steps",
+  "rating": 3000,
+  "tags": [
+   "binary search",
+   "dfs and similar",
+   "flows",
+   "graphs",
+   "shortest paths"
+  ],
+  "category": "knowledge",
+  "contest": 2109
+ },
+ {
+  "problem_id": "2101D",
+  "title": "D. Mani and Segments",
+  "rating": 2500,
+  "tags": [
+   "data structures",
+   "implementation",
+   "sortings",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2101
+ },
+ {
+  "problem_id": "2101C",
+  "title": "C. 23 Kingdom",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "greedy",
+   "ternary search",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2101
+ },
+ {
+  "problem_id": "2107D",
+  "title": "D. Apple Tree Traversing",
+  "rating": 2100,
+  "tags": [
+   "brute force",
+   "dfs and similar",
+   "greedy",
+   "implementation",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2107
+ },
+ {
+  "problem_id": "2107F2",
+  "title": "F2. Cycling (Hard Version)",
+  "rating": 2800,
+  "tags": [
+   "binary search",
+   "brute force",
+   "data structures",
+   "dp",
+   "greedy"
+  ],
+  "category": "logic",
+  "contest": 2107
+ },
+ {
+  "problem_id": "2107F1",
+  "title": "F1. Cycling (Easy Version)",
+  "rating": 2300,
+  "tags": [
+   "binary search",
+   "brute force",
+   "dp",
+   "greedy"
+  ],
+  "category": "logic",
+  "contest": 2107
+ },
+ {
+  "problem_id": "2107E",
+  "title": "E. Ain and Apple Tree",
+  "rating": 2600,
+  "tags": [
+   "binary search",
+   "constructive algorithms",
+   "greedy",
+   "math",
+   "trees"
+  ],
+  "category": "logic",
+  "contest": 2107
+ },
+ {
+  "problem_id": "2108F",
+  "title": "F. Fallen Towers",
+  "rating": 2900,
+  "tags": [
+   "binary search",
+   "greedy"
+  ],
+  "category": "logic",
+  "contest": 2108
+ },
+ {
+  "problem_id": "2108D",
+  "title": "D. Needle in a Numstack",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "brute force",
+   "implementation",
+   "interactive"
+  ],
+  "category": "observation",
+  "contest": 2108
+ },
+ {
+  "problem_id": "2108E",
+  "title": "E. Spruce Dispute",
+  "rating": 2600,
+  "tags": [
+   "constructive algorithms",
+   "dfs and similar",
+   "graphs",
+   "greedy",
+   "implementation",
+   "shortest paths",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2108
+ },
+ {
+  "problem_id": "2104G",
+  "title": "G. Modulo 3",
+  "rating": 2700,
+  "tags": [
+   "data structures",
+   "divide and conquer",
+   "dsu",
+   "graphs",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2104
+ },
+ {
+  "problem_id": "2104F",
+  "title": "F. Numbers and Strings",
+  "rating": 2600,
+  "tags": [
+   "binary search",
+   "brute force",
+   "dfs and similar",
+   "dp",
+   "implementation",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2104
+ },
+ {
+  "problem_id": "2097D",
+  "title": "D. Homework",
+  "rating": 2800,
+  "tags": [
+   "bitmasks",
+   "math",
+   "matrices"
+  ],
+  "category": "logic",
+  "contest": 2097
+ },
+ {
+  "problem_id": "2097C",
+  "title": "C. Bermuda Triangle",
+  "rating": 2400,
+  "tags": [
+   "chinese remainder theorem",
+   "geometry",
+   "implementation",
+   "math",
+   "number theory"
+  ],
+  "category": "knowledge",
+  "contest": 2097
+ },
+ {
+  "problem_id": "2097B",
+  "title": "B. Baggage Claim",
+  "rating": 2300,
+  "tags": [
+   "combinatorics",
+   "dfs and similar",
+   "dp",
+   "dsu",
+   "graphs",
+   "implementation",
+   "math",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2097
+ },
+ {
+  "problem_id": "2106G2",
+  "title": "G2. Baudelaire (hard version)",
+  "rating": 2500,
+  "tags": [
+   "binary search",
+   "dfs and similar",
+   "divide and conquer",
+   "implementation",
+   "interactive",
+   "trees"
+  ],
+  "category": "knowledge",
+  "contest": 2106
+ },
+ {
+  "problem_id": "2106G1",
+  "title": "G1. Baudelaire (easy version)",
+  "rating": 2200,
+  "tags": [
+   "binary search",
+   "constructive algorithms",
+   "divide and conquer",
+   "greedy",
+   "interactive",
+   "trees"
+  ],
+  "category": "observation",
+  "contest": 2106
+ },
+ {
+  "problem_id": "2106F",
+  "title": "F. Goblin",
+  "rating": 1900,
+  "tags": [
+   "dfs and similar",
+   "dp",
+   "dsu",
+   "greedy",
+   "math"
+  ],
+  "category": "knowledge",
+  "contest": 2106
+ },
+ {
+  "problem_id": "2103E",
+  "title": "E. Keep the Sum",
+  "rating": 2600,
+  "tags": [
+   "constructive algorithms",
+   "implementation",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2103
+ },
+ {
+  "problem_id": "2103F",
+  "title": "F. Maximize Nor",
+  "rating": 2600,
+  "tags": [
+   "bitmasks",
+   "data structures",
+   "dp",
+   "implementation",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2103
+ },
+ {
+  "problem_id": "2103D",
+  "title": "D. Local Construction",
+  "rating": 2000,
+  "tags": [
+   "constructive algorithms",
+   "dfs and similar",
+   "implementation",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2103
+ },
+ {
+  "problem_id": "2096E",
+  "title": "E. Wonderful Teddy Bears",
+  "rating": 2400,
+  "tags": [
+   "greedy",
+   "implementation",
+   "sortings"
+  ],
+  "category": "knowledge",
+  "contest": 2096
+ },
+ {
+  "problem_id": "2096D",
+  "title": "D. Wonderful Lightbulbs",
+  "rating": 2000,
+  "tags": [
+   "combinatorics",
+   "constructive algorithms",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2096
+ },
+ {
+  "problem_id": "2094H",
+  "title": "H. La Vaca Saturno Saturnita",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "brute force",
+   "math",
+   "number theory"
+  ],
+  "category": "logic",
+  "contest": 2094
+ },
+ {
+  "problem_id": "2093G",
+  "title": "G. Shorten the Array",
+  "rating": 1900,
+  "tags": [
+   "binary search",
+   "bitmasks",
+   "data structures",
+   "dfs and similar",
+   "greedy",
+   "strings",
+   "trees",
+   "two pointers"
+  ],
+  "category": "knowledge",
+  "contest": 2093
+ },
+ {
+  "problem_id": "2084G1",
+  "title": "G1. Wish Upon a Satellite (Easy Version)",
+  "rating": 2600,
+  "tags": [
+   "dp",
+   "games"
+  ],
+  "category": "logic",
+  "contest": 2084
+ },
+ {
+  "problem_id": "2084E",
+  "title": "E. Blossom",
+  "rating": 2400,
+  "tags": [
+   "binary search",
+   "combinatorics",
+   "dp",
+   "implementation",
+   "math",
+   "two pointers"
+  ],
+  "category": "logic",
+  "contest": 2084
+ },
+ {
+  "problem_id": "2084F",
+  "title": "F. Skyscape",
+  "rating": 2900,
+  "tags": [
+   "constructive algorithms",
+   "data structures",
+   "greedy"
+  ],
+  "category": "observation",
+  "contest": 2084
+ },
+ {
+  "problem_id": "2086E",
+  "title": "E. Zebra-like Numbers",
+  "rating": 2400,
+  "tags": [
+   "bitmasks",
+   "brute force",
+   "constructive algorithms",
+   "dfs and similar",
+   "dp",
+   "greedy",
+   "math"
+  ],
+  "category": "logic",
+  "contest": 2086
+ }
+]

@@ -24,6 +24,7 @@ dependencies = [
     "tabulate>=0.10.0",
     "pandas>=3.0.5",
     "soundfile>=0.14.0",
+    "docker>=7.2.0",
 ]
 
 [tool.uv]
