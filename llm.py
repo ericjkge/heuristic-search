@@ -96,8 +96,9 @@ class Usage:
 
     def add(self, model: str, usage: Any) -> None:
         self.requests += 1
-        pt = getattr(usage, "prompt_tokens", 0) or 0
-        ct = getattr(usage, "completion_tokens", 0) or 0
+        # chat completions report prompt/completion tokens; responses report input/output
+        pt = (getattr(usage, "prompt_tokens", 0) or getattr(usage, "input_tokens", 0)) or 0
+        ct = (getattr(usage, "completion_tokens", 0) or getattr(usage, "output_tokens", 0)) or 0
         cost = getattr(usage, "cost", 0.0) or 0.0
         self.prompt_tokens += pt
         self.completion_tokens += ct
@@ -145,7 +146,9 @@ async def generate(
         ]
     else:
         assert system is None, "pass system inside the messages list"
-        messages = prompt
+        # strip Responses-API bookkeeping keys (e.g. _reasoning) before a chat call
+        messages = [{k: v for k, v in m.items() if not k.startswith("_")}
+                    for m in prompt]
 
     kwargs: dict[str, Any] = dict(
         model=model,
@@ -190,6 +193,121 @@ async def generate(
             last_err = e
         delay = min(60.0, 2.0**attempt) * (1 + random.random())
         logger.warning("retry %d/%d after %s (sleeping %.1fs)", attempt + 1, MAX_RETRIES, type(last_err).__name__, delay)
+        await asyncio.sleep(delay)
+    raise RuntimeError(f"LLM call failed after {MAX_RETRIES} retries") from last_err
+
+
+def _to_response_items(messages: list[dict]) -> tuple[str | None, list[dict]]:
+    """Chat-style messages -> (instructions, Responses input items). Assistant
+    messages may carry '_reasoning' (opaque reasoning items from a previous
+    Responses turn) and 'tool_calls'; tool messages become function_call_output."""
+    instructions = None
+    items: list[dict] = []
+    for m in messages:
+        role = m.get("role")
+        if role == "system":
+            instructions = m.get("content") or ""
+        elif role == "tool":
+            items.append({"type": "function_call_output",
+                          "call_id": m.get("tool_call_id", ""),
+                          "output": m.get("content") or ""})
+        elif role == "assistant":
+            items.extend(m.get("_reasoning") or [])
+            if m.get("content"):
+                items.append({"role": "assistant", "content": m["content"]})
+            for tc in m.get("tool_calls") or []:
+                items.append({"type": "function_call", "call_id": tc["id"],
+                              "name": tc["function"]["name"],
+                              "arguments": tc["function"]["arguments"]})
+        else:
+            items.append({"role": role or "user", "content": m.get("content") or ""})
+    return instructions, items
+
+
+def _flatten_tools(tools: list[dict] | None) -> list[dict] | None:
+    """Chat-style {'type':'function','function':{...}} -> internally tagged."""
+    if tools is None:
+        return None
+    return [
+        {"type": "function", **t["function"]} if "function" in t else t
+        for t in tools
+    ]
+
+
+async def generate_agentic(
+    messages: list[dict],
+    *,
+    model: str = DEFAULT_MODEL,
+    provider: str = DEFAULT_PROVIDER,
+    tools: list[dict] | None = None,
+    reasoning_effort: str | None = None,
+    max_tokens: int | None = None,
+) -> dict[str, Any]:
+    """One agent turn via the Responses API, with reasoning preserved across
+    tool calls (store=false + encrypted reasoning items carried in the returned
+    message's '_reasoning' key — pass the message back in `messages` on the
+    next turn and it round-trips automatically).
+
+    Returns a chat-style assistant message dict: {role, content, tool_calls?,
+    _reasoning?}. Note: reasoning models reject temperature; none is sent.
+    """
+    instructions, items = _to_response_items(messages)
+    kwargs: dict[str, Any] = dict(
+        model=model, input=items, store=False,
+        include=["reasoning.encrypted_content"],
+    )
+    if instructions:
+        kwargs["instructions"] = instructions
+    if tools is not None:
+        kwargs["tools"] = _flatten_tools(tools)
+    if reasoning_effort is not None:
+        kwargs["reasoning"] = {"effort": reasoning_effort}
+    if max_tokens is not None:
+        kwargs["max_output_tokens"] = max_tokens
+
+    client = _get_client(provider)
+    sem = _get_semaphore()
+    last_err: Exception | None = None
+    for attempt in range(MAX_RETRIES):
+        try:
+            async with sem:
+                resp = await client.responses.create(**kwargs)
+            if resp.usage is not None:
+                USAGE.add(f"{provider}:{model}", resp.usage)
+            msg: dict[str, Any] = {"role": "assistant", "content": "", "_reasoning": []}
+            tool_calls = []
+            for item in resp.output:
+                if item.type == "reasoning":
+                    msg["_reasoning"].append(item.model_dump(exclude_none=True))
+                elif item.type == "function_call":
+                    tool_calls.append({"id": item.call_id, "type": "function",
+                                       "function": {"name": item.name,
+                                                    "arguments": item.arguments}})
+                elif item.type == "message":
+                    msg["content"] += "".join(
+                        c.text for c in item.content if getattr(c, "text", None))
+            if tool_calls:
+                msg["tool_calls"] = tool_calls
+            if not msg["_reasoning"]:
+                del msg["_reasoning"]
+            return msg
+        except (RateLimitError, APITimeoutError, APIConnectionError) as e:
+            last_err = e
+        except APIStatusError as e:
+            if "invalid_encrypted_content" in str(e):
+                # gateway routed to a different upstream key; reasoning items
+                # from the prior turn can't be decrypted — drop them and go on
+                logger.warning("dropping stale encrypted reasoning items")
+                kwargs["input"] = [i for i in kwargs["input"]
+                                   if i.get("type") != "reasoning"]
+                last_err = e
+                continue
+            if e.status_code < 500:
+                raise
+            last_err = e
+        delay = min(60.0, 2.0**attempt) * (1 + random.random())
+        logger.warning("retry %d/%d after %s (sleeping %.1fs)", attempt + 1, MAX_RETRIES,
+                       type(last_err).__name__, delay)
         await asyncio.sleep(delay)
     raise RuntimeError(f"LLM call failed after {MAX_RETRIES} retries") from last_err
 
